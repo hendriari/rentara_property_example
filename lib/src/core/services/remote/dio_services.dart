@@ -5,6 +5,9 @@ import 'package:dio/dio.dart';
 import 'package:rentara_property_clone/src/core/api_config/api_url_config.dart';
 import 'package:rentara_property_clone/src/core/error/dio_exception_handler.dart';
 import 'package:rentara_property_clone/src/core/error/exceptions.dart';
+import 'package:rentara_property_clone/src/core/services/local/secure_storage_services.dart';
+import 'package:rentara_property_clone/src/core/services/local/session_manager.dart';
+import 'package:rentara_property_clone/src/core/services/local/shared_preference_request.dart';
 import 'package:rentara_property_clone/src/core/services/remote/dio_cancel_token.dart';
 import 'package:rentara_property_clone/src/core/services/remote/duplicate_request_interceptor.dart';
 
@@ -28,12 +31,18 @@ class DioServiceImpl extends DioServices {
   final ApiUrlConfig apiUrlConfig;
   final DioExceptionHandler dioExceptionHandler;
   final DioCancelToken cancelToken;
+  final SessionManager sessionManager;
+  final SharedPreferenceServices sPrefs;
+  final SecureStorageService secureStorage;
 
   DioServiceImpl({
     required this.dio,
     required this.apiUrlConfig,
     required this.dioExceptionHandler,
     required this.cancelToken,
+    required this.sessionManager,
+    required this.sPrefs,
+    required this.secureStorage,
   }) {
     dio.options = BaseOptions(
       baseUrl: apiUrlConfig.baseUrl,
@@ -48,15 +57,19 @@ class DioServiceImpl extends DioServices {
     dio.interceptors.addAll([
       InterceptorsWrapper(
         onRequest: (o, h) async {
-          // TODO : ACCESS TOKEN HERE
+          if (sessionManager.token != null) {
+            o.headers["Authorization"] = sessionManager.token;
+          }
 
           return h.next(o);
         },
         onResponse: (r, h) => h.next(r),
-        onError: (error, h) {
+        onError: (error, h) async {
           final statusCode = error.response?.statusCode;
-          if (statusCode == 401) {
-            // TODO : LOGOUT AND RESET ALL LOCAL SERVICE HERE
+          if (statusCode == 401)  {
+            await secureStorage.reset();
+            await sPrefs.reset();
+            await sessionManager.clear();
           }
           return h.next(error);
         },

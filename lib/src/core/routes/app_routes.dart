@@ -2,11 +2,20 @@ import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rentara_property_clone/src/core/app/shell_navbar_page.dart';
+import 'package:rentara_property_clone/src/core/injector/injector.dart';
+import 'package:rentara_property_clone/src/core/services/local/session_manager.dart';
+import 'package:rentara_property_clone/src/features/account/presentation/page/account_page.dart';
 import 'package:rentara_property_clone/src/features/auth/presentation/pages/login_page.dart';
 import 'package:rentara_property_clone/src/features/auth/presentation/pages/register_page.dart';
 import 'package:rentara_property_clone/src/features/auth/presentation/pages/splash_page.dart';
+import 'package:rentara_property_clone/src/features/notification/presentation/page/notification_page.dart';
+import 'package:rentara_property_clone/src/features/property/presentation/property_page.dart';
+import 'package:rentara_property_clone/src/features/work/presentation/page/work_page.dart';
 
 part 'app_routes_observers.dart';
+
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 class AppRoutes {
   static final AppRoutes _instance = AppRoutes._internal();
@@ -19,19 +28,43 @@ class AppRoutes {
 
   static route() => GoRouter(
     initialLocation: "/",
+    navigatorKey: _rootNavigatorKey,
     observers: [_routeObserver, _AppRoutesObservers()],
+    refreshListenable: injector<SessionManager>(),
+    redirect: (context, state) {
+      final sessionManager = injector<SessionManager>();
+
+      final isAuthRoute =
+          state.matchedLocation == '/login' ||
+          state.matchedLocation == '/register' ||
+          state.matchedLocation == '/';
+
+      if (!sessionManager.isLoggedIn && !isAuthRoute) {
+        return '/login';
+      }
+
+      if (sessionManager.isLoggedIn && state.matchedLocation == '/login') {
+        return '/property';
+      }
+
+      return null;
+    },
     routes: [
+      // SPLASH
       GoRoute(
         path: "/",
         name: "splash",
+        parentNavigatorKey: _rootNavigatorKey,
         pageBuilder: (c, s) {
           return _customTransition(child: const SplashPage());
         },
       ),
 
+      // LOGIN
       GoRoute(
         path: "/login",
         name: "login",
+        parentNavigatorKey: _rootNavigatorKey,
         pageBuilder: (context, state) {
           return _customTransition(
             transitionBuilder: (context, animation, secondAnimation, child) {
@@ -47,9 +80,11 @@ class AppRoutes {
         },
       ),
 
+      // REGISTER
       GoRoute(
         path: "/register",
         name: "register",
+        parentNavigatorKey: _rootNavigatorKey,
         pageBuilder: (context, state) {
           return _customTransition(
             transitionBuilder: (context, animation, secondAnimation, child) {
@@ -63,6 +98,49 @@ class AppRoutes {
             child: const RegisterPage(),
           );
         },
+      ),
+
+      // NAVBAR
+      ShellRoute(
+        pageBuilder: (context, state, child) {
+          return _customTransition(child: ShellNavbarPage(child: child));
+        },
+        routes: [
+          // PROPERTY PAGE
+          GoRoute(
+            path: '/property',
+            name: 'property',
+            pageBuilder: (context, state) {
+              return _customTransition(child: const PropertyPage());
+            },
+          ),
+          // WORK PAGE
+          GoRoute(
+            path: '/work',
+            name: 'work',
+            pageBuilder: (context, state) {
+              return _customTransition(child: const WorkPage());
+            },
+          ),
+
+          // NOTIFICATION PAGE
+          GoRoute(
+            path: '/notification',
+            name: 'notification',
+            pageBuilder: (context, state) {
+              return _customTransition(child: const NotificationPage());
+            },
+          ),
+
+          // ACCOUNT PAGE
+          GoRoute(
+            path: '/account',
+            name: 'account',
+            pageBuilder: (context, state) {
+              return _customTransition(child: const AccountPage());
+            },
+          ),
+        ],
       ),
     ],
   );
