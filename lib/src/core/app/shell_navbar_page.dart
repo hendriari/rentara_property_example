@@ -9,26 +9,26 @@ class ShellNavbarPage extends StatelessWidget {
 
   List<BottomNavigationBarItem> get _items => [
     BottomNavigationBarItem(
-      icon: Icon(CupertinoIcons.home, color: Colors.grey),
-      activeIcon: Icon(CupertinoIcons.home, color: Colors.black),
+      icon: Icon(CupertinoIcons.home, color: Colors.black),
+      activeIcon: Icon(CupertinoIcons.home, color: Colors.grey),
       tooltip: "Dashboard",
     ),
 
     BottomNavigationBarItem(
-      icon: Icon(Icons.work, color: Colors.grey),
-      activeIcon: Icon(Icons.work_outline, color: Colors.black),
+      icon: Icon(Icons.work, color: Colors.black),
+      activeIcon: Icon(Icons.work_outline, color: Colors.grey),
       tooltip: "Work",
     ),
 
     BottomNavigationBarItem(
-      icon: Icon(Icons.message, color: Colors.grey),
-      activeIcon: Icon(Icons.message_outlined, color: Colors.black),
+      icon: Icon(Icons.message, color: Colors.black),
+      activeIcon: Icon(Icons.message_outlined, color: Colors.grey),
       tooltip: "Notification",
     ),
 
     BottomNavigationBarItem(
-      icon: Icon(Icons.person, color: Colors.grey),
-      activeIcon: Icon(Icons.person_outline, color: Colors.black),
+      icon: Icon(Icons.person, color: Colors.black),
+      activeIcon: Icon(Icons.person_outline, color: Colors.grey),
       tooltip: "Account",
     ),
   ];

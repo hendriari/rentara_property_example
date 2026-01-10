@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rentara_property_clone/src/core/widgets/loading_widget.dart';
 import 'package:rentara_property_clone/src/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:rentara_property_clone/src/features/auth/presentation/bloc/auth_event.dart';
 import 'package:rentara_property_clone/src/features/auth/presentation/bloc/auth_state.dart';
@@ -41,7 +42,7 @@ class _SplashPageState extends State<SplashPage> {
             },
           );
         },
-        child: Center(child: CircularProgressIndicator()),
+        child: Center(child: const LoadingWidget()),
       ),
     );
   }

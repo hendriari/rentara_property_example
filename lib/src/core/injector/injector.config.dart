@@ -31,6 +31,7 @@ import 'package:rentara_property_clone/src/core/services/remote/dio_cancel_token
     as _i525;
 import 'package:rentara_property_clone/src/core/services/remote/dio_services.dart'
     as _i612;
+import 'package:rentara_property_clone/src/core/utils/helper.dart' as _i554;
 import 'package:rentara_property_clone/src/features/auth/data/datasource/auth_local_datasource.dart'
     as _i647;
 import 'package:rentara_property_clone/src/features/auth/data/datasource/auth_remote_datasource.dart'
@@ -64,6 +65,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => injectorModule.dioExceptionHandler,
     );
     gh.lazySingleton<_i525.DioCancelToken>(() => injectorModule.cancelToken);
+    gh.lazySingleton<_i554.Helper>(() => injectorModule.helper);
     gh.lazySingleton<_i683.ApiUrlConfig>(
       () => injectorModule.apiUrlConfig(gh<_i86.ApiEnvConfig>()),
     );
@@ -118,6 +120,9 @@ class _$InjectorModule extends _i835.InjectorModule {
   _$InjectorModule(this._getIt);
 
   final _i174.GetIt _getIt;
+
+  @override
+  _i554.Helper get helper => _i554.Helper();
 
   @override
   _i216.LoginUsecase get loginUsecase =>

@@ -11,7 +11,7 @@ class AppPadding {
   AppPadding._internal();
 
   static final EdgeInsets pagePadding = EdgeInsets.symmetric(
-    vertical: 16.h,
+    vertical: 8.h,
     horizontal: 16.w,
   );
 }

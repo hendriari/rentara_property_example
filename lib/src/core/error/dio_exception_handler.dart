@@ -9,7 +9,7 @@ class DioExceptionHandlerImpl extends DioExceptionHandler {
   String handlerException(DioException e) {
     if (e.response == null) return "Unknown error";
 
-    final data = e.response?.data;
+    final data = e.response?.data["meta"];
 
     if (data is Map<String, dynamic>) {
       if (data.containsKey('message') && data['message'] != null) {

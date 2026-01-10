@@ -9,6 +9,7 @@ import 'package:rentara_property_clone/src/core/services/local/session_manager.d
 import 'package:rentara_property_clone/src/core/services/local/shared_preference_request.dart';
 import 'package:rentara_property_clone/src/core/services/remote/dio_cancel_token.dart';
 import 'package:rentara_property_clone/src/core/services/remote/dio_services.dart';
+import 'package:rentara_property_clone/src/core/utils/helper.dart';
 import 'package:rentara_property_clone/src/features/auth/data/datasource/auth_local_datasource.dart';
 import 'package:rentara_property_clone/src/features/auth/data/datasource/auth_remote_datasource.dart';
 import 'package:rentara_property_clone/src/features/auth/data/repository_impl/repository_impl.dart';
@@ -67,6 +68,9 @@ abstract class InjectorModule {
     sPrefs: sPrefs,
     secureStorage: secureStorage,
   );
+
+  @lazySingleton
+  Helper get helper;
 
   /// AUTH FEATURE
   @lazySingleton

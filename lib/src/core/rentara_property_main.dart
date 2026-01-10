@@ -19,6 +19,7 @@ class RentaraPropertyMain extends StatelessWidget {
             theme: ThemeData(
               useMaterial3: true,
               visualDensity: VisualDensity.adaptivePlatformDensity,
+              scaffoldBackgroundColor: AppColors.neutral50,
               textTheme: ThemeData.light().textTheme.apply(
                 fontFamily: "Manrope",
               ),
@@ -27,7 +28,7 @@ class RentaraPropertyMain extends StatelessWidget {
               ),
             ),
             debugShowCheckedModeBanner: false,
-            showPerformanceOverlay: true,
+            showPerformanceOverlay: false,
             themeMode: ThemeMode.light,
             routerConfig: AppRoutes.route(),
             supportedLocales: const [Locale('id'), Locale('en')],
