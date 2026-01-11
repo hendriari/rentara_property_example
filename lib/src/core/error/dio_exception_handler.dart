@@ -7,22 +7,34 @@ sealed class DioExceptionHandler {
 class DioExceptionHandlerImpl extends DioExceptionHandler {
   @override
   String handlerException(DioException e) {
-    if (e.response == null) return "Unknown error";
+    final responseData = e.response?.data;
 
-    final data = e.response?.data;
+    if (responseData is! Map<String, dynamic>) {
+      return "Unknown error";
+    }
+
+    final meta = responseData['meta'];
+    final data = responseData['data'];
+
+    final buffer = StringBuffer();
+
+    if (meta is Map<String, dynamic> && meta['message'] != null) {
+      buffer.writeln(meta['message']);
+    }
 
     if (data is Map<String, dynamic>) {
-      if (data.containsKey('message') && data['message'] != null) {
-        return data['message'].toString();
-      } else if (data.containsKey('error')) {
-        return data['error'].toString();
-      } else {
-        return data.toString();
+      for (final entry in data.entries) {
+        // final field = entry.key;
+        final messages = entry.value;
+
+        if (messages is List) {
+          for (final msg in messages) {
+            buffer.writeln("• $msg");
+          }
+        }
       }
-    } else if (data is String) {
-      return data;
-    } else {
-      return "Unexpected error format: ${data.runtimeType}";
     }
+
+    return buffer.toString().trim();
   }
 }
