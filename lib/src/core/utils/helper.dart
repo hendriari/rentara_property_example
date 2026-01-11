@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:rentara_property_clone/src/core/theme/app_colors.dart';
 
 class Helper {
@@ -18,5 +19,9 @@ class Helper {
       textColor: textColor ?? Colors.white,
       backgroundColor: backGroundColor ?? AppColors.primaryColor600,
     );
+  }
+
+  String formatCurrency(double value) {
+    return NumberFormat("#,###", "id_ID").format(value);
   }
 }

@@ -5,6 +5,10 @@ import 'package:injectable/injectable.dart';
 import 'package:rentara_property_clone/src/core/api_config/api_env_config.dart';
 import 'package:rentara_property_clone/src/core/api_config/api_url_config.dart';
 import 'package:rentara_property_clone/src/core/error/dio_exception_handler.dart';
+import 'package:rentara_property_clone/src/core/location/data/repository_impl/location_repository_impl.dart';
+import 'package:rentara_property_clone/src/core/location/domain/repository/location_repository.dart';
+import 'package:rentara_property_clone/src/core/location/domain/usecase/check_location_service_usecase.dart';
+import 'package:rentara_property_clone/src/core/location/domain/usecase/get_current_location_usecase.dart';
 import 'package:rentara_property_clone/src/core/permission/data/repository_impl/permission_repository_impl.dart';
 import 'package:rentara_property_clone/src/core/permission/domain/repository/permission_repository.dart';
 import 'package:rentara_property_clone/src/core/permission/domain/usecase/check_permission_usecase.dart';
@@ -94,6 +98,15 @@ abstract class InjectorModule {
 
   @lazySingleton
   RequestPermissionUsecase get requestPermissionUsecase;
+
+  @lazySingleton
+  LocationRepository get locationRepository => LocationRepositoryImpl();
+
+  @lazySingleton
+  GetCurrentLocationUsecase get getCurrentLocationUsecase;
+
+  @lazySingleton
+  CheckLocationServiceUsecase get checkLocationServiceUsecase;
 
   /// AUTH FEATURE
   @lazySingleton

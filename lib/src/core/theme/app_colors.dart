@@ -52,4 +52,14 @@ class AppColors {
   static const Color solidBlack = Color(0xFF000000);
   static const Color solidWhite = Color(0xFFffffff);
 
+  static final LinearGradient gradient = LinearGradient(
+    colors: [
+      primaryColor600,
+      primaryColor700,
+      primaryColor800,
+      primaryColor900,
+    ],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
 }

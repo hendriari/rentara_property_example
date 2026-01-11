@@ -22,6 +22,12 @@ import 'package:rentara_property_clone/src/core/error/dio_exception_handler.dart
     as _i111;
 import 'package:rentara_property_clone/src/core/injector/injector_module.dart'
     as _i835;
+import 'package:rentara_property_clone/src/core/location/domain/repository/location_repository.dart'
+    as _i920;
+import 'package:rentara_property_clone/src/core/location/domain/usecase/check_location_service_usecase.dart'
+    as _i833;
+import 'package:rentara_property_clone/src/core/location/domain/usecase/get_current_location_usecase.dart'
+    as _i180;
 import 'package:rentara_property_clone/src/core/permission/domain/repository/permission_repository.dart'
     as _i211;
 import 'package:rentara_property_clone/src/core/permission/domain/usecase/check_permission_usecase.dart'
@@ -80,6 +86,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i833.DeviceInfoPlugin>(
       () => injectorModule.deviceInfoPlugin,
     );
+    gh.lazySingleton<_i920.LocationRepository>(
+      () => injectorModule.locationRepository,
+    );
     gh.lazySingleton<_i683.ApiUrlConfig>(
       () => injectorModule.apiUrlConfig(gh<_i86.ApiEnvConfig>()),
     );
@@ -101,6 +110,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i986.RequestPermissionUsecase>(
       () => injectorModule.requestPermissionUsecase,
+    );
+    gh.lazySingleton<_i180.GetCurrentLocationUsecase>(
+      () => injectorModule.getCurrentLocationUsecase,
+    );
+    gh.lazySingleton<_i833.CheckLocationServiceUsecase>(
+      () => injectorModule.checkLocationServiceUsecase,
     );
     gh.lazySingleton<_i612.DioServices>(
       () => injectorModule.dioService(
@@ -163,6 +178,14 @@ class _$InjectorModule extends _i835.InjectorModule {
   @override
   _i986.RequestPermissionUsecase get requestPermissionUsecase =>
       _i986.RequestPermissionUsecase(_getIt<_i211.PermissionRepository>());
+
+  @override
+  _i180.GetCurrentLocationUsecase get getCurrentLocationUsecase =>
+      _i180.GetCurrentLocationUsecase(_getIt<_i920.LocationRepository>());
+
+  @override
+  _i833.CheckLocationServiceUsecase get checkLocationServiceUsecase =>
+      _i833.CheckLocationServiceUsecase(_getIt<_i920.LocationRepository>());
 
   @override
   _i216.LoginUsecase get loginUsecase =>

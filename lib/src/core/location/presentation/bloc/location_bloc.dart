@@ -1,0 +1,51 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rentara_property_clone/src/core/location/domain/usecase/check_location_service_usecase.dart';
+import 'package:rentara_property_clone/src/core/location/domain/usecase/get_current_location_usecase.dart';
+import 'package:rentara_property_clone/src/core/location/presentation/bloc/location_event.dart';
+import 'package:rentara_property_clone/src/core/location/presentation/bloc/location_state.dart';
+
+class LocationBloc extends Bloc<LocationEvent, LocationState> {
+  final GetCurrentLocationUsecase getCurrentLocationUsecase;
+  final CheckLocationServiceUsecase checkLocationServiceUsecase;
+
+  LocationBloc({
+    required this.getCurrentLocationUsecase,
+    required this.checkLocationServiceUsecase,
+  }) : super(const LocationState.initial()) {
+    on<LocationEventGetCurrentLocation>(_onGetCurrentLocation);
+    on<LocationEventCheckService>(_onCheckService);
+  }
+
+  Future<void> _onGetCurrentLocation(
+    LocationEventGetCurrentLocation event,
+    Emitter<LocationState> emit,
+  ) async {
+    emit(const LocationState.loading());
+
+    final result = await getCurrentLocationUsecase.call();
+
+    result.fold(
+      (failure) => emit(LocationState.failed(message: failure.message)),
+      (data) {
+        if (data != null) {
+          emit(LocationState.success(location: data));
+        } else {
+          emit(const LocationState.failed(message: 'Gagal mendapatkan lokasi'));
+        }
+      },
+    );
+  }
+
+  Future<void> _onCheckService(
+    LocationEventCheckService event,
+    Emitter<LocationState> emit,
+  ) async {
+    final isEnabled = await checkLocationServiceUsecase.call();
+    if (!isEnabled) {
+      emit(const LocationState.serviceDisabled());
+    } else {
+      emit(const LocationState.serviceEnabled());
+    }
+  }
+}
+
