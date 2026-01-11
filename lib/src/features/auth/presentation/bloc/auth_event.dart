@@ -16,4 +16,6 @@ abstract class AuthEvent with _$AuthEvent {
   }) = AuthEventRegister;
 
   factory AuthEvent.getCurrentUserData() = AuthEventGetCurrentUserData;
+
+  factory AuthEvent.logout() = AuthEventLogout;
 }

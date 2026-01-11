@@ -42,6 +42,8 @@ import 'package:rentara_property_clone/src/features/auth/domain/usecase/get_curr
     as _i721;
 import 'package:rentara_property_clone/src/features/auth/domain/usecase/login_usecase.dart'
     as _i216;
+import 'package:rentara_property_clone/src/features/auth/domain/usecase/logout_usecase.dart'
+    as _i136;
 import 'package:rentara_property_clone/src/features/auth/domain/usecase/register_usecase.dart'
     as _i1042;
 
@@ -103,6 +105,7 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i647.AuthLocalDatasource>(),
         gh<_i1017.SharedPreferenceServices>(),
         gh<_i585.SessionManager>(),
+        gh<_i448.SecureStorageService>(),
       ),
     );
     gh.lazySingleton<_i216.LoginUsecase>(() => injectorModule.loginUsecase);
@@ -112,6 +115,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i721.GetCurrentUserDataUsecase>(
       () => injectorModule.currentUserDataUsecase,
     );
+    gh.lazySingleton<_i136.LogoutUsecase>(() => injectorModule.logoutUsecase);
     return this;
   }
 }
@@ -135,4 +139,8 @@ class _$InjectorModule extends _i835.InjectorModule {
   @override
   _i721.GetCurrentUserDataUsecase get currentUserDataUsecase =>
       _i721.GetCurrentUserDataUsecase(_getIt<_i1044.AuthRepository>());
+
+  @override
+  _i136.LogoutUsecase get logoutUsecase =>
+      _i136.LogoutUsecase(_getIt<_i1044.AuthRepository>());
 }

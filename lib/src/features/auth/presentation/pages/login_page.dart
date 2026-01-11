@@ -12,8 +12,8 @@ import 'package:rentara_property_clone/src/core/utils/constants.dart';
 import 'package:rentara_property_clone/src/core/utils/helper.dart';
 import 'package:rentara_property_clone/src/core/widgets/button_widget.dart';
 import 'package:rentara_property_clone/src/core/widgets/form_field_widget.dart';
-import 'package:rentara_property_clone/src/core/widgets/loading_widget.dart';
 import 'package:rentara_property_clone/src/core/widgets/rentara_icon_widget.dart';
+import 'package:rentara_property_clone/src/core/widgets/submitting_loading_widget.dart';
 import 'package:rentara_property_clone/src/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:rentara_property_clone/src/features/auth/presentation/bloc/auth_event.dart';
 import 'package:rentara_property_clone/src/features/auth/presentation/bloc/auth_state.dart';
@@ -175,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
                       _helper.showToast(message: "Login Success");
                       context.goNamed("property");
                     },
-                    failed: (_, message) {
+                    loginFailed: (_, message) {
                       _helper.showToast(
                         message: message,
                         backGroundColor: _colorScheme.error,
@@ -187,6 +187,7 @@ class _LoginPageState extends State<LoginPage> {
                   return ButtonWidget(
                     buttonText: "",
                     onTap: () {
+                      FocusScope.of(context).unfocus();
                       if (_formKey.currentState!.validate()) {
                         context.read<AuthBloc>().add(
                           AuthEventLogin(
@@ -198,22 +199,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                     margin: EdgeInsets.only(top: 20.h, bottom: 15.h),
                     child: state.maybeWhen(
-                      loginLoading: (_) => Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          LoadingWidget(height: 20.h, color: Colors.white),
-
-                          SizedBox(width: 8.w),
-
-                          Text(
-                            "Submitting",
-                            style: _textTheme.labelLarge?.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
+                      loginLoading: (_) => SubmittingLoadingWidget(),
                       orElse: () => Text(
                         "Login",
                         style: _textTheme.labelLarge?.copyWith(

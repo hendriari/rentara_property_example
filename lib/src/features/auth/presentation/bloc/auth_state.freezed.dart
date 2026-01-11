@@ -98,18 +98,22 @@ extension AuthStatePatterns on AuthState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  init,TResult Function( _LoginLoading value)?  loginLoading,TResult Function( _LoginSuccess value)?  loginSuccess,TResult Function( _RegisterLoading value)?  registerLoading,TResult Function( _RegisterSuccess value)?  registerSuccess,TResult Function( _GetCurrentUserDataLoading value)?  getCurrentUserDataLoading,TResult Function( _GetCurrentUserDataSuccess value)?  getCurrentUserDataSuccess,TResult Function( _Failed value)?  failed,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  init,TResult Function( _LoginLoading value)?  loginLoading,TResult Function( _LoginSuccess value)?  loginSuccess,TResult Function( _LoginFailed value)?  loginFailed,TResult Function( _RegisterLoading value)?  registerLoading,TResult Function( _RegisterSuccess value)?  registerSuccess,TResult Function( _RegisterFailed value)?  registerFailed,TResult Function( _GetCurrentUserDataLoading value)?  getCurrentUserDataLoading,TResult Function( _GetCurrentUserDataSuccess value)?  getCurrentUserDataSuccess,TResult Function( _Failed value)?  failed,TResult Function( _LogoutLoading value)?  logoutLoading,TResult Function( _LogoutSuccess value)?  logoutSuccess,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Initial() when init != null:
 return init(_that);case _LoginLoading() when loginLoading != null:
 return loginLoading(_that);case _LoginSuccess() when loginSuccess != null:
-return loginSuccess(_that);case _RegisterLoading() when registerLoading != null:
+return loginSuccess(_that);case _LoginFailed() when loginFailed != null:
+return loginFailed(_that);case _RegisterLoading() when registerLoading != null:
 return registerLoading(_that);case _RegisterSuccess() when registerSuccess != null:
-return registerSuccess(_that);case _GetCurrentUserDataLoading() when getCurrentUserDataLoading != null:
+return registerSuccess(_that);case _RegisterFailed() when registerFailed != null:
+return registerFailed(_that);case _GetCurrentUserDataLoading() when getCurrentUserDataLoading != null:
 return getCurrentUserDataLoading(_that);case _GetCurrentUserDataSuccess() when getCurrentUserDataSuccess != null:
 return getCurrentUserDataSuccess(_that);case _Failed() when failed != null:
-return failed(_that);case _:
+return failed(_that);case _LogoutLoading() when logoutLoading != null:
+return logoutLoading(_that);case _LogoutSuccess() when logoutSuccess != null:
+return logoutSuccess(_that);case _:
   return orElse();
 
 }
@@ -127,18 +131,22 @@ return failed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  init,required TResult Function( _LoginLoading value)  loginLoading,required TResult Function( _LoginSuccess value)  loginSuccess,required TResult Function( _RegisterLoading value)  registerLoading,required TResult Function( _RegisterSuccess value)  registerSuccess,required TResult Function( _GetCurrentUserDataLoading value)  getCurrentUserDataLoading,required TResult Function( _GetCurrentUserDataSuccess value)  getCurrentUserDataSuccess,required TResult Function( _Failed value)  failed,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  init,required TResult Function( _LoginLoading value)  loginLoading,required TResult Function( _LoginSuccess value)  loginSuccess,required TResult Function( _LoginFailed value)  loginFailed,required TResult Function( _RegisterLoading value)  registerLoading,required TResult Function( _RegisterSuccess value)  registerSuccess,required TResult Function( _RegisterFailed value)  registerFailed,required TResult Function( _GetCurrentUserDataLoading value)  getCurrentUserDataLoading,required TResult Function( _GetCurrentUserDataSuccess value)  getCurrentUserDataSuccess,required TResult Function( _Failed value)  failed,required TResult Function( _LogoutLoading value)  logoutLoading,required TResult Function( _LogoutSuccess value)  logoutSuccess,}){
 final _that = this;
 switch (_that) {
 case _Initial():
 return init(_that);case _LoginLoading():
 return loginLoading(_that);case _LoginSuccess():
-return loginSuccess(_that);case _RegisterLoading():
+return loginSuccess(_that);case _LoginFailed():
+return loginFailed(_that);case _RegisterLoading():
 return registerLoading(_that);case _RegisterSuccess():
-return registerSuccess(_that);case _GetCurrentUserDataLoading():
+return registerSuccess(_that);case _RegisterFailed():
+return registerFailed(_that);case _GetCurrentUserDataLoading():
 return getCurrentUserDataLoading(_that);case _GetCurrentUserDataSuccess():
 return getCurrentUserDataSuccess(_that);case _Failed():
-return failed(_that);case _:
+return failed(_that);case _LogoutLoading():
+return logoutLoading(_that);case _LogoutSuccess():
+return logoutSuccess(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -155,18 +163,22 @@ return failed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  init,TResult? Function( _LoginLoading value)?  loginLoading,TResult? Function( _LoginSuccess value)?  loginSuccess,TResult? Function( _RegisterLoading value)?  registerLoading,TResult? Function( _RegisterSuccess value)?  registerSuccess,TResult? Function( _GetCurrentUserDataLoading value)?  getCurrentUserDataLoading,TResult? Function( _GetCurrentUserDataSuccess value)?  getCurrentUserDataSuccess,TResult? Function( _Failed value)?  failed,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  init,TResult? Function( _LoginLoading value)?  loginLoading,TResult? Function( _LoginSuccess value)?  loginSuccess,TResult? Function( _LoginFailed value)?  loginFailed,TResult? Function( _RegisterLoading value)?  registerLoading,TResult? Function( _RegisterSuccess value)?  registerSuccess,TResult? Function( _RegisterFailed value)?  registerFailed,TResult? Function( _GetCurrentUserDataLoading value)?  getCurrentUserDataLoading,TResult? Function( _GetCurrentUserDataSuccess value)?  getCurrentUserDataSuccess,TResult? Function( _Failed value)?  failed,TResult? Function( _LogoutLoading value)?  logoutLoading,TResult? Function( _LogoutSuccess value)?  logoutSuccess,}){
 final _that = this;
 switch (_that) {
 case _Initial() when init != null:
 return init(_that);case _LoginLoading() when loginLoading != null:
 return loginLoading(_that);case _LoginSuccess() when loginSuccess != null:
-return loginSuccess(_that);case _RegisterLoading() when registerLoading != null:
+return loginSuccess(_that);case _LoginFailed() when loginFailed != null:
+return loginFailed(_that);case _RegisterLoading() when registerLoading != null:
 return registerLoading(_that);case _RegisterSuccess() when registerSuccess != null:
-return registerSuccess(_that);case _GetCurrentUserDataLoading() when getCurrentUserDataLoading != null:
+return registerSuccess(_that);case _RegisterFailed() when registerFailed != null:
+return registerFailed(_that);case _GetCurrentUserDataLoading() when getCurrentUserDataLoading != null:
 return getCurrentUserDataLoading(_that);case _GetCurrentUserDataSuccess() when getCurrentUserDataSuccess != null:
 return getCurrentUserDataSuccess(_that);case _Failed() when failed != null:
-return failed(_that);case _:
+return failed(_that);case _LogoutLoading() when logoutLoading != null:
+return logoutLoading(_that);case _LogoutSuccess() when logoutSuccess != null:
+return logoutSuccess(_that);case _:
   return null;
 
 }
@@ -183,17 +195,21 @@ return failed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( UserEntities? user)?  init,TResult Function( UserEntities? user)?  loginLoading,TResult Function( UserEntities? user)?  loginSuccess,TResult Function( UserEntities? user)?  registerLoading,TResult Function( UserEntities? user)?  registerSuccess,TResult Function( UserEntities? user)?  getCurrentUserDataLoading,TResult Function( UserEntities? user)?  getCurrentUserDataSuccess,TResult Function( UserEntities? user,  String message)?  failed,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( UserEntities? user)?  init,TResult Function( UserEntities? user)?  loginLoading,TResult Function( UserEntities? user)?  loginSuccess,TResult Function( UserEntities? user,  String message)?  loginFailed,TResult Function( UserEntities? user)?  registerLoading,TResult Function( UserEntities? user)?  registerSuccess,TResult Function( UserEntities? user,  String message)?  registerFailed,TResult Function( UserEntities? user)?  getCurrentUserDataLoading,TResult Function( UserEntities? user)?  getCurrentUserDataSuccess,TResult Function( UserEntities? user,  String message)?  failed,TResult Function( UserEntities? user)?  logoutLoading,TResult Function( UserEntities? user,  String message)?  logoutSuccess,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when init != null:
 return init(_that.user);case _LoginLoading() when loginLoading != null:
 return loginLoading(_that.user);case _LoginSuccess() when loginSuccess != null:
-return loginSuccess(_that.user);case _RegisterLoading() when registerLoading != null:
+return loginSuccess(_that.user);case _LoginFailed() when loginFailed != null:
+return loginFailed(_that.user,_that.message);case _RegisterLoading() when registerLoading != null:
 return registerLoading(_that.user);case _RegisterSuccess() when registerSuccess != null:
-return registerSuccess(_that.user);case _GetCurrentUserDataLoading() when getCurrentUserDataLoading != null:
+return registerSuccess(_that.user);case _RegisterFailed() when registerFailed != null:
+return registerFailed(_that.user,_that.message);case _GetCurrentUserDataLoading() when getCurrentUserDataLoading != null:
 return getCurrentUserDataLoading(_that.user);case _GetCurrentUserDataSuccess() when getCurrentUserDataSuccess != null:
 return getCurrentUserDataSuccess(_that.user);case _Failed() when failed != null:
-return failed(_that.user,_that.message);case _:
+return failed(_that.user,_that.message);case _LogoutLoading() when logoutLoading != null:
+return logoutLoading(_that.user);case _LogoutSuccess() when logoutSuccess != null:
+return logoutSuccess(_that.user,_that.message);case _:
   return orElse();
 
 }
@@ -211,17 +227,21 @@ return failed(_that.user,_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( UserEntities? user)  init,required TResult Function( UserEntities? user)  loginLoading,required TResult Function( UserEntities? user)  loginSuccess,required TResult Function( UserEntities? user)  registerLoading,required TResult Function( UserEntities? user)  registerSuccess,required TResult Function( UserEntities? user)  getCurrentUserDataLoading,required TResult Function( UserEntities? user)  getCurrentUserDataSuccess,required TResult Function( UserEntities? user,  String message)  failed,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( UserEntities? user)  init,required TResult Function( UserEntities? user)  loginLoading,required TResult Function( UserEntities? user)  loginSuccess,required TResult Function( UserEntities? user,  String message)  loginFailed,required TResult Function( UserEntities? user)  registerLoading,required TResult Function( UserEntities? user)  registerSuccess,required TResult Function( UserEntities? user,  String message)  registerFailed,required TResult Function( UserEntities? user)  getCurrentUserDataLoading,required TResult Function( UserEntities? user)  getCurrentUserDataSuccess,required TResult Function( UserEntities? user,  String message)  failed,required TResult Function( UserEntities? user)  logoutLoading,required TResult Function( UserEntities? user,  String message)  logoutSuccess,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return init(_that.user);case _LoginLoading():
 return loginLoading(_that.user);case _LoginSuccess():
-return loginSuccess(_that.user);case _RegisterLoading():
+return loginSuccess(_that.user);case _LoginFailed():
+return loginFailed(_that.user,_that.message);case _RegisterLoading():
 return registerLoading(_that.user);case _RegisterSuccess():
-return registerSuccess(_that.user);case _GetCurrentUserDataLoading():
+return registerSuccess(_that.user);case _RegisterFailed():
+return registerFailed(_that.user,_that.message);case _GetCurrentUserDataLoading():
 return getCurrentUserDataLoading(_that.user);case _GetCurrentUserDataSuccess():
 return getCurrentUserDataSuccess(_that.user);case _Failed():
-return failed(_that.user,_that.message);case _:
+return failed(_that.user,_that.message);case _LogoutLoading():
+return logoutLoading(_that.user);case _LogoutSuccess():
+return logoutSuccess(_that.user,_that.message);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -238,17 +258,21 @@ return failed(_that.user,_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( UserEntities? user)?  init,TResult? Function( UserEntities? user)?  loginLoading,TResult? Function( UserEntities? user)?  loginSuccess,TResult? Function( UserEntities? user)?  registerLoading,TResult? Function( UserEntities? user)?  registerSuccess,TResult? Function( UserEntities? user)?  getCurrentUserDataLoading,TResult? Function( UserEntities? user)?  getCurrentUserDataSuccess,TResult? Function( UserEntities? user,  String message)?  failed,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( UserEntities? user)?  init,TResult? Function( UserEntities? user)?  loginLoading,TResult? Function( UserEntities? user)?  loginSuccess,TResult? Function( UserEntities? user,  String message)?  loginFailed,TResult? Function( UserEntities? user)?  registerLoading,TResult? Function( UserEntities? user)?  registerSuccess,TResult? Function( UserEntities? user,  String message)?  registerFailed,TResult? Function( UserEntities? user)?  getCurrentUserDataLoading,TResult? Function( UserEntities? user)?  getCurrentUserDataSuccess,TResult? Function( UserEntities? user,  String message)?  failed,TResult? Function( UserEntities? user)?  logoutLoading,TResult? Function( UserEntities? user,  String message)?  logoutSuccess,}) {final _that = this;
 switch (_that) {
 case _Initial() when init != null:
 return init(_that.user);case _LoginLoading() when loginLoading != null:
 return loginLoading(_that.user);case _LoginSuccess() when loginSuccess != null:
-return loginSuccess(_that.user);case _RegisterLoading() when registerLoading != null:
+return loginSuccess(_that.user);case _LoginFailed() when loginFailed != null:
+return loginFailed(_that.user,_that.message);case _RegisterLoading() when registerLoading != null:
 return registerLoading(_that.user);case _RegisterSuccess() when registerSuccess != null:
-return registerSuccess(_that.user);case _GetCurrentUserDataLoading() when getCurrentUserDataLoading != null:
+return registerSuccess(_that.user);case _RegisterFailed() when registerFailed != null:
+return registerFailed(_that.user,_that.message);case _GetCurrentUserDataLoading() when getCurrentUserDataLoading != null:
 return getCurrentUserDataLoading(_that.user);case _GetCurrentUserDataSuccess() when getCurrentUserDataSuccess != null:
 return getCurrentUserDataSuccess(_that.user);case _Failed() when failed != null:
-return failed(_that.user,_that.message);case _:
+return failed(_that.user,_that.message);case _LogoutLoading() when logoutLoading != null:
+return logoutLoading(_that.user);case _LogoutSuccess() when logoutSuccess != null:
+return logoutSuccess(_that.user,_that.message);case _:
   return null;
 
 }
@@ -493,6 +517,86 @@ $UserEntitiesCopyWith<$Res>? get user {
 /// @nodoc
 
 
+class _LoginFailed implements AuthState {
+   _LoginFailed({this.user = null, required this.message});
+  
+
+@override@JsonKey() final  UserEntities? user;
+ final  String message;
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$LoginFailedCopyWith<_LoginFailed> get copyWith => __$LoginFailedCopyWithImpl<_LoginFailed>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginFailed&&(identical(other.user, user) || other.user == user)&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,user,message);
+
+@override
+String toString() {
+  return 'AuthState.loginFailed(user: $user, message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$LoginFailedCopyWith<$Res> implements $AuthStateCopyWith<$Res> {
+  factory _$LoginFailedCopyWith(_LoginFailed value, $Res Function(_LoginFailed) _then) = __$LoginFailedCopyWithImpl;
+@override @useResult
+$Res call({
+ UserEntities? user, String message
+});
+
+
+@override $UserEntitiesCopyWith<$Res>? get user;
+
+}
+/// @nodoc
+class __$LoginFailedCopyWithImpl<$Res>
+    implements _$LoginFailedCopyWith<$Res> {
+  __$LoginFailedCopyWithImpl(this._self, this._then);
+
+  final _LoginFailed _self;
+  final $Res Function(_LoginFailed) _then;
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? user = freezed,Object? message = null,}) {
+  return _then(_LoginFailed(
+user: freezed == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
+as UserEntities?,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserEntitiesCopyWith<$Res>? get user {
+    if (_self.user == null) {
+    return null;
+  }
+
+  return $UserEntitiesCopyWith<$Res>(_self.user!, (value) {
+    return _then(_self.copyWith(user: value));
+  });
+}
+}
+
+/// @nodoc
+
+
 class _RegisterLoading implements AuthState {
    _RegisterLoading({this.user = null});
   
@@ -628,6 +732,86 @@ class __$RegisterSuccessCopyWithImpl<$Res>
   return _then(_RegisterSuccess(
 user: freezed == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
 as UserEntities?,
+  ));
+}
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserEntitiesCopyWith<$Res>? get user {
+    if (_self.user == null) {
+    return null;
+  }
+
+  return $UserEntitiesCopyWith<$Res>(_self.user!, (value) {
+    return _then(_self.copyWith(user: value));
+  });
+}
+}
+
+/// @nodoc
+
+
+class _RegisterFailed implements AuthState {
+   _RegisterFailed({this.user = null, required this.message});
+  
+
+@override@JsonKey() final  UserEntities? user;
+ final  String message;
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$RegisterFailedCopyWith<_RegisterFailed> get copyWith => __$RegisterFailedCopyWithImpl<_RegisterFailed>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RegisterFailed&&(identical(other.user, user) || other.user == user)&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,user,message);
+
+@override
+String toString() {
+  return 'AuthState.registerFailed(user: $user, message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$RegisterFailedCopyWith<$Res> implements $AuthStateCopyWith<$Res> {
+  factory _$RegisterFailedCopyWith(_RegisterFailed value, $Res Function(_RegisterFailed) _then) = __$RegisterFailedCopyWithImpl;
+@override @useResult
+$Res call({
+ UserEntities? user, String message
+});
+
+
+@override $UserEntitiesCopyWith<$Res>? get user;
+
+}
+/// @nodoc
+class __$RegisterFailedCopyWithImpl<$Res>
+    implements _$RegisterFailedCopyWith<$Res> {
+  __$RegisterFailedCopyWithImpl(this._self, this._then);
+
+  final _RegisterFailed _self;
+  final $Res Function(_RegisterFailed) _then;
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? user = freezed,Object? message = null,}) {
+  return _then(_RegisterFailed(
+user: freezed == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
+as UserEntities?,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 
@@ -861,6 +1045,164 @@ class __$FailedCopyWithImpl<$Res>
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? user = freezed,Object? message = null,}) {
   return _then(_Failed(
+user: freezed == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
+as UserEntities?,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserEntitiesCopyWith<$Res>? get user {
+    if (_self.user == null) {
+    return null;
+  }
+
+  return $UserEntitiesCopyWith<$Res>(_self.user!, (value) {
+    return _then(_self.copyWith(user: value));
+  });
+}
+}
+
+/// @nodoc
+
+
+class _LogoutLoading implements AuthState {
+   _LogoutLoading({this.user = null});
+  
+
+@override@JsonKey() final  UserEntities? user;
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$LogoutLoadingCopyWith<_LogoutLoading> get copyWith => __$LogoutLoadingCopyWithImpl<_LogoutLoading>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LogoutLoading&&(identical(other.user, user) || other.user == user));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,user);
+
+@override
+String toString() {
+  return 'AuthState.logoutLoading(user: $user)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$LogoutLoadingCopyWith<$Res> implements $AuthStateCopyWith<$Res> {
+  factory _$LogoutLoadingCopyWith(_LogoutLoading value, $Res Function(_LogoutLoading) _then) = __$LogoutLoadingCopyWithImpl;
+@override @useResult
+$Res call({
+ UserEntities? user
+});
+
+
+@override $UserEntitiesCopyWith<$Res>? get user;
+
+}
+/// @nodoc
+class __$LogoutLoadingCopyWithImpl<$Res>
+    implements _$LogoutLoadingCopyWith<$Res> {
+  __$LogoutLoadingCopyWithImpl(this._self, this._then);
+
+  final _LogoutLoading _self;
+  final $Res Function(_LogoutLoading) _then;
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? user = freezed,}) {
+  return _then(_LogoutLoading(
+user: freezed == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
+as UserEntities?,
+  ));
+}
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserEntitiesCopyWith<$Res>? get user {
+    if (_self.user == null) {
+    return null;
+  }
+
+  return $UserEntitiesCopyWith<$Res>(_self.user!, (value) {
+    return _then(_self.copyWith(user: value));
+  });
+}
+}
+
+/// @nodoc
+
+
+class _LogoutSuccess implements AuthState {
+   _LogoutSuccess({this.user = null, required this.message});
+  
+
+@override@JsonKey() final  UserEntities? user;
+ final  String message;
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$LogoutSuccessCopyWith<_LogoutSuccess> get copyWith => __$LogoutSuccessCopyWithImpl<_LogoutSuccess>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LogoutSuccess&&(identical(other.user, user) || other.user == user)&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,user,message);
+
+@override
+String toString() {
+  return 'AuthState.logoutSuccess(user: $user, message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$LogoutSuccessCopyWith<$Res> implements $AuthStateCopyWith<$Res> {
+  factory _$LogoutSuccessCopyWith(_LogoutSuccess value, $Res Function(_LogoutSuccess) _then) = __$LogoutSuccessCopyWithImpl;
+@override @useResult
+$Res call({
+ UserEntities? user, String message
+});
+
+
+@override $UserEntitiesCopyWith<$Res>? get user;
+
+}
+/// @nodoc
+class __$LogoutSuccessCopyWithImpl<$Res>
+    implements _$LogoutSuccessCopyWith<$Res> {
+  __$LogoutSuccessCopyWithImpl(this._self, this._then);
+
+  final _LogoutSuccess _self;
+  final $Res Function(_LogoutSuccess) _then;
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? user = freezed,Object? message = null,}) {
+  return _then(_LogoutSuccess(
 user: freezed == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
 as UserEntities?,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,

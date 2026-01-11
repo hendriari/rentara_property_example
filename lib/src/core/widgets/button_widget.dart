@@ -12,11 +12,15 @@ class ButtonWidget extends StatelessWidget {
   final Color? bgColor;
   final EdgeInsets? margin;
   final BoxBorder? border;
+  final double? maxHeight;
+  final double? maxWidth;
 
   const ButtonWidget({
     super.key,
     required this.buttonText,
     required this.onTap,
+    this.maxHeight,
+    this.maxWidth,
     this.margin,
     this.child,
     this.bgColor,
@@ -29,7 +33,11 @@ class ButtonWidget extends StatelessWidget {
     return Bounceable(
       onTap: onTap,
       child: Container(
-        constraints: BoxConstraints(minWidth: 64.w, minHeight: 46.h),
+        constraints: BoxConstraints(
+          minWidth: 64.w,
+          minHeight: 46.h,
+          maxHeight: (maxHeight ?? 0) <= 46.h ? 46.h : maxHeight!,
+        ),
         margin: margin,
         alignment: Alignment.center,
         decoration: BoxDecoration(

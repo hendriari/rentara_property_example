@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rentara_property_clone/src/core/theme/app_colors.dart';
 
 class ShellNavbarPage extends StatelessWidget {
   final Widget child;
@@ -11,25 +12,25 @@ class ShellNavbarPage extends StatelessWidget {
     BottomNavigationBarItem(
       icon: Icon(CupertinoIcons.home, color: Colors.black),
       activeIcon: Icon(CupertinoIcons.home, color: Colors.grey),
-      tooltip: "Dashboard",
+      label: "Property",
     ),
 
     BottomNavigationBarItem(
       icon: Icon(Icons.work, color: Colors.black),
       activeIcon: Icon(Icons.work_outline, color: Colors.grey),
-      tooltip: "Work",
+      label: "Work",
     ),
 
     BottomNavigationBarItem(
       icon: Icon(Icons.message, color: Colors.black),
       activeIcon: Icon(Icons.message_outlined, color: Colors.grey),
-      tooltip: "Notification",
+      label: "Notification",
     ),
 
     BottomNavigationBarItem(
       icon: Icon(Icons.person, color: Colors.black),
       activeIcon: Icon(Icons.person_outline, color: Colors.grey),
-      tooltip: "Account",
+      label: "Account",
     ),
   ];
 
@@ -46,25 +47,41 @@ class ShellNavbarPage extends StatelessWidget {
     final currentIndex = _routeIndex(location);
     return Scaffold(
       body: child,
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) {
-          switch (index) {
-            case 0:
-              context.goNamed('property');
-              break;
-            case 1:
-              context.goNamed('work');
-              break;
-            case 2:
-              context.goNamed('notification');
-              break;
-            case 3:
-              context.goNamed('account');
-              break;
-          }
-        },
-        currentIndex: currentIndex,
-        items: _items,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.neutral300,
+              blurRadius: .5,
+              blurStyle: BlurStyle.solid,
+            ),
+          ],
+        ),
+        child: BottomNavigationBar(
+          backgroundColor: Colors.white,
+          type: BottomNavigationBarType.fixed,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+
+          onTap: (index) {
+            switch (index) {
+              case 0:
+                context.goNamed('property');
+                break;
+              case 1:
+                context.goNamed('work');
+                break;
+              case 2:
+                context.goNamed('notification');
+                break;
+              case 3:
+                context.goNamed('account');
+                break;
+            }
+          },
+          currentIndex: currentIndex,
+          items: _items,
+        ),
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:rentara_property_clone/src/core/error/failure.dart';
 import 'package:rentara_property_clone/src/core/error/failure_mapper.dart';
 import 'package:rentara_property_clone/src/core/services/local/local_keys.dart';
+import 'package:rentara_property_clone/src/core/services/local/secure_storage_services.dart';
 import 'package:rentara_property_clone/src/core/services/local/session_manager.dart';
 import 'package:rentara_property_clone/src/core/services/local/shared_preference_request.dart';
 import 'package:rentara_property_clone/src/core/utils/enums.dart';
@@ -18,12 +19,14 @@ class AuthRepositoryImpl extends AuthRepository {
   final AuthLocalDatasource _localDatasource;
   final SharedPreferenceServices _prefs;
   final SessionManager _sessionManager;
+  final SecureStorageService _secureStorageService;
 
   AuthRepositoryImpl(
     this._remoteDatasource,
     this._localDatasource,
     this._prefs,
     this._sessionManager,
+    this._secureStorageService,
   );
 
   @override
@@ -94,6 +97,18 @@ class AuthRepositoryImpl extends AuthRepository {
       final userParse = data.user.toEntity();
 
       return Right(userParse);
+    } catch (e) {
+      return Left(FailureMapper.map(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> logout() async {
+    try {
+      await _prefs.reset();
+      await _secureStorageService.reset();
+      await _sessionManager.clear();
+      return Right("Logout success");
     } catch (e) {
       return Left(FailureMapper.map(e));
     }

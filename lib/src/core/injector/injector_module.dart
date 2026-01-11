@@ -16,6 +16,7 @@ import 'package:rentara_property_clone/src/features/auth/data/repository_impl/re
 import 'package:rentara_property_clone/src/features/auth/domain/repository/auth_repository.dart';
 import 'package:rentara_property_clone/src/features/auth/domain/usecase/get_current_user_data_usecase.dart';
 import 'package:rentara_property_clone/src/features/auth/domain/usecase/login_usecase.dart';
+import 'package:rentara_property_clone/src/features/auth/domain/usecase/logout_usecase.dart';
 import 'package:rentara_property_clone/src/features/auth/domain/usecase/register_usecase.dart';
 
 @module
@@ -89,7 +90,8 @@ abstract class InjectorModule {
     AuthLocalDatasource local,
     SharedPreferenceServices prefs,
     SessionManager sessionManager,
-  ) => AuthRepositoryImpl(remote, local, prefs, sessionManager);
+    SecureStorageService storage,
+  ) => AuthRepositoryImpl(remote, local, prefs, sessionManager, storage);
 
   @lazySingleton
   LoginUsecase get loginUsecase;
@@ -99,4 +101,7 @@ abstract class InjectorModule {
 
   @lazySingleton
   GetCurrentUserDataUsecase get currentUserDataUsecase;
+
+  @lazySingleton
+  LogoutUsecase get logoutUsecase;
 }

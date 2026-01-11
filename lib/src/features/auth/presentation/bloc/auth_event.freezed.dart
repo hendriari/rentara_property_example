@@ -55,13 +55,14 @@ extension AuthEventPatterns on AuthEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( AuthEventLogin value)?  login,TResult Function( AuthEventRegister value)?  register,TResult Function( AuthEventGetCurrentUserData value)?  getCurrentUserData,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( AuthEventLogin value)?  login,TResult Function( AuthEventRegister value)?  register,TResult Function( AuthEventGetCurrentUserData value)?  getCurrentUserData,TResult Function( AuthEventLogout value)?  logout,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case AuthEventLogin() when login != null:
 return login(_that);case AuthEventRegister() when register != null:
 return register(_that);case AuthEventGetCurrentUserData() when getCurrentUserData != null:
-return getCurrentUserData(_that);case _:
+return getCurrentUserData(_that);case AuthEventLogout() when logout != null:
+return logout(_that);case _:
   return orElse();
 
 }
@@ -79,13 +80,14 @@ return getCurrentUserData(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( AuthEventLogin value)  login,required TResult Function( AuthEventRegister value)  register,required TResult Function( AuthEventGetCurrentUserData value)  getCurrentUserData,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( AuthEventLogin value)  login,required TResult Function( AuthEventRegister value)  register,required TResult Function( AuthEventGetCurrentUserData value)  getCurrentUserData,required TResult Function( AuthEventLogout value)  logout,}){
 final _that = this;
 switch (_that) {
 case AuthEventLogin():
 return login(_that);case AuthEventRegister():
 return register(_that);case AuthEventGetCurrentUserData():
-return getCurrentUserData(_that);case _:
+return getCurrentUserData(_that);case AuthEventLogout():
+return logout(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -102,13 +104,14 @@ return getCurrentUserData(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( AuthEventLogin value)?  login,TResult? Function( AuthEventRegister value)?  register,TResult? Function( AuthEventGetCurrentUserData value)?  getCurrentUserData,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( AuthEventLogin value)?  login,TResult? Function( AuthEventRegister value)?  register,TResult? Function( AuthEventGetCurrentUserData value)?  getCurrentUserData,TResult? Function( AuthEventLogout value)?  logout,}){
 final _that = this;
 switch (_that) {
 case AuthEventLogin() when login != null:
 return login(_that);case AuthEventRegister() when register != null:
 return register(_that);case AuthEventGetCurrentUserData() when getCurrentUserData != null:
-return getCurrentUserData(_that);case _:
+return getCurrentUserData(_that);case AuthEventLogout() when logout != null:
+return logout(_that);case _:
   return null;
 
 }
@@ -125,12 +128,13 @@ return getCurrentUserData(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String email,  String password)?  login,TResult Function( String firstName,  String lastName,  String phone,  String email,  String password)?  register,TResult Function()?  getCurrentUserData,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String email,  String password)?  login,TResult Function( String firstName,  String lastName,  String phone,  String email,  String password)?  register,TResult Function()?  getCurrentUserData,TResult Function()?  logout,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case AuthEventLogin() when login != null:
 return login(_that.email,_that.password);case AuthEventRegister() when register != null:
 return register(_that.firstName,_that.lastName,_that.phone,_that.email,_that.password);case AuthEventGetCurrentUserData() when getCurrentUserData != null:
-return getCurrentUserData();case _:
+return getCurrentUserData();case AuthEventLogout() when logout != null:
+return logout();case _:
   return orElse();
 
 }
@@ -148,12 +152,13 @@ return getCurrentUserData();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String email,  String password)  login,required TResult Function( String firstName,  String lastName,  String phone,  String email,  String password)  register,required TResult Function()  getCurrentUserData,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String email,  String password)  login,required TResult Function( String firstName,  String lastName,  String phone,  String email,  String password)  register,required TResult Function()  getCurrentUserData,required TResult Function()  logout,}) {final _that = this;
 switch (_that) {
 case AuthEventLogin():
 return login(_that.email,_that.password);case AuthEventRegister():
 return register(_that.firstName,_that.lastName,_that.phone,_that.email,_that.password);case AuthEventGetCurrentUserData():
-return getCurrentUserData();case _:
+return getCurrentUserData();case AuthEventLogout():
+return logout();case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -170,12 +175,13 @@ return getCurrentUserData();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String email,  String password)?  login,TResult? Function( String firstName,  String lastName,  String phone,  String email,  String password)?  register,TResult? Function()?  getCurrentUserData,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String email,  String password)?  login,TResult? Function( String firstName,  String lastName,  String phone,  String email,  String password)?  register,TResult? Function()?  getCurrentUserData,TResult? Function()?  logout,}) {final _that = this;
 switch (_that) {
 case AuthEventLogin() when login != null:
 return login(_that.email,_that.password);case AuthEventRegister() when register != null:
 return register(_that.firstName,_that.lastName,_that.phone,_that.email,_that.password);case AuthEventGetCurrentUserData() when getCurrentUserData != null:
-return getCurrentUserData();case _:
+return getCurrentUserData();case AuthEventLogout() when logout != null:
+return logout();case _:
   return null;
 
 }
@@ -349,6 +355,38 @@ int get hashCode => runtimeType.hashCode;
 @override
 String toString() {
   return 'AuthEvent.getCurrentUserData()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class AuthEventLogout implements AuthEvent {
+   AuthEventLogout();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthEventLogout);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'AuthEvent.logout()';
 }
 
 

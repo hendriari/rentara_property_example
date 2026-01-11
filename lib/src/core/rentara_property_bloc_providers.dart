@@ -11,6 +11,7 @@ MultiBlocProvider rentaraBlocProvider({required Widget child}) =>
             loginUsecase: injector(),
             registerUsecase: injector(),
             getCurrentUserDataUsecase: injector(),
+            logoutUsecase: injector(),
           ),
         ),
       ],

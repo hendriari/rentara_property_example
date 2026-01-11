@@ -17,4 +17,6 @@ abstract class AuthRepository {
   });
 
   Future<Either<Failure, UserEntities?>> getCurrentUserData();
+
+  Future<Either<Failure, String>> logout();
 }
