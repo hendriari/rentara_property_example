@@ -16,6 +16,7 @@ import 'package:rentara_property_clone/src/features/work/presentation/page/work_
 part 'app_routes_observers.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
+final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 class AppRoutes {
   static final AppRoutes _instance = AppRoutes._internal();
@@ -102,6 +103,7 @@ class AppRoutes {
 
       // NAVBAR
       ShellRoute(
+        navigatorKey: _shellNavigatorKey,
         pageBuilder: (context, state, child) {
           return _customTransition(child: ShellNavbarPage(child: child));
         },
@@ -110,6 +112,7 @@ class AppRoutes {
           GoRoute(
             path: '/property',
             name: 'property',
+            parentNavigatorKey: _shellNavigatorKey,
             pageBuilder: (context, state) {
               return _customTransition(child: const PropertyPage());
             },
@@ -118,6 +121,7 @@ class AppRoutes {
           GoRoute(
             path: '/work',
             name: 'work',
+            parentNavigatorKey: _shellNavigatorKey,
             pageBuilder: (context, state) {
               return _customTransition(child: const WorkPage());
             },
@@ -127,6 +131,7 @@ class AppRoutes {
           GoRoute(
             path: '/notification',
             name: 'notification',
+            parentNavigatorKey: _shellNavigatorKey,
             pageBuilder: (context, state) {
               return _customTransition(child: const NotificationPage());
             },
@@ -136,6 +141,7 @@ class AppRoutes {
           GoRoute(
             path: '/account',
             name: 'account',
+            parentNavigatorKey: _shellNavigatorKey,
             pageBuilder: (context, state) {
               return _customTransition(child: const AccountPage());
             },
