@@ -1,9 +1,15 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rentara_property_clone/src/core/api_config/api_env_config.dart';
 import 'package:rentara_property_clone/src/core/api_config/api_url_config.dart';
 import 'package:rentara_property_clone/src/core/error/dio_exception_handler.dart';
+import 'package:rentara_property_clone/src/core/permission/data/repository_impl/permission_repository_impl.dart';
+import 'package:rentara_property_clone/src/core/permission/domain/repository/permission_repository.dart';
+import 'package:rentara_property_clone/src/core/permission/domain/usecase/check_permission_usecase.dart';
+import 'package:rentara_property_clone/src/core/permission/domain/usecase/open_app_setting_usecase.dart';
+import 'package:rentara_property_clone/src/core/permission/domain/usecase/request_permission_usecase.dart';
 import 'package:rentara_property_clone/src/core/services/local/secure_storage_services.dart';
 import 'package:rentara_property_clone/src/core/services/local/session_manager.dart';
 import 'package:rentara_property_clone/src/core/services/local/shared_preference_request.dart';
@@ -72,6 +78,22 @@ abstract class InjectorModule {
 
   @lazySingleton
   Helper get helper;
+
+  @lazySingleton
+  DeviceInfoPlugin get deviceInfoPlugin => DeviceInfoPlugin();
+
+  @lazySingleton
+  PermissionRepository permissionRepository(DeviceInfoPlugin device) =>
+      PermissionRepositoryImpl(device);
+
+  @lazySingleton
+  CheckPermissionUsecase get checkPermissionUsecase;
+
+  @lazySingleton
+  OpenAppSettingUsecase get openAppSettingUsecase;
+
+  @lazySingleton
+  RequestPermissionUsecase get requestPermissionUsecase;
 
   /// AUTH FEATURE
   @lazySingleton

@@ -28,7 +28,7 @@ class RentaraPropertyMain extends StatelessWidget {
               ),
             ),
             debugShowCheckedModeBanner: false,
-            showPerformanceOverlay: false,
+            // showPerformanceOverlay: true,
             themeMode: ThemeMode.light,
             routerConfig: AppRoutes.route(),
             supportedLocales: const [Locale('id'), Locale('en')],

@@ -10,7 +10,11 @@ import 'package:rentara_property_clone/src/features/auth/presentation/pages/logi
 import 'package:rentara_property_clone/src/features/auth/presentation/pages/register_page.dart';
 import 'package:rentara_property_clone/src/features/auth/presentation/pages/splash_page.dart';
 import 'package:rentara_property_clone/src/features/notification/presentation/page/notification_page.dart';
-import 'package:rentara_property_clone/src/features/property/presentation/property_page.dart';
+import 'package:rentara_property_clone/src/features/property/presentation/pages/property_all_search_page.dart';
+import 'package:rentara_property_clone/src/features/property/presentation/pages/property_detail_page.dart';
+import 'package:rentara_property_clone/src/features/property/presentation/pages/property_maps_page.dart';
+import 'package:rentara_property_clone/src/features/property/presentation/pages/property_page.dart';
+import 'package:rentara_property_clone/src/features/property/presentation/pages/property_quick_search_page.dart';
 import 'package:rentara_property_clone/src/features/work/presentation/page/work_page.dart';
 
 part 'app_routes_observers.dart';
@@ -19,137 +23,185 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 class AppRoutes {
+  static GoRouter? _router;
+
   static final AppRoutes _instance = AppRoutes._internal();
 
-  factory AppRoutes() {
-    return _instance;
-  }
+  factory AppRoutes() => _instance;
 
   AppRoutes._internal();
 
-  static route() => GoRouter(
-    initialLocation: "/",
-    navigatorKey: _rootNavigatorKey,
-    observers: [_routeObserver, _AppRoutesObservers()],
-    refreshListenable: injector<SessionManager>(),
-    redirect: (context, state) {
-      final sessionManager = injector<SessionManager>();
+  static GoRouter route() {
+    _router ??= GoRouter(
+      initialLocation: "/",
+      navigatorKey: _rootNavigatorKey,
+      observers: [_routeObserver, _AppRoutesObservers()],
+      refreshListenable: injector<SessionManager>(),
+      redirect: (context, state) {
+        final sessionManager = injector<SessionManager>();
 
-      final isAuthRoute =
-          state.matchedLocation == '/login' ||
-          state.matchedLocation == '/register' ||
-          state.matchedLocation == '/';
+        final isAuthRoute =
+            state.matchedLocation == '/login' ||
+            state.matchedLocation == '/register' ||
+            state.matchedLocation == '/';
 
-      if (!sessionManager.isLoggedIn && !isAuthRoute) {
-        return '/login';
-      }
+        if (!sessionManager.isLoggedIn && !isAuthRoute) {
+          return '/login';
+        }
 
-      if (sessionManager.isLoggedIn && state.matchedLocation == '/login') {
-        return '/property';
-      }
+        if (sessionManager.isLoggedIn && state.matchedLocation == '/login') {
+          return '/property';
+        }
 
-      return null;
-    },
-    routes: [
-      // SPLASH
-      GoRoute(
-        path: "/",
-        name: "splash",
-        parentNavigatorKey: _rootNavigatorKey,
-        pageBuilder: (c, s) {
-          return _customTransition(child: const SplashPage());
-        },
-      ),
+        return null;
+      },
+      routes: [
+        // SPLASH
+        GoRoute(
+          path: "/",
+          name: "splash",
+          parentNavigatorKey: _rootNavigatorKey,
+          pageBuilder: (c, s) {
+            return _customTransition(child: const SplashPage());
+          },
+        ),
 
-      // LOGIN
-      GoRoute(
-        path: "/login",
-        name: "login",
-        parentNavigatorKey: _rootNavigatorKey,
-        pageBuilder: (context, state) {
-          return _customTransition(
-            transitionBuilder: (context, animation, secondAnimation, child) {
-              return _slideTransition(
-                context,
-                animation,
-                secondAnimation,
-                child,
-              );
-            },
-            child: const LoginPage(),
-          );
-        },
-      ),
+        // LOGIN
+        GoRoute(
+          path: "/login",
+          name: "login",
+          parentNavigatorKey: _rootNavigatorKey,
+          pageBuilder: (context, state) {
+            return _customTransition(
+              transitionBuilder: (context, animation, secondAnimation, child) {
+                return _slideTransition(
+                  context,
+                  animation,
+                  secondAnimation,
+                  child,
+                );
+              },
+              child: const LoginPage(),
+            );
+          },
+        ),
 
-      // REGISTER
-      GoRoute(
-        path: "/register",
-        name: "register",
-        parentNavigatorKey: _rootNavigatorKey,
-        pageBuilder: (context, state) {
-          return _customTransition(
-            transitionBuilder: (context, animation, secondAnimation, child) {
-              return _slideTransition(
-                context,
-                animation,
-                secondAnimation,
-                child,
-              );
-            },
-            child: const RegisterPage(),
-          );
-        },
-      ),
+        // REGISTER
+        GoRoute(
+          path: "/register",
+          name: "register",
+          parentNavigatorKey: _rootNavigatorKey,
+          pageBuilder: (context, state) {
+            return _customTransition(
+              transitionBuilder: (context, animation, secondAnimation, child) {
+                return _slideTransition(
+                  context,
+                  animation,
+                  secondAnimation,
+                  child,
+                );
+              },
+              child: const RegisterPage(),
+            );
+          },
+        ),
 
-      // NAVBAR
-      ShellRoute(
-        navigatorKey: _shellNavigatorKey,
-        pageBuilder: (context, state, child) {
-          return _customTransition(child: ShellNavbarPage(child: child));
-        },
-        routes: [
-          // PROPERTY PAGE
-          GoRoute(
-            path: '/property',
-            name: 'property',
-            parentNavigatorKey: _shellNavigatorKey,
-            pageBuilder: (context, state) {
-              return _customTransition(child: const PropertyPage());
-            },
-          ),
-          // WORK PAGE
-          GoRoute(
-            path: '/work',
-            name: 'work',
-            parentNavigatorKey: _shellNavigatorKey,
-            pageBuilder: (context, state) {
-              return _customTransition(child: const WorkPage());
-            },
-          ),
+        // NAVBAR
+        ShellRoute(
+          navigatorKey: _shellNavigatorKey,
+          pageBuilder: (context, state, child) {
+            return _customTransition(child: ShellNavbarPage(child: child));
+          },
+          routes: [
+            // PROPERTY PAGE
+            GoRoute(
+              path: '/property',
+              name: 'property',
+              parentNavigatorKey: _shellNavigatorKey,
+              pageBuilder: (context, state) {
+                return _customTransition(child: const PropertyPage());
+              },
+              routes: [
+                // PROPERTY MAP
+                GoRoute(
+                  path: 'property-map',
+                  name: 'maps',
+                  parentNavigatorKey: _rootNavigatorKey,
+                  pageBuilder: (context, state) {
+                    return _customTransition(child: const PropertyMapsPage());
+                  },
+                ),
 
-          // NOTIFICATION PAGE
-          GoRoute(
-            path: '/notification',
-            name: 'notification',
-            parentNavigatorKey: _shellNavigatorKey,
-            pageBuilder: (context, state) {
-              return _customTransition(child: const NotificationPage());
-            },
-          ),
+                // PROPERTY QUICK SEARCH
+                GoRoute(
+                  path: 'property-quick-search',
+                  name: 'quick-search',
+                  parentNavigatorKey: _rootNavigatorKey,
+                  pageBuilder: (context, state) {
+                    return _customTransition(
+                      child: const PropertyQuickSearchPage(),
+                    );
+                  },
+                ),
 
-          // ACCOUNT PAGE
-          GoRoute(
-            path: '/account',
-            name: 'account',
-            parentNavigatorKey: _shellNavigatorKey,
-            pageBuilder: (context, state) {
-              return _customTransition(child: const AccountPage());
-            },
-          ),
-        ],
-      ),
-    ],
-  );
+                // PROPERTY ALL SEARCH
+                GoRoute(
+                  path: 'property-all-search',
+                  name: 'all-search',
+                  parentNavigatorKey: _rootNavigatorKey,
+                  pageBuilder: (context, state) {
+                    return _customTransition(
+                      child: const PropertyAllSearchPage(),
+                    );
+                  },
+                ),
+
+                // PROPERTY DETAIL
+                GoRoute(
+                  path: 'property-detail',
+                  name: 'property-detail',
+                  parentNavigatorKey: _rootNavigatorKey,
+                  pageBuilder: (context, state) {
+                    return _customTransition(child: const PropertyDetailPage());
+                  },
+                ),
+              ],
+            ),
+            // WORK PAGE
+            GoRoute(
+              path: '/work',
+              name: 'work',
+              parentNavigatorKey: _shellNavigatorKey,
+              pageBuilder: (context, state) {
+                return _customTransition(child: const WorkPage());
+              },
+            ),
+
+            // NOTIFICATION PAGE
+            GoRoute(
+              path: '/notification',
+              name: 'notification',
+              parentNavigatorKey: _shellNavigatorKey,
+              pageBuilder: (context, state) {
+                return _customTransition(child: const NotificationPage());
+              },
+            ),
+
+            // ACCOUNT PAGE
+            GoRoute(
+              path: '/account',
+              name: 'account',
+              parentNavigatorKey: _shellNavigatorKey,
+              pageBuilder: (context, state) {
+                return _customTransition(child: const AccountPage());
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+    return _router!;
+  }
 
   static SlideTransition _slideTransition(
     BuildContext context,
