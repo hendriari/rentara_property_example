@@ -76,4 +76,25 @@ class Helper {
       return 'IDR ${n.toStringAsFixed(0)}';
     }
   }
+
+  String formatDuration(DateTime dateTime) {
+    final now = DateTime.now();
+    final difference = now.difference(dateTime);
+
+    if (difference.inDays >= 365) {
+      final years = (difference.inDays / 365).floor();
+      return '$years tahun lalu';
+    } else if (difference.inDays >= 30) {
+      final months = (difference.inDays / 30).floor();
+      return '$months bulan lalu';
+    } else if (difference.inDays >= 1) {
+      return '${difference.inDays} hari lalu';
+    } else if (difference.inHours >= 1) {
+      return '${difference.inHours} jam lalu';
+    } else if (difference.inMinutes >= 1) {
+      return '${difference.inMinutes} menit lalu';
+    } else {
+      return 'Baru saja';
+    }
+  }
 }

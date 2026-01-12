@@ -120,8 +120,10 @@ class PropertyQuickSearchPage extends StatelessWidget {
                               final data = listProperty[index];
                               return CardQuickSearchWidget(
                                 property: data,
-                                onTap: () =>
-                                    context.pushNamed("property-detail"),
+                                onTap: () => context.pushNamed(
+                                  "property-detail",
+                                  extra: data,
+                                ),
                                 themeText: textTheme,
                               );
                             },

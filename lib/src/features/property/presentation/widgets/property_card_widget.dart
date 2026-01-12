@@ -101,10 +101,7 @@ class PropertyCardWidget extends StatelessWidget {
 
                     // LOCATION
                     Padding(
-                      padding: EdgeInsets.only(
-                        top: 4.h,
-                        bottom: 8.h,
-                      ),
+                      padding: EdgeInsets.only(top: 4.h, bottom: 8.h),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -133,11 +130,15 @@ class PropertyCardWidget extends StatelessWidget {
                       children: [
                         _buildCardWrapWidget(
                           textTheme: textTheme,
-                          name: property?.type,
+                          name: injector<Helper>().toSentenceCase(
+                            property?.type ?? '-',
+                          ),
                         ),
                         _buildCardWrapWidget(
                           textTheme: textTheme,
-                          name: property?.status,
+                          name: injector<Helper>().toSentenceCase(
+                            property?.status ?? '-',
+                          ),
                         ),
                         _buildCardWrapWidget(
                           textTheme: textTheme,

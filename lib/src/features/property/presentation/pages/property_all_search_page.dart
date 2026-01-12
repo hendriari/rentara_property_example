@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rentara_property_clone/src/core/injector/injector.dart';
 import 'package:rentara_property_clone/src/core/theme/app_colors.dart';
 import 'package:rentara_property_clone/src/core/theme/app_padding.dart';
@@ -10,8 +11,8 @@ import 'package:rentara_property_clone/src/core/widgets/loading_widget.dart';
 import 'package:rentara_property_clone/src/features/property/presentation/bloc/property/property_bloc.dart';
 import 'package:rentara_property_clone/src/features/property/presentation/bloc/property/property_event.dart';
 import 'package:rentara_property_clone/src/features/property/presentation/bloc/property/property_state.dart';
-import 'package:rentara_property_clone/src/features/property/presentation/widgets/property_card_widget.dart';
 import 'package:rentara_property_clone/src/features/property/presentation/widgets/list_filters_property_widget.dart';
+import 'package:rentara_property_clone/src/features/property/presentation/widgets/property_card_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
 class PropertyAllSearchPage extends StatelessWidget {
@@ -151,7 +152,12 @@ class PropertyAllSearchPage extends StatelessWidget {
                           }
 
                           final data = listProperty[index];
-                          return PropertyCardWidget(property: data, onTap: () {  },);
+                          return PropertyCardWidget(
+                            property: data,
+                            onTap: () {
+                              context.pushNamed("property-detail", extra: data);
+                            },
+                          );
                         },
                       ),
                     ),
