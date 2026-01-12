@@ -20,10 +20,8 @@ class PropertyBloc extends Bloc<PropertyEvent, PropertyState> {
     required this.getListPropertyUsecase,
     required this.getNextPropertyUsecase,
   }) : super(PropertyState.init()) {
-    on<PropertyEventGetProperty>(_onGetProperty, transformer: droppable());
-    on<PropertyEventOnSearchPropertyDebounceInternal>(
-      _onSearchDebounceInternal,
-    );
+    on<PropertyEventGetProperty>(_onGetProperty);
+    on<PropertyEventOnSearchPropertyDebounceInternal>(_onInternalEmit);
     on<PropertyEventReset>(_onReset);
     on<PropertyEventGetNextProperty>(
       _getNextProperty,
@@ -32,12 +30,6 @@ class PropertyBloc extends Bloc<PropertyEvent, PropertyState> {
 
     _subscription = _searchSubject
         .debounceTime(const Duration(milliseconds: 800))
-        .distinct(
-          (prev, curr) =>
-              prev.query == curr.query &&
-              prev.type == curr.type &&
-              prev.status == curr.status,
-        )
         .switchMap((params) {
           return Stream.fromFuture(getListPropertyUsecase.call(params: params));
         })
@@ -64,7 +56,7 @@ class PropertyBloc extends Bloc<PropertyEvent, PropertyState> {
     );
   }
 
-  void _onSearchDebounceInternal(
+  void _onInternalEmit(
     PropertyEventOnSearchPropertyDebounceInternal event,
     Emitter<PropertyState> emit,
   ) {

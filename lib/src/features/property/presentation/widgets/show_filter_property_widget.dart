@@ -52,7 +52,10 @@ class _FilterPropertyCardWidgetState extends State<FilterPropertyCardWidget> {
 
   void _toggleFilter(String filter) {
     setState(() {
-      final bool isSingleSelection = widget.type == PropertyFilterType.status;
+      final bool isSingleSelection =
+          widget.type == PropertyFilterType.status ||
+          widget.type == PropertyFilterType.location ||
+          widget.type == PropertyFilterType.type;
 
       if (isSingleSelection) {
         if (_selectedFilters.contains(filter)) {

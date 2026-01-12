@@ -138,7 +138,7 @@ class DioServiceImpl extends DioServices {
   }
 
   Future<Response<dynamic>?> _handleException(DioException e) async {
-    if (e.type == DioExceptionType.cancel && e.error == 'duplicate request') {
+    if (e.type == DioExceptionType.cancel && e.error == 'Duplicate Request') {
       dev.log('❌ DUPLICATE REQUEST ${e.requestOptions.path}', name: 'DIO');
       return null;
     }

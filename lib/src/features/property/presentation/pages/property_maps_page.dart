@@ -18,8 +18,10 @@ import 'package:rentara_property_clone/src/core/widgets/appbar_with_search_widge
 import 'package:rentara_property_clone/src/core/widgets/header_persistent.dart';
 import 'package:rentara_property_clone/src/core/widgets/shimmer_loading_widget.dart';
 import 'package:rentara_property_clone/src/core/widgets/show_information_dialog.dart';
+import 'package:rentara_property_clone/src/features/property/domain/entities/property/property_entities.dart';
 import 'package:rentara_property_clone/src/features/property/presentation/widgets/header_filter_widget.dart';
 import 'package:rentara_property_clone/src/features/property/presentation/widgets/list_filters_property_widget.dart';
+import 'package:rentara_property_clone/src/features/property/presentation/widgets/property_card_widget.dart';
 
 class PropertyMapsPage extends StatefulWidget {
   const PropertyMapsPage({super.key});
@@ -31,8 +33,6 @@ class PropertyMapsPage extends StatefulWidget {
 class _PropertyMapsPageState extends State<PropertyMapsPage> {
   final Completer<GoogleMapController> _gmapController =
       Completer<GoogleMapController>();
-
-  // late TextTheme _textTheme;
 
   // Default coordinates (Jakarta)
   double initialLat = -6.175126961872583;
@@ -48,12 +48,6 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
     });
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   _textTheme = Theme.of(context).textTheme;
-  // }
-
   @override
   void dispose() {
     _gmapController.future.then((value) {
@@ -63,6 +57,21 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
     });
     super.dispose();
   }
+
+  final _dummyProperty = PropertyEntities(
+    id: null,
+    type: "Apartment",
+    status: "Second",
+    name: "Dummy Apartment",
+    description: "Lorem ipsum dolor sit amet",
+    address: "Jl. Raya Jakarta",
+    price: "10000000",
+    imageUrl: null,
+    buildingArea: 100,
+    landArea: 100,
+    createdAt: DateTime.now(),
+    updatedAt: DateTime.now(),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -136,9 +145,17 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
                   context,
                 ),
               ),
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: _buildDetailMapWidget(),
+
+              SliverToBoxAdapter(child: _buildSheetHeaderWidget()),
+
+              SliverPadding(
+                padding: AppPadding.pagePadding,
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    final dummyData = _dummyProperty.copyWith(id: index);
+                    return PropertyCardWidget(property: dummyData);
+                  }, childCount: 10),
+                ),
               ),
             ],
           );
@@ -189,7 +206,6 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
             ),
           },
         ),
-
         Positioned(bottom: 10.h, right: 10.w, child: _buildMyLocationButton()),
       ],
     );
@@ -227,15 +243,16 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
   }
 
   Widget _buildMapLoading() {
-    return Padding(
-      padding: AppPadding.pagePadding,
-      child: ShimmerLoadingWidget(),
+    return Container(
+      color: AppColors.neutral100,
+      child: const Center(child: ShimmerLoadingWidget()),
     );
   }
 
-  Widget _buildDetailMapWidget() {
+  Widget _buildSheetHeaderWidget() {
     return Column(
       children: [
+        // DIVIDER / HANDLE
         Container(
           width: 40.w,
           height: 6.h,
@@ -245,15 +262,22 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
             color: AppColors.neutral300,
           ),
         ),
+
+        // HEADER FILTER
         Padding(
           padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
-          child: HeaderFilterWidget(withCloseButton: false),
+          child: const HeaderFilterWidget(withCloseButton: false),
         ),
+
         const Divider(color: AppColors.neutral300),
+
+        /// LIST FILTER
         Padding(
           padding: AppPadding.pagePadding,
           child: const ListFilterPropertyWidget(),
         ),
+
+        SizedBox(height: 8.h),
       ],
     );
   }

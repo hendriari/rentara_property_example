@@ -13,6 +13,7 @@ class AppbarWithSearchWidget extends StatefulWidget {
   final VoidCallback? onTap;
   final bool readOnly;
   final bool autoFocus;
+  final TextEditingController? searchController;
 
   const AppbarWithSearchWidget({
     super.key,
@@ -21,6 +22,7 @@ class AppbarWithSearchWidget extends StatefulWidget {
     this.onTap,
     this.readOnly = false,
     this.autoFocus = false,
+    this.searchController,
   });
 
   @override
@@ -28,11 +30,19 @@ class AppbarWithSearchWidget extends StatefulWidget {
 }
 
 class _AppbarWithSearchWidgetState extends State<AppbarWithSearchWidget> {
-  final _searchController = TextEditingController();
+  late TextEditingController _searchController;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController = widget.searchController ?? TextEditingController();
+  }
 
   @override
   void dispose() {
-    _searchController.dispose();
+   if(widget.searchController == null){
+     _searchController.dispose();
+   }
     super.dispose();
   }
 
