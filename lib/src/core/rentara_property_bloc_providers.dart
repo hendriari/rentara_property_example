@@ -30,7 +30,10 @@ MultiBlocProvider rentaraBlocProvider({required Widget child}) =>
         ),
         BlocProvider(create: (_) => PropertyFilterBloc()),
         BlocProvider(
-          create: (_) => PropertyBloc(getListPropertyUsecase: injector()),
+          create: (_) => PropertyBloc(
+            getListPropertyUsecase: injector(),
+            getNextPropertyUsecase: injector(),
+          ),
         ),
       ],
       child: child,

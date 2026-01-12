@@ -12,6 +12,7 @@ class AppbarWithSearchWidget extends StatefulWidget {
   final Function(String) onSearch;
   final VoidCallback? onTap;
   final bool readOnly;
+  final bool autoFocus;
 
   const AppbarWithSearchWidget({
     super.key,
@@ -19,6 +20,7 @@ class AppbarWithSearchWidget extends StatefulWidget {
     required this.onSearch,
     this.onTap,
     this.readOnly = false,
+    this.autoFocus = false,
   });
 
   @override
@@ -69,6 +71,7 @@ class _AppbarWithSearchWidgetState extends State<AppbarWithSearchWidget> {
                 formFieldHeight: 38.h,
                 textEditingController: _searchController,
                 useGradientBorder: true,
+                autoFocus: widget.autoFocus,
                 prefixIcon: Icon(Icons.search, color: AppColors.neutral400),
                 hint: "Find Property",
                 readOnly: widget.readOnly,

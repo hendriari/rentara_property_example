@@ -55,12 +55,14 @@ extension PropertyEventPatterns on PropertyEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( PropertyEventGetProperty value)?  getProperty,TResult Function( PropertyEventOnSearchPropertyDebounceInternal value)?  onSearchPropertyDebounceInternal,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( PropertyEventGetProperty value)?  getProperty,TResult Function( PropertyEventOnSearchPropertyDebounceInternal value)?  onSearchPropertyDebounceInternal,TResult Function( PropertyEventReset value)?  reset,TResult Function( PropertyEventGetNextProperty value)?  getNextProperty,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case PropertyEventGetProperty() when getProperty != null:
 return getProperty(_that);case PropertyEventOnSearchPropertyDebounceInternal() when onSearchPropertyDebounceInternal != null:
-return onSearchPropertyDebounceInternal(_that);case _:
+return onSearchPropertyDebounceInternal(_that);case PropertyEventReset() when reset != null:
+return reset(_that);case PropertyEventGetNextProperty() when getNextProperty != null:
+return getNextProperty(_that);case _:
   return orElse();
 
 }
@@ -78,12 +80,14 @@ return onSearchPropertyDebounceInternal(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( PropertyEventGetProperty value)  getProperty,required TResult Function( PropertyEventOnSearchPropertyDebounceInternal value)  onSearchPropertyDebounceInternal,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( PropertyEventGetProperty value)  getProperty,required TResult Function( PropertyEventOnSearchPropertyDebounceInternal value)  onSearchPropertyDebounceInternal,required TResult Function( PropertyEventReset value)  reset,required TResult Function( PropertyEventGetNextProperty value)  getNextProperty,}){
 final _that = this;
 switch (_that) {
 case PropertyEventGetProperty():
 return getProperty(_that);case PropertyEventOnSearchPropertyDebounceInternal():
-return onSearchPropertyDebounceInternal(_that);case _:
+return onSearchPropertyDebounceInternal(_that);case PropertyEventReset():
+return reset(_that);case PropertyEventGetNextProperty():
+return getNextProperty(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -100,12 +104,14 @@ return onSearchPropertyDebounceInternal(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( PropertyEventGetProperty value)?  getProperty,TResult? Function( PropertyEventOnSearchPropertyDebounceInternal value)?  onSearchPropertyDebounceInternal,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( PropertyEventGetProperty value)?  getProperty,TResult? Function( PropertyEventOnSearchPropertyDebounceInternal value)?  onSearchPropertyDebounceInternal,TResult? Function( PropertyEventReset value)?  reset,TResult? Function( PropertyEventGetNextProperty value)?  getNextProperty,}){
 final _that = this;
 switch (_that) {
 case PropertyEventGetProperty() when getProperty != null:
 return getProperty(_that);case PropertyEventOnSearchPropertyDebounceInternal() when onSearchPropertyDebounceInternal != null:
-return onSearchPropertyDebounceInternal(_that);case _:
+return onSearchPropertyDebounceInternal(_that);case PropertyEventReset() when reset != null:
+return reset(_that);case PropertyEventGetNextProperty() when getNextProperty != null:
+return getNextProperty(_that);case _:
   return null;
 
 }
@@ -122,11 +128,13 @@ return onSearchPropertyDebounceInternal(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String query,  int? perPage,  int? maxPrice,  int? minPrice,  String? status,  String? type)?  getProperty,TResult Function( Either<Failure, PropertyResponseEntities?> result)?  onSearchPropertyDebounceInternal,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String query,  int? perPage,  int? maxPrice,  int? minPrice,  String? status,  String? type)?  getProperty,TResult Function( Either<Failure, PropertyResponseEntities?> result)?  onSearchPropertyDebounceInternal,TResult Function()?  reset,TResult Function()?  getNextProperty,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case PropertyEventGetProperty() when getProperty != null:
 return getProperty(_that.query,_that.perPage,_that.maxPrice,_that.minPrice,_that.status,_that.type);case PropertyEventOnSearchPropertyDebounceInternal() when onSearchPropertyDebounceInternal != null:
-return onSearchPropertyDebounceInternal(_that.result);case _:
+return onSearchPropertyDebounceInternal(_that.result);case PropertyEventReset() when reset != null:
+return reset();case PropertyEventGetNextProperty() when getNextProperty != null:
+return getNextProperty();case _:
   return orElse();
 
 }
@@ -144,11 +152,13 @@ return onSearchPropertyDebounceInternal(_that.result);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String query,  int? perPage,  int? maxPrice,  int? minPrice,  String? status,  String? type)  getProperty,required TResult Function( Either<Failure, PropertyResponseEntities?> result)  onSearchPropertyDebounceInternal,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String query,  int? perPage,  int? maxPrice,  int? minPrice,  String? status,  String? type)  getProperty,required TResult Function( Either<Failure, PropertyResponseEntities?> result)  onSearchPropertyDebounceInternal,required TResult Function()  reset,required TResult Function()  getNextProperty,}) {final _that = this;
 switch (_that) {
 case PropertyEventGetProperty():
 return getProperty(_that.query,_that.perPage,_that.maxPrice,_that.minPrice,_that.status,_that.type);case PropertyEventOnSearchPropertyDebounceInternal():
-return onSearchPropertyDebounceInternal(_that.result);case _:
+return onSearchPropertyDebounceInternal(_that.result);case PropertyEventReset():
+return reset();case PropertyEventGetNextProperty():
+return getNextProperty();case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -165,11 +175,13 @@ return onSearchPropertyDebounceInternal(_that.result);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String query,  int? perPage,  int? maxPrice,  int? minPrice,  String? status,  String? type)?  getProperty,TResult? Function( Either<Failure, PropertyResponseEntities?> result)?  onSearchPropertyDebounceInternal,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String query,  int? perPage,  int? maxPrice,  int? minPrice,  String? status,  String? type)?  getProperty,TResult? Function( Either<Failure, PropertyResponseEntities?> result)?  onSearchPropertyDebounceInternal,TResult? Function()?  reset,TResult? Function()?  getNextProperty,}) {final _that = this;
 switch (_that) {
 case PropertyEventGetProperty() when getProperty != null:
 return getProperty(_that.query,_that.perPage,_that.maxPrice,_that.minPrice,_that.status,_that.type);case PropertyEventOnSearchPropertyDebounceInternal() when onSearchPropertyDebounceInternal != null:
-return onSearchPropertyDebounceInternal(_that.result);case _:
+return onSearchPropertyDebounceInternal(_that.result);case PropertyEventReset() when reset != null:
+return reset();case PropertyEventGetNextProperty() when getNextProperty != null:
+return getNextProperty();case _:
   return null;
 
 }
@@ -318,5 +330,69 @@ as Either<Failure, PropertyResponseEntities?>,
 
 
 }
+
+/// @nodoc
+
+
+class PropertyEventReset implements PropertyEvent {
+  const PropertyEventReset();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PropertyEventReset);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'PropertyEvent.reset()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class PropertyEventGetNextProperty implements PropertyEvent {
+  const PropertyEventGetNextProperty();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PropertyEventGetNextProperty);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'PropertyEvent.getNextProperty()';
+}
+
+
+}
+
+
+
 
 // dart format on

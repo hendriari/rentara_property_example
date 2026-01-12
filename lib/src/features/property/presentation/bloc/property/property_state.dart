@@ -21,4 +21,17 @@ abstract class PropertyState with _$PropertyState {
     @Default(null) PropertyResponseEntities? property,
     required String message,
   }) = _ErrorGetProperty;
+
+  factory PropertyState.loadingGetNextProperty({
+    @Default(null) PropertyResponseEntities? property,
+  }) = _LoadingGetNextProperty;
+
+  factory PropertyState.successGetNextProperty({
+    @Default(null) PropertyResponseEntities? property,
+  }) = _SuccessGetNextProperty;
+
+  factory PropertyState.errorGetNextProperty({
+    @Default(null) PropertyResponseEntities? property,
+    required String message,
+  }) = _ErrorGetNextProperty;
 }

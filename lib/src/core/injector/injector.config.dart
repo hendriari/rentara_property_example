@@ -67,6 +67,8 @@ import 'package:rentara_property_clone/src/features/property/domain/repository/p
     as _i98;
 import 'package:rentara_property_clone/src/features/property/domain/usecase/get_list_property_usecase.dart'
     as _i117;
+import 'package:rentara_property_clone/src/features/property/domain/usecase/get_next_property_usecase.dart'
+    as _i1011;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -175,6 +177,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i117.GetListPropertyUsecase>(
       () => injectorModule.getListPropertyUsecase,
     );
+    gh.lazySingleton<_i1011.GetNextPropertyUsecase>(
+      () => injectorModule.getNextPropertyUsecase,
+    );
     return this;
   }
 }
@@ -226,4 +231,8 @@ class _$InjectorModule extends _i835.InjectorModule {
   @override
   _i117.GetListPropertyUsecase get getListPropertyUsecase =>
       _i117.GetListPropertyUsecase(_getIt<_i98.PropertyRepository>());
+
+  @override
+  _i1011.GetNextPropertyUsecase get getNextPropertyUsecase =>
+      _i1011.GetNextPropertyUsecase(_getIt<_i98.PropertyRepository>());
 }

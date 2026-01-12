@@ -35,4 +35,17 @@ class PropertyRepositoryImpl extends PropertyRepository {
       return Left(FailureMapper.map(e));
     }
   }
+
+  @override
+  Future<Either<Failure, PropertyResponseEntities?>> getNextProperty({
+    required String url,
+  }) async {
+    try {
+      final data = await _remoteDatasource.getNextProperty(url: url);
+
+      return Right(data?.toEntity());
+    } catch (e) {
+      return Left(FailureMapper.map(e));
+    }
+  }
 }

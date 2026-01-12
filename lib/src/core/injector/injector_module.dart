@@ -32,6 +32,7 @@ import 'package:rentara_property_clone/src/features/property/data/datasource/pro
 import 'package:rentara_property_clone/src/features/property/data/repository_impl/property_repository_impl.dart';
 import 'package:rentara_property_clone/src/features/property/domain/repository/property_repository.dart';
 import 'package:rentara_property_clone/src/features/property/domain/usecase/get_list_property_usecase.dart';
+import 'package:rentara_property_clone/src/features/property/domain/usecase/get_next_property_usecase.dart';
 
 @module
 abstract class InjectorModule {
@@ -156,4 +157,7 @@ abstract class InjectorModule {
 
   @lazySingleton
   GetListPropertyUsecase get getListPropertyUsecase;
+
+  @lazySingleton
+  GetNextPropertyUsecase get getNextPropertyUsecase;
 }

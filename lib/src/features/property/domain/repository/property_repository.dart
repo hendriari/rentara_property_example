@@ -11,4 +11,8 @@ abstract class PropertyRepository {
     String? status,
     String? type,
   });
+
+  Future<Either<Failure, PropertyResponseEntities?>> getNextProperty({
+    required String url,
+  });
 }

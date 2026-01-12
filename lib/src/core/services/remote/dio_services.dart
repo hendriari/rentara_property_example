@@ -66,7 +66,7 @@ class DioServiceImpl extends DioServices {
         onResponse: (r, h) => h.next(r),
         onError: (error, h) async {
           final statusCode = error.response?.statusCode;
-          if (statusCode == 401)  {
+          if (statusCode == 401) {
             await secureStorage.reset();
             await sPrefs.reset();
             await sessionManager.clear();
@@ -144,6 +144,9 @@ class DioServiceImpl extends DioServices {
     }
 
     String errorMessage = dioExceptionHandler.handlerException(e);
+    dev.log('ERROR RAW DATA : ${e.response?.data}', name: 'Error');
+    dev.log('❌ Error Message: [${e.response?.statusCode}] $errorMessage');
+
     if (e.type == DioExceptionType.connectionTimeout ||
         e.type == DioExceptionType.receiveTimeout) {
       throw ConnectionException(

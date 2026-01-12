@@ -12,6 +12,8 @@ abstract class PropertyRemoteDatasource {
     String? status,
     String? type,
   });
+
+  Future<PropertyResponseDto?> getNextProperty({required String url});
 }
 
 class PropertyRemoteDatasourceImpl extends PropertyRemoteDatasource {
@@ -40,6 +42,26 @@ class PropertyRemoteDatasourceImpl extends PropertyRemoteDatasource {
         "per_page": perPage,
         "view_mode": "full",
       },
+    );
+
+    if (res == null && res?.statusCode != 200) {
+      throw ServerException(message: "Invalid Response");
+    } else {
+      return PropertyResponseDto.fromJson(res?.data["data"]);
+    }
+  }
+
+  @override
+  Future<PropertyResponseDto?> getNextProperty({required String url}) async {
+    final uri = Uri.parse(url);
+    
+    final Map<String, dynamic> params = Map<String, dynamic>.from(uri.queryParameters);
+    
+    params.putIfAbsent("view_mode", () => "full");
+
+    final res = await _dioServices.get(
+      path: _apiUrlConfig.properties,
+      params: params,
     );
 
     if (res == null && res?.statusCode != 200) {

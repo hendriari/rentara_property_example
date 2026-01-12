@@ -22,4 +22,8 @@ abstract class PropertyEvent with _$PropertyEvent {
   const factory PropertyEvent.onSearchPropertyDebounceInternal({
     required Either<Failure, PropertyResponseEntities?> result,
   }) = PropertyEventOnSearchPropertyDebounceInternal;
+
+  const factory PropertyEvent.reset() = PropertyEventReset;
+
+  const factory PropertyEvent.getNextProperty() = PropertyEventGetNextProperty;
 }

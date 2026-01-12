@@ -34,7 +34,7 @@ class CardQuickSearchWidget extends StatelessWidget {
               children: [
                 // IMAGE PROPERTY
                 Hero(
-                  tag: property?.id ?? '',
+                  tag: property?.id ?? UniqueKey().toString(),
                   child: NetworkImageCachedWidget(
                     imagePath: property?.imageUrl,
                     height: 50.h,

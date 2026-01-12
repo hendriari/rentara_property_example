@@ -52,4 +52,28 @@ class Helper {
 
     return words.join(' ');
   }
+
+  String formatCurrencyAbbreviated(String value) {
+    String cleanedValue = value
+        .replaceAll('IDR', '')
+        .replaceAll('.', '')
+        .replaceAll(' ', '')
+        .replaceFirst(',', '.');
+
+    if (cleanedValue.contains('.')) {
+      cleanedValue = cleanedValue.split('.')[0];
+    }
+
+    double n = double.tryParse(cleanedValue) ?? 0;
+
+    if (n >= 1000000000) {
+      return 'IDR ${(n / 1000000000).toStringAsFixed(1).replaceAll(RegExp(r'\.0*$'), '')} M';
+    } else if (n >= 1000000) {
+      return 'IDR ${(n / 1000000).toStringAsFixed(1).replaceAll(RegExp(r'\.0*$'), '')} jt';
+    } else if (n >= 1000) {
+      return 'IDR ${(n / 1000).toStringAsFixed(1).replaceAll(RegExp(r'\.0*$'), '')} rb';
+    } else {
+      return 'IDR ${n.toStringAsFixed(0)}';
+    }
+  }
 }
