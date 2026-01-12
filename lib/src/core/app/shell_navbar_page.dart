@@ -22,6 +22,12 @@ class ShellNavbarPage extends StatelessWidget {
     ),
 
     BottomNavigationBarItem(
+      icon: Icon(Icons.add_box, color: Colors.black),
+      activeIcon: Icon(Icons.add_box_outlined, color: Colors.grey),
+      label: "Post Property",
+    ),
+
+    BottomNavigationBarItem(
       icon: Icon(Icons.message, color: Colors.black),
       activeIcon: Icon(Icons.message_outlined, color: Colors.grey),
       label: "Notification",
@@ -36,8 +42,9 @@ class ShellNavbarPage extends StatelessWidget {
 
   int _routeIndex(String location) {
     if (location.startsWith("/work")) return 1;
-    if (location.startsWith("/notification")) return 2;
-    if (location.startsWith("/account")) return 3;
+    if (location.startsWith("/post-property")) return 2;
+    if (location.startsWith("/notification")) return 3;
+    if (location.startsWith("/account")) return 4;
     return 0;
   }
 
@@ -72,9 +79,12 @@ class ShellNavbarPage extends StatelessWidget {
                 context.goNamed('work');
                 break;
               case 2:
-                context.goNamed('notification');
+                context.goNamed('post-property');
                 break;
               case 3:
+                context.goNamed('notification');
+                break;
+              case 4:
                 context.goNamed('account');
                 break;
             }

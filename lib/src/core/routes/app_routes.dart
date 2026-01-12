@@ -10,6 +10,7 @@ import 'package:rentara_property_clone/src/features/auth/presentation/pages/logi
 import 'package:rentara_property_clone/src/features/auth/presentation/pages/register_page.dart';
 import 'package:rentara_property_clone/src/features/auth/presentation/pages/splash_page.dart';
 import 'package:rentara_property_clone/src/features/notification/presentation/page/notification_page.dart';
+import 'package:rentara_property_clone/src/features/post_property/presentation/presentation/page/post_property_page.dart';
 import 'package:rentara_property_clone/src/features/property/domain/entities/property/property_entities.dart';
 import 'package:rentara_property_clone/src/features/property/presentation/pages/property_all_search_page.dart';
 import 'package:rentara_property_clone/src/features/property/presentation/pages/property_detail_page.dart';
@@ -171,6 +172,7 @@ class AppRoutes {
                 ),
               ],
             ),
+
             // WORK PAGE
             GoRoute(
               path: '/work',
@@ -178,6 +180,16 @@ class AppRoutes {
               parentNavigatorKey: _shellNavigatorKey,
               pageBuilder: (context, state) {
                 return _customTransition(child: const WorkPage());
+              },
+            ),
+
+            // POST PROPERTY PAGE
+            GoRoute(
+              path: '/post-property',
+              name: 'post-property',
+              parentNavigatorKey: _shellNavigatorKey,
+              pageBuilder: (context, state) {
+                return _customTransition(child: const PostPropertyPage());
               },
             ),
 

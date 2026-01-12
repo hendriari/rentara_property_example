@@ -1,6 +1,7 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rentara_property_clone/src/core/api_config/api_env_config.dart';
 import 'package:rentara_property_clone/src/core/api_config/api_url_config.dart';
@@ -14,6 +15,7 @@ import 'package:rentara_property_clone/src/core/permission/domain/repository/per
 import 'package:rentara_property_clone/src/core/permission/domain/usecase/check_permission_usecase.dart';
 import 'package:rentara_property_clone/src/core/permission/domain/usecase/open_app_setting_usecase.dart';
 import 'package:rentara_property_clone/src/core/permission/domain/usecase/request_permission_usecase.dart';
+import 'package:rentara_property_clone/src/core/services/local/media_services.dart';
 import 'package:rentara_property_clone/src/core/services/local/secure_storage_services.dart';
 import 'package:rentara_property_clone/src/core/services/local/session_manager.dart';
 import 'package:rentara_property_clone/src/core/services/local/shared_preference_request.dart';
@@ -28,6 +30,10 @@ import 'package:rentara_property_clone/src/features/auth/domain/usecase/get_curr
 import 'package:rentara_property_clone/src/features/auth/domain/usecase/login_usecase.dart';
 import 'package:rentara_property_clone/src/features/auth/domain/usecase/logout_usecase.dart';
 import 'package:rentara_property_clone/src/features/auth/domain/usecase/register_usecase.dart';
+import 'package:rentara_property_clone/src/features/post_property/data/datasource/post_property_remote_datasource.dart';
+import 'package:rentara_property_clone/src/features/post_property/data/repository_impl/post_property_repository_impl.dart';
+import 'package:rentara_property_clone/src/features/post_property/domain/repository/post_property_repository.dart';
+import 'package:rentara_property_clone/src/features/post_property/domain/usecase/post_property_usecase.dart';
 import 'package:rentara_property_clone/src/features/property/data/datasource/properti_remote_datasource.dart';
 import 'package:rentara_property_clone/src/features/property/data/repository_impl/property_repository_impl.dart';
 import 'package:rentara_property_clone/src/features/property/domain/repository/property_repository.dart';
@@ -45,6 +51,12 @@ abstract class InjectorModule {
   @lazySingleton
   SharedPreferenceServices get sharedPreferenceServices =>
       SharedPreferenceServicesImpl();
+
+  @singleton
+  ImagePicker get imagePicker => ImagePicker();
+
+  @lazySingleton
+  MediaServices mediaServices(ImagePicker picker) => MediaServicesImpl(picker);
 
   @lazySingleton
   SecureStorageService secureStorageService(FlutterSecureStorage storage) =>
@@ -160,4 +172,18 @@ abstract class InjectorModule {
 
   @lazySingleton
   GetNextPropertyUsecase get getNextPropertyUsecase;
+
+  @lazySingleton
+  PostPropertyRemoteDatasource postPropertyRemoteDatasource(
+    DioServices service,
+    ApiUrlConfig config,
+  ) => PostPropertyRemoteDatasourceImpl(service, config);
+
+  @lazySingleton
+  PostPropertyRepository postPropertyRepository(
+    PostPropertyRemoteDatasource datasource,
+  ) => PostPropertyRepositoryImpl(datasource);
+
+  @lazySingleton
+  PostPropertyUsecase get postPropertyUsecase;
 }

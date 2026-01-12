@@ -13,6 +13,7 @@ import 'package:device_info_plus/device_info_plus.dart' as _i833;
 import 'package:dio/dio.dart' as _i361;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
+import 'package:image_picker/image_picker.dart' as _i183;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:rentara_property_clone/src/core/api_config/api_env_config.dart'
     as _i86;
@@ -36,6 +37,8 @@ import 'package:rentara_property_clone/src/core/permission/domain/usecase/open_a
     as _i1061;
 import 'package:rentara_property_clone/src/core/permission/domain/usecase/request_permission_usecase.dart'
     as _i986;
+import 'package:rentara_property_clone/src/core/services/local/media_services.dart'
+    as _i189;
 import 'package:rentara_property_clone/src/core/services/local/secure_storage_services.dart'
     as _i448;
 import 'package:rentara_property_clone/src/core/services/local/session_manager.dart'
@@ -61,6 +64,12 @@ import 'package:rentara_property_clone/src/features/auth/domain/usecase/logout_u
     as _i136;
 import 'package:rentara_property_clone/src/features/auth/domain/usecase/register_usecase.dart'
     as _i1042;
+import 'package:rentara_property_clone/src/features/post_property/data/datasource/post_property_remote_datasource.dart'
+    as _i590;
+import 'package:rentara_property_clone/src/features/post_property/domain/repository/post_property_repository.dart'
+    as _i935;
+import 'package:rentara_property_clone/src/features/post_property/domain/usecase/post_property_usecase.dart'
+    as _i730;
 import 'package:rentara_property_clone/src/features/property/data/datasource/properti_remote_datasource.dart'
     as _i779;
 import 'package:rentara_property_clone/src/features/property/domain/repository/property_repository.dart'
@@ -82,6 +91,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i558.FlutterSecureStorage>(
       () => injectorModule.secureStorage,
     );
+    gh.singleton<_i183.ImagePicker>(() => injectorModule.imagePicker);
     gh.lazySingleton<_i1017.SharedPreferenceServices>(
       () => injectorModule.sharedPreferenceServices,
     );
@@ -140,16 +150,30 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           injectorModule.localDatasource(gh<_i1017.SharedPreferenceServices>()),
     );
+    gh.lazySingleton<_i590.PostPropertyRemoteDatasource>(
+      () => injectorModule.postPropertyRemoteDatasource(
+        gh<_i612.DioServices>(),
+        gh<_i683.ApiUrlConfig>(),
+      ),
+    );
     gh.lazySingleton<_i557.AuthRemoteDatasource>(
       () => injectorModule.remoteDatasource(
         gh<_i612.DioServices>(),
         gh<_i683.ApiUrlConfig>(),
       ),
     );
+    gh.lazySingleton<_i189.MediaServices>(
+      () => injectorModule.mediaServices(gh<_i183.ImagePicker>()),
+    );
     gh.lazySingleton<_i779.PropertyRemoteDatasource>(
       () => injectorModule.propertyRemoteDatasource(
         gh<_i612.DioServices>(),
         gh<_i683.ApiUrlConfig>(),
+      ),
+    );
+    gh.lazySingleton<_i935.PostPropertyRepository>(
+      () => injectorModule.postPropertyRepository(
+        gh<_i590.PostPropertyRemoteDatasource>(),
       ),
     );
     gh.lazySingleton<_i1044.AuthRepository>(
@@ -179,6 +203,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i1011.GetNextPropertyUsecase>(
       () => injectorModule.getNextPropertyUsecase,
+    );
+    gh.lazySingleton<_i730.PostPropertyUsecase>(
+      () => injectorModule.postPropertyUsecase,
     );
     return this;
   }
@@ -235,4 +262,8 @@ class _$InjectorModule extends _i835.InjectorModule {
   @override
   _i1011.GetNextPropertyUsecase get getNextPropertyUsecase =>
       _i1011.GetNextPropertyUsecase(_getIt<_i98.PropertyRepository>());
+
+  @override
+  _i730.PostPropertyUsecase get postPropertyUsecase =>
+      _i730.PostPropertyUsecase(_getIt<_i935.PostPropertyRepository>());
 }
