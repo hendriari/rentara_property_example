@@ -89,32 +89,23 @@ class PropertyDetailPage extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 16.h),
               child: Wrap(
                 children: [
-                  _buildCardWrapWidget(
-                    textTheme: textTheme,
+                  _BuildCardWrapWidget(
                     name: injector<Helper>().toSentenceCase(
                       property?.type ?? '-',
                     ),
                   ),
-                  _buildCardWrapWidget(
-                    textTheme: textTheme,
+                  _BuildCardWrapWidget(
                     name: injector<Helper>().toSentenceCase(
                       property?.status ?? '-',
                     ),
                   ),
-                  _buildCardWrapWidget(
-                    textTheme: textTheme,
+                  _BuildCardWrapWidget(
                     name: injector<Helper>().formatCurrencyAbbreviated(
                       property?.price ?? '0',
                     ),
                   ),
-                  _buildCardWrapWidget(
-                    textTheme: textTheme,
-                    name: "LB ${property?.buildingArea}",
-                  ),
-                  _buildCardWrapWidget(
-                    textTheme: textTheme,
-                    name: "LT ${property?.landArea}",
-                  ),
+                  _BuildCardWrapWidget(name: "LB ${property?.buildingArea}"),
+                  _BuildCardWrapWidget(name: "LT ${property?.landArea}"),
                 ],
               ),
             ),
@@ -164,12 +155,17 @@ class PropertyDetailPage extends StatelessWidget {
       centerTitle: true,
     );
   }
+}
 
-  // CARD FOR WRAP DETAIL PROPERTY
-  Widget _buildCardWrapWidget({
-    required TextTheme textTheme,
-    required String? name,
-  }) {
+// CARD FOR WRAP DETAIL PROPERTY
+class _BuildCardWrapWidget extends StatelessWidget {
+  final String name;
+
+  const _BuildCardWrapWidget({required this.name});
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
       margin: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
@@ -179,7 +175,7 @@ class PropertyDetailPage extends StatelessWidget {
         border: Border.all(color: AppColors.neutral200),
       ),
       child: Text(
-        name ?? '-',
+        name,
         style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
       ),
     );

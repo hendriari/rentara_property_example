@@ -36,9 +36,6 @@ class _PropertyAllSearchPageState extends State<PropertyAllSearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final colorScheme = Theme.of(context).colorScheme;
-
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) {
@@ -46,25 +43,20 @@ class _PropertyAllSearchPageState extends State<PropertyAllSearchPage> {
           context.read<PropertyFilterBloc>().add(PropertyFilterResetEvent());
         }
       },
-      child: MultiBlocListener(
-        listeners: [
-          // FILTER LISTENERS
-          BlocListener<PropertyFilterBloc, PropertyFilterState>(
-            listener: (context, filterState) {
-              context.read<PropertyBloc>().add(
-                PropertyEvent.getProperty(
-                  query: _searchController.text,
-                  status: filterState.status,
-                  type: filterState.type?.isNotEmpty == true
-                      ? filterState.type?.firstOrNull
-                      : null,
-                  minPrice: filterState.minPrice?.toInt(),
-                  maxPrice: filterState.maxPrice?.toInt(),
-                ),
-              );
-            },
-          ),
-        ],
+      child: BlocListener<PropertyFilterBloc, PropertyFilterState>(
+        listener: (context, filterState) {
+          context.read<PropertyBloc>().add(
+            PropertyEvent.getProperty(
+              query: _searchController.text,
+              status: filterState.status,
+              type: filterState.type?.isNotEmpty == true
+                  ? filterState.type!.first
+                  : null,
+              minPrice: filterState.minPrice?.toInt(),
+              maxPrice: filterState.maxPrice?.toInt(),
+            ),
+          );
+        },
         child: Scaffold(
           appBar: AppBar(
             leading: const SizedBox.shrink(),
@@ -89,19 +81,13 @@ class _PropertyAllSearchPageState extends State<PropertyAllSearchPage> {
           body: Padding(
             padding: AppPadding.pagePadding,
             child: Column(
-              mainAxisSize: MainAxisSize.min,
               children: [
-                // FILTER PROPERTY
+
+                // FILTER
                 const ListFilterPropertyWidget(),
 
-                // LIST PROPERTY
-                Expanded(
-                  child: _buildListProperty(
-                    context: context,
-                    textTheme: textTheme,
-                    colorScheme: colorScheme,
-                  ),
-                ),
+                // CONTENT
+                const Expanded(child: PropertySearchResultList()),
               ],
             ),
           ),
@@ -109,23 +95,27 @@ class _PropertyAllSearchPageState extends State<PropertyAllSearchPage> {
       ),
     );
   }
+}
 
-  Widget _buildListProperty({
-    required BuildContext context,
-    required TextTheme textTheme,
-    required ColorScheme colorScheme,
-  }) {
+class PropertySearchResultList extends StatelessWidget {
+  const PropertySearchResultList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
         final state = context.read<PropertyBloc>().state;
 
         state.maybeWhen(
+          loadingGetProperty: (_) => false,
           loadingGetNextProperty: (_) => false,
           orElse: () {
             if (notification.metrics.pixels >=
-                notification.metrics.maxScrollExtent - 100) {
+                notification.metrics.maxScrollExtent - 200) {
               context.read<PropertyBloc>().add(PropertyEventGetNextProperty());
-              return true;
             }
           },
         );
@@ -143,20 +133,11 @@ class _PropertyAllSearchPageState extends State<PropertyAllSearchPage> {
         },
         builder: (context, state) {
           return state.maybeWhen(
-            init: (_) {
-              return Center(
-                child: Text(
-                  "Find your dream property by searching by type (House, Apartment, Land, etc.)",
-                  style: textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              );
-            },
-            loadingGetProperty: (_) {
-              return const Center(child: LoadingWidget());
-            },
+            init: (_) => _buildMessage(
+              textTheme,
+              "Find your dream property by searching...",
+            ),
+            loadingGetProperty: (_) => const Center(child: LoadingWidget()),
             orElse: () {
               final listProperty = state.property?.data ?? [];
               final showLoading = state.maybeWhen(
@@ -164,59 +145,66 @@ class _PropertyAllSearchPageState extends State<PropertyAllSearchPage> {
                 orElse: () => false,
               );
 
-              if (listProperty.isNotEmpty) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8.h),
-                      child: Text(
-                        'All Results "${listProperty.length}"',
-                        style: textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        padding: EdgeInsets.symmetric(vertical: 8.h),
-                        itemCount: listProperty.length + (showLoading ? 1 : 0),
-                        itemBuilder: (context, index) {
-                          if (index >= listProperty.length) {
-                            return Shimmer.fromColors(
-                              baseColor: AppColors.primaryColor100,
-                              highlightColor: AppColors.neutral100,
-                              child: PropertyCardWidget(property: null),
-                            );
-                          }
-
-                          final data = listProperty[index];
-                          return PropertyCardWidget(
-                            property: data,
-                            onTap: () {
-                              context.pushNamed("property-detail", extra: data);
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                );
-              } else {
-                return Center(
-                  child: Text(
-                    "Oops, this type of property is not yet available",
-                    style: textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
+              if (listProperty.isEmpty) {
+                return _buildMessage(
+                  textTheme,
+                  "Oops, this type of property is not yet available",
                 );
               }
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8.h),
+                    child: Text(
+                      'All Results "${listProperty.length}"',
+                      style: textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      padding: EdgeInsets.symmetric(vertical: 8.h),
+                      cacheExtent: 500,
+                      itemCount: listProperty.length + (showLoading ? 1 : 0),
+                      itemBuilder: (context, index) {
+                        if (index >= listProperty.length) {
+                          return Shimmer.fromColors(
+                            baseColor: AppColors.primaryColor100,
+                            highlightColor: AppColors.neutral100,
+                            child: const PropertyCardWidget(property: null),
+                          );
+                        }
+
+                        return RepaintBoundary(
+                          child: PropertyCardWidget(
+                            property: listProperty[index],
+                            onTap: () => context.pushNamed(
+                              "property-detail",
+                              extra: listProperty[index],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              );
             },
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildMessage(TextTheme textTheme, String message) {
+    return Center(
+      child: Text(
+        message,
+        style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+        textAlign: TextAlign.center,
       ),
     );
   }

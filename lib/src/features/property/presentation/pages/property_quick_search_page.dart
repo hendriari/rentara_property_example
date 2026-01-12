@@ -20,7 +20,7 @@ class PropertyQuickSearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
+
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) {
@@ -50,138 +50,149 @@ class PropertyQuickSearchPage extends StatelessWidget {
           },
           builder: (context, state) {
             return state.maybeWhen(
-              init: (_) {
-                return Padding(
-                  padding: AppPadding.pagePadding,
-                  child: Center(
-                    child: Text(
-                      "Find your dream property by searching by type (House, Apartment, Land, etc.)",
-                      style: textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                );
-              },
-              loadingGetProperty: (_) {
-                return const Center(child: LoadingWidget());
-              },
+              init: (_) => const _QuickSearchMessageWidget(
+                message:
+                    "Find your dream property by searching by type (House, Apartment, Land, etc.)",
+              ),
+              loadingGetProperty: (_) => const Center(child: LoadingWidget()),
               orElse: () {
-                if (state.property?.data != null &&
-                    state.property!.data!.isNotEmpty) {
-                  final listProperty = state.property?.data ?? [];
-                  final totalProperty = listProperty.length;
-                  final foundProperty = listProperty
-                      .map((e) => e.type)
-                      .whereType<String>()
-                      .toSet()
-                      .join(", ");
-                  return Padding(
-                    padding: AppPadding.pagePadding,
-                    child: Column(
-                      children: [
-                        // SUMMARY
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            // FOUND PROPERTY TYPE
-                            Expanded(
-                              child: Text(
-                                'Result for "${injector<Helper>().toSentenceCase(foundProperty)}" ',
-                                style: textTheme.bodyMedium?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
+                final listProperty = state.property?.data ?? [];
 
-                            SizedBox(width: 6.w),
-
-                            // TOTAL PROPERTY
-                            Text(
-                              '${totalProperty > 10 ? '10+' : totalProperty} Property',
-                              style: textTheme.bodySmall?.copyWith(
-                                color: AppColors.primaryColor600,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        // LIST PROPERTY
-                        Expanded(
-                          child: ListView.builder(
-                            padding: EdgeInsets.symmetric(vertical: 8.h),
-                            itemCount: listProperty.length > 10
-                                ? 10
-                                : listProperty.length,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              final data = listProperty[index];
-                              return CardQuickSearchWidget(
-                                property: data,
-                                onTap: () => context.pushNamed(
-                                  "property-detail",
-                                  extra: data,
-                                ),
-                                themeText: textTheme,
-                              );
-                            },
-                          ),
-                        ),
-
-                        // SHOW MORE
-                        totalProperty > 10
-                            ? ButtonWidget(
-                                buttonText: "",
-                                onTap: () =>
-                                    context.pushReplacementNamed("all-search"),
-                                bgColor: Colors.white,
-                                border: Border.all(
-                                  color: AppColors.primaryColor600,
-                                  width: 2,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "See all result",
-                                      style: textTheme.labelLarge?.copyWith(
-                                        color: AppColors.primaryColor600,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-
-                                    SizedBox(width: 8.w),
-
-                                    Icon(
-                                      Icons.arrow_forward_rounded,
-                                      color: AppColors.primaryColor600,
-                                    ),
-                                  ],
-                                ),
-                              )
-                            : const SizedBox.shrink(),
-                      ],
-                    ),
-                  );
-                } else {
-                  return Padding(
-                    padding: AppPadding.pagePadding,
-                    child: Center(
-                      child: Text(
-                        "Oops, this type of property is not yet available",
-                        style: textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
+                if (listProperty.isEmpty) {
+                  return const _QuickSearchMessageWidget(
+                    message: "Oops, this type of property is not yet available",
                   );
                 }
+
+                return _QuickSearchResultContent(listProperty: listProperty);
               },
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+// RESULT WIDGET
+class _QuickSearchResultContent extends StatelessWidget {
+  final List listProperty;
+
+  const _QuickSearchResultContent({required this.listProperty});
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final totalProperty = listProperty.length;
+
+    final foundProperty = listProperty
+        .map((e) => e.type)
+        .whereType<String>()
+        .toSet()
+        .join(", ");
+
+    return Padding(
+      padding: AppPadding.pagePadding,
+      child: Column(
+        children: [
+          // SUMMARY
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // FOND PROPERTY
+              Expanded(
+                child: Text(
+                  'Result for "${injector<Helper>().toSentenceCase(foundProperty)}" ',
+                  style: textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+
+              SizedBox(width: 6.w),
+
+              // TOTAL PROPERTY
+              Text(
+                '${totalProperty > 10 ? '10+' : totalProperty} Property',
+                style: textTheme.bodySmall?.copyWith(
+                  color: AppColors.primaryColor600,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+
+          // LIST PROPERTY
+          Expanded(
+            child: ListView.builder(
+              padding: EdgeInsets.symmetric(vertical: 8.h),
+              itemCount: listProperty.length > 10 ? 10 : listProperty.length,
+              itemBuilder: (context, index) {
+                return RepaintBoundary(
+                  child: CardQuickSearchWidget(
+                    property: listProperty[index],
+                    onTap: () => context.pushNamed(
+                      "property-detail",
+                      extra: listProperty[index],
+                    ),
+                    themeText: textTheme,
+                  ),
+                );
+              },
+            ),
+          ),
+
+          // SHOW MORE
+          if (totalProperty > 10)
+            Padding(
+              padding: EdgeInsets.only(top: 8.h),
+              child: ButtonWidget(
+                buttonText: "",
+                onTap: () => context.pushReplacementNamed("all-search"),
+                bgColor: Colors.white,
+                border: Border.all(color: AppColors.primaryColor600, width: 2),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "See all result",
+                      style: textTheme.labelLarge?.copyWith(
+                        color: AppColors.primaryColor600,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(width: 8.w),
+                    Icon(
+                      Icons.arrow_forward_rounded,
+                      color: AppColors.primaryColor600,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+// COMMON MESSAGE
+class _QuickSearchMessageWidget extends StatelessWidget {
+  final String message;
+
+  const _QuickSearchMessageWidget({required this.message});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: AppPadding.pagePadding,
+      child: Center(
+        child: Text(
+          message,
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
         ),
       ),
     );

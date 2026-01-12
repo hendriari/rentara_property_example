@@ -34,7 +34,6 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
   final Completer<GoogleMapController> _gmapController =
       Completer<GoogleMapController>();
 
-  // Default coordinates (Jakarta)
   double initialLat = -6.175126961872583;
   double initialLng = 106.82711059593191;
 
@@ -57,21 +56,6 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
     });
     super.dispose();
   }
-
-  final _dummyProperty = PropertyEntities(
-    id: null,
-    type: "Apartment",
-    status: "Second",
-    name: "Dummy Apartment",
-    description: "Lorem ipsum dolor sit amet",
-    address: "Jl. Raya Jakarta",
-    price: "10000000",
-    imageUrl: null,
-    buildingArea: 100,
-    landArea: 100,
-    createdAt: DateTime.now(),
-    updatedAt: DateTime.now(),
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -102,10 +86,14 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
         },
         child: Stack(
           children: [
-            /// CONTENT MAP
-            _buildContentWidget(),
+            // CONTENT MAP & LIST
+            _PropertyMapsContent(
+              gmapController: _gmapController,
+              initialLat: initialLat,
+              initialLng: initialLng,
+            ),
 
-            /// APPBAR SEARCH
+            // APPBAR SEARCH
             AppbarWithSearchWidget(
               usingWithAppbar: false,
               readOnly: true,
@@ -117,12 +105,24 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
       ),
     );
   }
+}
 
-  Widget _buildContentWidget() {
+class _PropertyMapsContent extends StatelessWidget {
+  final Completer<GoogleMapController> gmapController;
+  final double initialLat;
+  final double initialLng;
+
+  const _PropertyMapsContent({
+    required this.gmapController,
+    required this.initialLat,
+    required this.initialLng,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return NestedScrollView(
       headerSliverBuilder: (context, _) {
         return [
-          // MAP CONTENT
           SliverOverlapAbsorber(
             handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
             sliver: SliverPersistentHeader(
@@ -130,7 +130,11 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
               delegate: HeaderPersistent(
                 maxHeight: .7.sh,
                 minHeight: .4.sh,
-                child: _buildMapArea(),
+                child: _MapArea(
+                  gmapController: gmapController,
+                  initialLat: initialLat,
+                  initialLng: initialLng,
+                ),
               ),
             ),
           ),
@@ -145,76 +149,110 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
                   context,
                 ),
               ),
-
-              SliverToBoxAdapter(child: _buildSheetHeaderWidget()),
-
-              SliverPadding(
-                padding: AppPadding.pagePadding,
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate((context, index) {
-                    final dummyData = _dummyProperty.copyWith(id: index);
-                    return PropertyCardWidget(property: dummyData);
-                  }, childCount: 10),
-                ),
-              ),
+              const SliverToBoxAdapter(child: _SheetHeaderWidget()),
+              const _PropertyListSection(),
             ],
           );
         },
       ),
     );
   }
+}
 
-  Widget _buildMapArea() {
+class _MapArea extends StatelessWidget {
+  final Completer<GoogleMapController> gmapController;
+  final double initialLat;
+  final double initialLng;
+
+  const _MapArea({
+    required this.gmapController,
+    required this.initialLat,
+    required this.initialLng,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return BlocBuilder<LocationBloc, LocationState>(
+      buildWhen: (previous, current) {
+        return current.maybeMap(
+          loading: (_) => true,
+          success: (_) => true,
+          failed: (_) => true,
+          orElse: () => false,
+        );
+      },
       builder: (context, state) {
         return state.maybeWhen(
           success: (_) => _buildMapWidget(),
           failed: (_) => _buildMapWidget(),
-          orElse: () => _buildMapLoading(),
+          orElse: () => const _MapLoading(),
         );
       },
     );
   }
 
   Widget _buildMapWidget() {
-    return Stack(
-      children: [
-        GoogleMap(
-          initialCameraPosition: CameraPosition(
-            target: LatLng(initialLat, initialLng),
-            zoom: 15,
-          ),
-          zoomControlsEnabled: false,
-          myLocationEnabled: true,
-          myLocationButtonEnabled: false,
-          compassEnabled: false,
-          onMapCreated: (controller) {
-            if (!_gmapController.isCompleted) {
-              _gmapController.complete(controller);
-            }
-          },
-          onCameraIdle: () async {
-            final controller = await _gmapController.future;
-            LatLngBounds bounds = await controller.getVisibleRegion();
-            debugPrint(
-              "Visible Bounds: ${bounds.southwest} to ${bounds.northeast}",
-            );
-          },
-          gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
-            Factory<OneSequenceGestureRecognizer>(
-              () => EagerGestureRecognizer(),
+    return RepaintBoundary(
+      child: Stack(
+        children: [
+          GoogleMap(
+            initialCameraPosition: CameraPosition(
+              target: LatLng(initialLat, initialLng),
+              zoom: 15,
             ),
-          },
-        ),
-        Positioned(bottom: 10.h, right: 10.w, child: _buildMyLocationButton()),
-      ],
+            zoomControlsEnabled: false,
+            myLocationEnabled: true,
+            myLocationButtonEnabled: false,
+            compassEnabled: false,
+            onMapCreated: (controller) {
+              if (!gmapController.isCompleted) {
+                gmapController.complete(controller);
+              }
+            },
+            onCameraIdle: () async {
+              final controller = await gmapController.future;
+              LatLngBounds bounds = await controller.getVisibleRegion();
+              debugPrint(
+                "Visible Bounds: ${bounds.southwest} to ${bounds.northeast}",
+              );
+            },
+            gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+              Factory<OneSequenceGestureRecognizer>(
+                () => EagerGestureRecognizer(),
+              ),
+            },
+          ),
+          Positioned(
+            bottom: 10.h,
+            right: 10.w,
+            child: _MyLocationButton(
+              gmapController: gmapController,
+              initialLat: initialLat,
+              initialLng: initialLng,
+            ),
+          ),
+        ],
+      ),
     );
   }
+}
 
-  Widget _buildMyLocationButton() {
+class _MyLocationButton extends StatelessWidget {
+  final Completer<GoogleMapController> gmapController;
+  final double initialLat;
+  final double initialLng;
+
+  const _MyLocationButton({
+    required this.gmapController,
+    required this.initialLat,
+    required this.initialLng,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Bounceable(
       onTap: () async {
-        final controller = await _gmapController.future;
+        final controller = await gmapController.future;
         controller.animateCamera(
           CameraUpdate.newLatLng(LatLng(initialLat, initialLng)),
         );
@@ -241,18 +279,27 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
       ),
     );
   }
+}
 
-  Widget _buildMapLoading() {
+class _MapLoading extends StatelessWidget {
+  const _MapLoading();
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       color: AppColors.neutral100,
       child: const Center(child: ShimmerLoadingWidget()),
     );
   }
+}
 
-  Widget _buildSheetHeaderWidget() {
+class _SheetHeaderWidget extends StatelessWidget {
+  const _SheetHeaderWidget();
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
-        // DIVIDER / HANDLE
         Container(
           width: 40.w,
           height: 6.h,
@@ -262,23 +309,51 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
             color: AppColors.neutral300,
           ),
         ),
-
-        // HEADER FILTER
         Padding(
           padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
           child: const HeaderFilterWidget(withCloseButton: false),
         ),
-
         const Divider(color: AppColors.neutral300),
-
-        /// LIST FILTER
         Padding(
           padding: AppPadding.pagePadding,
           child: const ListFilterPropertyWidget(),
         ),
-
         SizedBox(height: 8.h),
       ],
+    );
+  }
+}
+
+class _PropertyListSection extends StatelessWidget {
+  const _PropertyListSection();
+
+  @override
+  Widget build(BuildContext context) {
+    final dummyProperty = PropertyEntities(
+      id: null,
+      type: "Apartment",
+      status: "Second",
+      name: "Dummy Apartment",
+      description: "Lorem ipsum dolor sit amet",
+      address: "Jl. Raya Jakarta",
+      price: "10000000",
+      imageUrl: null,
+      buildingArea: 100,
+      landArea: 100,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    );
+
+    return SliverPadding(
+      padding: AppPadding.pagePadding,
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate((context, index) {
+          final dummyData = dummyProperty.copyWith(id: index);
+          return RepaintBoundary(
+            child: PropertyCardWidget(property: dummyData),
+          );
+        }, childCount: 10),
+      ),
     );
   }
 }
