@@ -44,18 +44,7 @@ class ButtonWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppRadius.commonRadius),
           color: bgColor,
           border: border,
-          gradient: bgColor != null
-              ? null
-              : LinearGradient(
-                  colors: [
-                    AppColors.primaryColor600,
-                    AppColors.primaryColor700,
-                    AppColors.primaryColor800,
-                    AppColors.primaryColor900,
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
+          gradient: bgColor != null ? null : AppColors.gradient,
         ),
         child:
             child ??

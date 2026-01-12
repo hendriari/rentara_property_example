@@ -11,7 +11,6 @@ import 'package:rentara_property_clone/src/core/utils/constants.dart';
 import 'package:rentara_property_clone/src/core/utils/helper.dart';
 import 'package:rentara_property_clone/src/core/widgets/button_widget.dart';
 import 'package:rentara_property_clone/src/core/widgets/form_field_widget.dart';
-import 'package:rentara_property_clone/src/core/widgets/loading_widget.dart';
 import 'package:rentara_property_clone/src/core/widgets/rentara_icon_widget.dart';
 import 'package:rentara_property_clone/src/core/widgets/submitting_loading_widget.dart';
 import 'package:rentara_property_clone/src/features/auth/presentation/bloc/auth_bloc.dart';

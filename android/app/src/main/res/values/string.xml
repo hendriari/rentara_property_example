@@ -1,0 +1,10 @@
+<resources>
+    <!--    USE DEV APIKEY IF GMAP APIKEY FADLI EXPIRED 2022-->
+    <!--    MAP API KEY DEV-->
+    <!--    <string name="gMapApi">AIzaSyBbFx1utLGSsYBxxmXoDll_uwvCsikPJoA</string>-->
+    <!--    NEW FOR EGAYAMS APPS-->
+    <string name="map">AIzaSyAj9nTsTw3eYD1Om11QnGIER1aakW7hZLE</string>
+    <string name="app_name">Rentara Property</string>
+    <!--    MAP API KEY PUNYA FADLI 2022-->
+    <!--    <string name="gMapApi">AIzaSyA1MgLuZuyqR_OGY3ob3M52N46TDBRI_9k</string>-->
+</resources>

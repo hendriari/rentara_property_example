@@ -6,6 +6,7 @@ import 'package:rentara_property_clone/src/core/injector/injector.dart';
 import 'package:rentara_property_clone/src/core/theme/app_padding.dart';
 import 'package:rentara_property_clone/src/core/utils/helper.dart';
 import 'package:rentara_property_clone/src/core/widgets/button_widget.dart';
+import 'package:rentara_property_clone/src/core/widgets/common_appbar_widget.dart';
 import 'package:rentara_property_clone/src/core/widgets/submitting_loading_widget.dart';
 import 'package:rentara_property_clone/src/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:rentara_property_clone/src/features/auth/presentation/bloc/auth_event.dart';
@@ -19,6 +20,7 @@ class AccountPage extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
+      appBar: const CommonAppbarWidget(),
       body: Padding(
         padding: AppPadding.pagePadding,
         child: BlocConsumer<AuthBloc, AuthState>(
@@ -41,7 +43,6 @@ class AccountPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
                 // NAME
                 Text(
                   "Full Name : ${state.user?.name}",

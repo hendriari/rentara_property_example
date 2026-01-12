@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gradient_borders/gradient_borders.dart';
 import 'package:rentara_property_clone/src/core/theme/app_colors.dart';
 import 'package:rentara_property_clone/src/core/theme/app_radius.dart';
 
@@ -41,6 +42,7 @@ class FormFieldWidget extends StatelessWidget {
   final TextStyle? prefixTextStyle;
   final String? suffixText;
   final TextStyle? suffixTextStyle;
+  final bool useGradientBorder;
 
   const FormFieldWidget({
     super.key,
@@ -81,6 +83,7 @@ class FormFieldWidget extends StatelessWidget {
     this.prefixTextStyle,
     this.suffixText,
     this.suffixTextStyle,
+    this.useGradientBorder = false,
   });
 
   @override
@@ -91,6 +94,26 @@ class FormFieldWidget extends StatelessWidget {
       height: formFieldHeight,
       width: formFieldWidth,
       margin: margin,
+      decoration: useGradientBorder
+          ? BoxDecoration(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(AppRadius.commonRadius),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.primaryColor600,
+                  offset: Offset(-.1, -.1),
+                  blurRadius: 1,
+                  spreadRadius: .4,
+                ),
+                BoxShadow(
+                  color: AppColors.secondaryColor500,
+                  offset: Offset(.1, .1),
+                  blurRadius: 1,
+                  spreadRadius: .4,
+                ),
+              ],
+            )
+          : null,
       child: TextFormField(
         textAlign: textAlign ?? TextAlign.start,
         controller: textEditingController,
@@ -125,41 +148,90 @@ class FormFieldWidget extends StatelessWidget {
           prefixIconConstraints: prefixIconConstraints,
           prefixIcon: prefixIcon,
           hintText: hint,
-          hintStyle: hintLabelTextStyle ?? textTheme.bodyMedium?.copyWith(
-            color: AppColors.neutral500,
-          ),
+          hintStyle:
+              hintLabelTextStyle ??
+              textTheme.bodyMedium?.copyWith(color: AppColors.neutral500),
           labelText: label,
           labelStyle: hintLabelTextStyle ?? textTheme.bodySmall,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(borderRadius ?? AppRadius.commonRadius),
-            borderSide: BorderSide(
-              color: outlineBorderColor ?? AppColors.neutral300,
-              width: borderWidth ?? 1,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(borderRadius ?? AppRadius.commonRadius),
-            borderSide: BorderSide(
-              color: outlineBorderColor ?? AppColors.neutral300,
-              width: borderWidth ?? 1,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(borderRadius ?? AppRadius.commonRadius),
-            borderSide: BorderSide(
-              color: outlineBorderColor ?? AppColors.neutral300,
-              width: borderWidth ?? 1,
-            ),
-          ),
+          border: useGradientBorder
+              ? GradientOutlineInputBorder(
+                  gradient: LinearGradient(
+                    colors: [
+                      AppColors.primaryColor600,
+                      AppColors.secondaryColor600,
+                    ],
+                  ),
+                  width: 1,
+                  borderRadius: BorderRadius.circular(
+                    borderRadius ?? AppRadius.commonRadius,
+                  ),
+                )
+              : OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(
+                    borderRadius ?? AppRadius.commonRadius,
+                  ),
+                  borderSide: BorderSide(
+                    color: outlineBorderColor ?? AppColors.neutral300,
+                    width: borderWidth ?? 1,
+                  ),
+                ),
+          enabledBorder: useGradientBorder
+              ? GradientOutlineInputBorder(
+                  gradient: LinearGradient(
+                    colors: [
+                      AppColors.primaryColor600,
+                      AppColors.secondaryColor600,
+                    ],
+                  ),
+                  width: 1,
+                  borderRadius: BorderRadius.circular(
+                    borderRadius ?? AppRadius.commonRadius,
+                  ),
+                )
+              : OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(
+                    borderRadius ?? AppRadius.commonRadius,
+                  ),
+                  borderSide: BorderSide(
+                    color: outlineBorderColor ?? AppColors.neutral300,
+                    width: borderWidth ?? 1,
+                  ),
+                ),
+          focusedBorder: useGradientBorder
+              ? GradientOutlineInputBorder(
+                  gradient: LinearGradient(
+                    colors: [
+                      AppColors.primaryColor600,
+                      AppColors.secondaryColor600,
+                    ],
+                  ),
+                  width: 1,
+                  borderRadius: BorderRadius.circular(
+                    borderRadius ?? AppRadius.commonRadius,
+                  ),
+                )
+              : OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(
+                    borderRadius ?? AppRadius.commonRadius,
+                  ),
+                  borderSide: BorderSide(
+                    color: outlineBorderColor ?? AppColors.neutral300,
+                    width: borderWidth ?? 1,
+                  ),
+                ),
           errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(borderRadius ?? AppRadius.commonRadius),
+            borderRadius: BorderRadius.circular(
+              borderRadius ?? AppRadius.commonRadius,
+            ),
             borderSide: BorderSide(
               color: errorOutlineBorderColor ?? colorScheme.error,
               width: borderWidth ?? 1,
             ),
           ),
           focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(borderRadius ?? AppRadius.commonRadius),
+            borderRadius: BorderRadius.circular(
+              borderRadius ?? AppRadius.commonRadius,
+            ),
             borderSide: BorderSide(
               color: errorOutlineBorderColor ?? colorScheme.error,
               width: borderWidth ?? 1,
