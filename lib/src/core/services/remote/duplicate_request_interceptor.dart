@@ -11,7 +11,7 @@ class DuplicateRequestInterceptor extends Interceptor {
       return handler.reject(
         DioException(
           requestOptions: options,
-          error: "duplicate request",
+          error: "Duplicate Request",
           type: DioExceptionType.cancel,
         ),
       );

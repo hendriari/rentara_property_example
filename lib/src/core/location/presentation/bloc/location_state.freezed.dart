@@ -55,15 +55,13 @@ extension LocationStatePatterns on LocationState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( _Loading value)?  loading,TResult Function( _Success value)?  success,TResult Function( _ServiceEnabled value)?  serviceEnabled,TResult Function( _ServiceDisabled value)?  serviceDisabled,TResult Function( _Failed value)?  failed,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( _Loading value)?  loading,TResult Function( _Success value)?  success,TResult Function( _Failed value)?  failed,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial(_that);case _Loading() when loading != null:
 return loading(_that);case _Success() when success != null:
-return success(_that);case _ServiceEnabled() when serviceEnabled != null:
-return serviceEnabled(_that);case _ServiceDisabled() when serviceDisabled != null:
-return serviceDisabled(_that);case _Failed() when failed != null:
+return success(_that);case _Failed() when failed != null:
 return failed(_that);case _:
   return orElse();
 
@@ -82,15 +80,13 @@ return failed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( _Loading value)  loading,required TResult Function( _Success value)  success,required TResult Function( _ServiceEnabled value)  serviceEnabled,required TResult Function( _ServiceDisabled value)  serviceDisabled,required TResult Function( _Failed value)  failed,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( _Loading value)  loading,required TResult Function( _Success value)  success,required TResult Function( _Failed value)  failed,}){
 final _that = this;
 switch (_that) {
 case _Initial():
 return initial(_that);case _Loading():
 return loading(_that);case _Success():
-return success(_that);case _ServiceEnabled():
-return serviceEnabled(_that);case _ServiceDisabled():
-return serviceDisabled(_that);case _Failed():
+return success(_that);case _Failed():
 return failed(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -108,15 +104,13 @@ return failed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( _Loading value)?  loading,TResult? Function( _Success value)?  success,TResult? Function( _ServiceEnabled value)?  serviceEnabled,TResult? Function( _ServiceDisabled value)?  serviceDisabled,TResult? Function( _Failed value)?  failed,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( _Loading value)?  loading,TResult? Function( _Success value)?  success,TResult? Function( _Failed value)?  failed,}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial(_that);case _Loading() when loading != null:
 return loading(_that);case _Success() when success != null:
-return success(_that);case _ServiceEnabled() when serviceEnabled != null:
-return serviceEnabled(_that);case _ServiceDisabled() when serviceDisabled != null:
-return serviceDisabled(_that);case _Failed() when failed != null:
+return success(_that);case _Failed() when failed != null:
 return failed(_that);case _:
   return null;
 
@@ -134,14 +128,12 @@ return failed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( CurrentLocationEntities location)?  success,TResult Function()?  serviceEnabled,TResult Function()?  serviceDisabled,TResult Function( String message)?  failed,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( CurrentLocationEntities location)?  success,TResult Function( String message)?  failed,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
 return loading();case _Success() when success != null:
-return success(_that.location);case _ServiceEnabled() when serviceEnabled != null:
-return serviceEnabled();case _ServiceDisabled() when serviceDisabled != null:
-return serviceDisabled();case _Failed() when failed != null:
+return success(_that.location);case _Failed() when failed != null:
 return failed(_that.message);case _:
   return orElse();
 
@@ -160,14 +152,12 @@ return failed(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( CurrentLocationEntities location)  success,required TResult Function()  serviceEnabled,required TResult Function()  serviceDisabled,required TResult Function( String message)  failed,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( CurrentLocationEntities location)  success,required TResult Function( String message)  failed,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case _Loading():
 return loading();case _Success():
-return success(_that.location);case _ServiceEnabled():
-return serviceEnabled();case _ServiceDisabled():
-return serviceDisabled();case _Failed():
+return success(_that.location);case _Failed():
 return failed(_that.message);case _:
   throw StateError('Unexpected subclass');
 
@@ -185,14 +175,12 @@ return failed(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( CurrentLocationEntities location)?  success,TResult? Function()?  serviceEnabled,TResult? Function()?  serviceDisabled,TResult? Function( String message)?  failed,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( CurrentLocationEntities location)?  success,TResult? Function( String message)?  failed,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Loading() when loading != null:
 return loading();case _Success() when success != null:
-return success(_that.location);case _ServiceEnabled() when serviceEnabled != null:
-return serviceEnabled();case _ServiceDisabled() when serviceDisabled != null:
-return serviceDisabled();case _Failed() when failed != null:
+return success(_that.location);case _Failed() when failed != null:
 return failed(_that.message);case _:
   return null;
 
@@ -339,70 +327,6 @@ $CurrentLocationEntitiesCopyWith<$Res> get location {
   });
 }
 }
-
-/// @nodoc
-
-
-class _ServiceEnabled implements LocationState {
-  const _ServiceEnabled();
-  
-
-
-
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ServiceEnabled);
-}
-
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'LocationState.serviceEnabled()';
-}
-
-
-}
-
-
-
-
-/// @nodoc
-
-
-class _ServiceDisabled implements LocationState {
-  const _ServiceDisabled();
-  
-
-
-
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ServiceDisabled);
-}
-
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'LocationState.serviceDisabled()';
-}
-
-
-}
-
-
-
 
 /// @nodoc
 

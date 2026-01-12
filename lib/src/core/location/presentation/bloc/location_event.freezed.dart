@@ -55,12 +55,11 @@ extension LocationEventPatterns on LocationEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( LocationEventGetCurrentLocation value)?  getCurrentLocation,TResult Function( LocationEventCheckService value)?  checkService,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( LocationEventGetCurrentLocation value)?  getCurrentLocation,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case LocationEventGetCurrentLocation() when getCurrentLocation != null:
-return getCurrentLocation(_that);case LocationEventCheckService() when checkService != null:
-return checkService(_that);case _:
+return getCurrentLocation(_that);case _:
   return orElse();
 
 }
@@ -78,12 +77,11 @@ return checkService(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( LocationEventGetCurrentLocation value)  getCurrentLocation,required TResult Function( LocationEventCheckService value)  checkService,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( LocationEventGetCurrentLocation value)  getCurrentLocation,}){
 final _that = this;
 switch (_that) {
 case LocationEventGetCurrentLocation():
-return getCurrentLocation(_that);case LocationEventCheckService():
-return checkService(_that);case _:
+return getCurrentLocation(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -100,12 +98,11 @@ return checkService(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( LocationEventGetCurrentLocation value)?  getCurrentLocation,TResult? Function( LocationEventCheckService value)?  checkService,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( LocationEventGetCurrentLocation value)?  getCurrentLocation,}){
 final _that = this;
 switch (_that) {
 case LocationEventGetCurrentLocation() when getCurrentLocation != null:
-return getCurrentLocation(_that);case LocationEventCheckService() when checkService != null:
-return checkService(_that);case _:
+return getCurrentLocation(_that);case _:
   return null;
 
 }
@@ -122,11 +119,10 @@ return checkService(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  getCurrentLocation,TResult Function()?  checkService,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  getCurrentLocation,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case LocationEventGetCurrentLocation() when getCurrentLocation != null:
-return getCurrentLocation();case LocationEventCheckService() when checkService != null:
-return checkService();case _:
+return getCurrentLocation();case _:
   return orElse();
 
 }
@@ -144,11 +140,10 @@ return checkService();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  getCurrentLocation,required TResult Function()  checkService,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  getCurrentLocation,}) {final _that = this;
 switch (_that) {
 case LocationEventGetCurrentLocation():
-return getCurrentLocation();case LocationEventCheckService():
-return checkService();case _:
+return getCurrentLocation();case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -165,11 +160,10 @@ return checkService();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  getCurrentLocation,TResult? Function()?  checkService,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  getCurrentLocation,}) {final _that = this;
 switch (_that) {
 case LocationEventGetCurrentLocation() when getCurrentLocation != null:
-return getCurrentLocation();case LocationEventCheckService() when checkService != null:
-return checkService();case _:
+return getCurrentLocation();case _:
   return null;
 
 }
@@ -201,38 +195,6 @@ int get hashCode => runtimeType.hashCode;
 @override
 String toString() {
   return 'LocationEvent.getCurrentLocation()';
-}
-
-
-}
-
-
-
-
-/// @nodoc
-
-
-class LocationEventCheckService implements LocationEvent {
-  const LocationEventCheckService();
-  
-
-
-
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LocationEventCheckService);
-}
-
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'LocationEvent.checkService()';
 }
 
 

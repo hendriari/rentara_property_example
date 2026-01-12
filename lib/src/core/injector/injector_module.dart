@@ -22,12 +22,17 @@ import 'package:rentara_property_clone/src/core/services/remote/dio_services.dar
 import 'package:rentara_property_clone/src/core/utils/helper.dart';
 import 'package:rentara_property_clone/src/features/auth/data/datasource/auth_local_datasource.dart';
 import 'package:rentara_property_clone/src/features/auth/data/datasource/auth_remote_datasource.dart';
-import 'package:rentara_property_clone/src/features/auth/data/repository_impl/repository_impl.dart';
+import 'package:rentara_property_clone/src/features/auth/data/repository_impl/auth_repository_impl.dart';
 import 'package:rentara_property_clone/src/features/auth/domain/repository/auth_repository.dart';
 import 'package:rentara_property_clone/src/features/auth/domain/usecase/get_current_user_data_usecase.dart';
 import 'package:rentara_property_clone/src/features/auth/domain/usecase/login_usecase.dart';
 import 'package:rentara_property_clone/src/features/auth/domain/usecase/logout_usecase.dart';
 import 'package:rentara_property_clone/src/features/auth/domain/usecase/register_usecase.dart';
+import 'package:rentara_property_clone/src/features/property/data/datasource/properti_remote_datasource.dart';
+import 'package:rentara_property_clone/src/features/property/data/repository_impl/property_repository_impl.dart';
+import 'package:rentara_property_clone/src/features/property/domain/repository/property_repository.dart';
+import 'package:rentara_property_clone/src/features/property/domain/usecase/get_list_property_usecase.dart';
+import 'package:rentara_property_clone/src/features/property/domain/usecase/get_next_property_usecase.dart';
 
 @module
 abstract class InjectorModule {
@@ -139,4 +144,20 @@ abstract class InjectorModule {
 
   @lazySingleton
   LogoutUsecase get logoutUsecase;
+
+  @lazySingleton
+  PropertyRemoteDatasource propertyRemoteDatasource(
+    DioServices dio,
+    ApiUrlConfig urlConfig,
+  ) => PropertyRemoteDatasourceImpl(dio, urlConfig);
+
+  @lazySingleton
+  PropertyRepository propertyRepository(PropertyRemoteDatasource remote) =>
+      PropertyRepositoryImpl(remote);
+
+  @lazySingleton
+  GetListPropertyUsecase get getListPropertyUsecase;
+
+  @lazySingleton
+  GetNextPropertyUsecase get getNextPropertyUsecase;
 }

@@ -58,7 +58,7 @@ class DioServiceImpl extends DioServices {
       InterceptorsWrapper(
         onRequest: (o, h) async {
           if (sessionManager.token != null) {
-            o.headers["Authorization"] = sessionManager.token;
+            o.headers["Authorization"] = "Bearer ${sessionManager.token}";
           }
 
           return h.next(o);
@@ -66,7 +66,7 @@ class DioServiceImpl extends DioServices {
         onResponse: (r, h) => h.next(r),
         onError: (error, h) async {
           final statusCode = error.response?.statusCode;
-          if (statusCode == 401)  {
+          if (statusCode == 401) {
             await secureStorage.reset();
             await sPrefs.reset();
             await sessionManager.clear();
@@ -138,12 +138,15 @@ class DioServiceImpl extends DioServices {
   }
 
   Future<Response<dynamic>?> _handleException(DioException e) async {
-    if (e.type == DioExceptionType.cancel && e.error == 'duplicate request') {
+    if (e.type == DioExceptionType.cancel && e.error == 'Duplicate Request') {
       dev.log('❌ DUPLICATE REQUEST ${e.requestOptions.path}', name: 'DIO');
       return null;
     }
 
     String errorMessage = dioExceptionHandler.handlerException(e);
+    dev.log('ERROR RAW DATA : ${e.response?.data}', name: 'Error');
+    dev.log('❌ Error Message: [${e.response?.statusCode}] $errorMessage');
+
     if (e.type == DioExceptionType.connectionTimeout ||
         e.type == DioExceptionType.receiveTimeout) {
       throw ConnectionException(

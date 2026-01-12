@@ -43,6 +43,7 @@ class FormFieldWidget extends StatelessWidget {
   final String? suffixText;
   final TextStyle? suffixTextStyle;
   final bool useGradientBorder;
+  final bool autoFocus;
 
   const FormFieldWidget({
     super.key,
@@ -84,6 +85,7 @@ class FormFieldWidget extends StatelessWidget {
     this.suffixText,
     this.suffixTextStyle,
     this.useGradientBorder = false,
+    this.autoFocus = false,
   });
 
   @override
@@ -116,6 +118,7 @@ class FormFieldWidget extends StatelessWidget {
           : null,
       child: TextFormField(
         textAlign: textAlign ?? TextAlign.start,
+        autofocus: autoFocus,
         controller: textEditingController,
         autovalidateMode: autovalidateMode,
         obscureText: obscureText ?? false,
