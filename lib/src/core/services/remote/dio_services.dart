@@ -58,7 +58,7 @@ class DioServiceImpl extends DioServices {
       InterceptorsWrapper(
         onRequest: (o, h) async {
           if (sessionManager.token != null) {
-            o.headers["Authorization"] = sessionManager.token;
+            o.headers["Authorization"] = "Bearer ${sessionManager.token}";
           }
 
           return h.next(o);

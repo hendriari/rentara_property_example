@@ -9,8 +9,17 @@ import 'package:rentara_property_clone/src/core/widgets/form_field_widget.dart';
 
 class AppbarWithSearchWidget extends StatefulWidget {
   final bool usingWithAppbar;
+  final Function(String) onSearch;
+  final VoidCallback? onTap;
+  final bool readOnly;
 
-  const AppbarWithSearchWidget({super.key, this.usingWithAppbar = true});
+  const AppbarWithSearchWidget({
+    super.key,
+    this.usingWithAppbar = true,
+    required this.onSearch,
+    this.onTap,
+    this.readOnly = false,
+  });
 
   @override
   State<AppbarWithSearchWidget> createState() => _AppbarWithSearchWidgetState();
@@ -62,6 +71,11 @@ class _AppbarWithSearchWidgetState extends State<AppbarWithSearchWidget> {
                 useGradientBorder: true,
                 prefixIcon: Icon(Icons.search, color: AppColors.neutral400),
                 hint: "Find Property",
+                readOnly: widget.readOnly,
+                onTap: widget.onTap,
+                onChanged: (value) {
+                  widget.onSearch.call(value);
+                },
               ),
             ),
           ],

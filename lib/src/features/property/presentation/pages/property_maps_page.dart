@@ -31,6 +31,7 @@ class PropertyMapsPage extends StatefulWidget {
 class _PropertyMapsPageState extends State<PropertyMapsPage> {
   final Completer<GoogleMapController> _gmapController =
       Completer<GoogleMapController>();
+
   // late TextTheme _textTheme;
 
   // Default coordinates (Jakarta)
@@ -92,8 +93,16 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
         },
         child: Stack(
           children: [
+            /// CONTENT MAP
             _buildContentWidget(),
-            const AppbarWithSearchWidget(usingWithAppbar: false),
+
+            /// APPBAR SEARCH
+            AppbarWithSearchWidget(
+              usingWithAppbar: false,
+              readOnly: true,
+              onSearch: (String p1) {},
+              onTap: () => context.pushNamed("quick-search"),
+            ),
           ],
         ),
       ),

@@ -61,6 +61,12 @@ import 'package:rentara_property_clone/src/features/auth/domain/usecase/logout_u
     as _i136;
 import 'package:rentara_property_clone/src/features/auth/domain/usecase/register_usecase.dart'
     as _i1042;
+import 'package:rentara_property_clone/src/features/property/data/datasource/properti_remote_datasource.dart'
+    as _i779;
+import 'package:rentara_property_clone/src/features/property/domain/repository/property_repository.dart'
+    as _i98;
+import 'package:rentara_property_clone/src/features/property/domain/usecase/get_list_property_usecase.dart'
+    as _i117;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -138,6 +144,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i683.ApiUrlConfig>(),
       ),
     );
+    gh.lazySingleton<_i779.PropertyRemoteDatasource>(
+      () => injectorModule.propertyRemoteDatasource(
+        gh<_i612.DioServices>(),
+        gh<_i683.ApiUrlConfig>(),
+      ),
+    );
     gh.lazySingleton<_i1044.AuthRepository>(
       () => injectorModule.authRepository(
         gh<_i557.AuthRemoteDatasource>(),
@@ -155,6 +167,14 @@ extension GetItInjectableX on _i174.GetIt {
       () => injectorModule.currentUserDataUsecase,
     );
     gh.lazySingleton<_i136.LogoutUsecase>(() => injectorModule.logoutUsecase);
+    gh.lazySingleton<_i98.PropertyRepository>(
+      () => injectorModule.propertyRepository(
+        gh<_i779.PropertyRemoteDatasource>(),
+      ),
+    );
+    gh.lazySingleton<_i117.GetListPropertyUsecase>(
+      () => injectorModule.getListPropertyUsecase,
+    );
     return this;
   }
 }
@@ -202,4 +222,8 @@ class _$InjectorModule extends _i835.InjectorModule {
   @override
   _i136.LogoutUsecase get logoutUsecase =>
       _i136.LogoutUsecase(_getIt<_i1044.AuthRepository>());
+
+  @override
+  _i117.GetListPropertyUsecase get getListPropertyUsecase =>
+      _i117.GetListPropertyUsecase(_getIt<_i98.PropertyRepository>());
 }

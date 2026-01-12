@@ -24,4 +24,32 @@ class Helper {
   String formatCurrency(double value) {
     return NumberFormat("#,###", "id_ID").format(value);
   }
+
+  String formatStringToNumberCurrency({
+    required String value,
+    String? symbol,
+    String? locale,
+    int? decimalDigits,
+  }) {
+    final currency = double.tryParse(value) ?? 0;
+
+    return NumberFormat.currency(
+      locale: locale ?? 'id',
+      symbol: symbol ?? 'IDR ',
+      decimalDigits: decimalDigits ?? 2,
+    ).format(currency);
+  }
+
+  String toSentenceCase(String value) {
+    List<String> words = value.split(' ');
+
+    for (int i = 0; i < words.length; i++) {
+      if (words[i].isNotEmpty) {
+        words[i] =
+            words[i][0].toUpperCase() + words[i].substring(1).toLowerCase();
+      }
+    }
+
+    return words.join(' ');
+  }
 }

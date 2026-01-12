@@ -156,6 +156,7 @@ class _LoginPageState extends State<LoginPage> {
                   color: AppColors.neutral400,
                 ),
                 hint: "Enter your password",
+                obscureText: true,
                 formFieldValidator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Password required!";

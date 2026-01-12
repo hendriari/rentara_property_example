@@ -52,8 +52,7 @@ class _FilterPropertyCardWidgetState extends State<FilterPropertyCardWidget> {
 
   void _toggleFilter(String filter) {
     setState(() {
-      final bool isSingleSelection =
-          widget.type == PropertyFilterType.status;
+      final bool isSingleSelection = widget.type == PropertyFilterType.status;
 
       if (isSingleSelection) {
         if (_selectedFilters.contains(filter)) {
@@ -74,91 +73,95 @@ class _FilterPropertyCardWidgetState extends State<FilterPropertyCardWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        // DIVIDER
-        Container(
-          width: 40.w,
-          height: 6.h,
-          margin: EdgeInsets.only(top: 8.h),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.r),
-            color: AppColors.neutral300,
+    return SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // DIVIDER
+          Container(
+            width: 40.w,
+            height: 6.h,
+            margin: EdgeInsets.only(top: 8.h),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.r),
+              color: AppColors.neutral300,
+            ),
           ),
-        ),
 
-        // HEADER FILTER
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
-          child: HeaderFilterWidget(title: widget.title),
-        ),
+          // HEADER FILTER
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
+            child: HeaderFilterWidget(title: widget.title),
+          ),
 
-        const Divider(color: AppColors.neutral300, height: 1),
+          const Divider(color: AppColors.neutral300, height: 1),
 
-        // CONTENT
-        Padding(
-          padding: AppPadding.pagePadding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 16.h),
+          // CONTENT
+          Padding(
+            padding: AppPadding.pagePadding,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 16.h),
 
-              _buildListContentFilterWidget(),
+                _buildListContentFilterWidget(),
 
-              SizedBox(height: 32.h),
+                SizedBox(height: 32.h),
 
-              // BUTTON CONFIRM
-              ButtonWidget(
-                buttonText: "Confirm",
-                onTap: () {
-                  final bloc = context.read<PropertyFilterBloc>();
+                // BUTTON CONFIRM
+                ButtonWidget(
+                  buttonText: "Confirm",
+                  onTap: () {
+                    final bloc = context.read<PropertyFilterBloc>();
 
-                  switch (widget.type) {
-                    case PropertyFilterType.status:
-                      if (_selectedFilters.isNotEmpty) {
+                    switch (widget.type) {
+                      case PropertyFilterType.status:
+                        if (_selectedFilters.isNotEmpty) {
+                          bloc.add(
+                            PropertyFilterEvent.updateStatus(
+                              status: _selectedFilters.first,
+                            ),
+                          );
+                        }
+                        break;
+
+                      case PropertyFilterType.location:
                         bloc.add(
-                          PropertyFilterEvent.updateStatus(
-                            status: _selectedFilters.first,
+                          PropertyFilterEvent.updateLocation(
+                            location: _selectedFilters,
                           ),
                         );
-                      }
-                      break;
+                        break;
 
-                    case PropertyFilterType.location:
-                      bloc.add(
-                        PropertyFilterEvent.updateLocation(
-                          location: _selectedFilters,
-                        ),
-                      );
-                      break;
+                      case PropertyFilterType.type:
+                        bloc.add(
+                          PropertyFilterEvent.updateType(
+                            type: _selectedFilters,
+                          ),
+                        );
+                        break;
 
-                    case PropertyFilterType.type:
-                      bloc.add(
-                        PropertyFilterEvent.updateType(type: _selectedFilters),
-                      );
-                      break;
+                      case PropertyFilterType.price:
+                        bloc.add(
+                          PropertyFilterEvent.updatePrice(
+                            minPrice: _currentRangeValues.start,
+                            maxPrice: _currentRangeValues.end,
+                          ),
+                        );
+                        break;
+                    }
 
-                    case PropertyFilterType.price:
-                      bloc.add(
-                        PropertyFilterEvent.updatePrice(
-                          minPrice: _currentRangeValues.start,
-                          maxPrice: _currentRangeValues.end,
-                        ),
-                      );
-                      break;
-                  }
+                    context.pop(true);
+                  },
+                ),
 
-                  context.pop(true);
-                },
-              ),
-
-              SizedBox(height: 16.h),
-            ],
+                SizedBox(height: 16.h),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
