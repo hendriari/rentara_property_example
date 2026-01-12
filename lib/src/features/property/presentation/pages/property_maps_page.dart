@@ -16,6 +16,7 @@ import 'package:rentara_property_clone/src/core/theme/app_padding.dart';
 import 'package:rentara_property_clone/src/core/theme/app_radius.dart';
 import 'package:rentara_property_clone/src/core/widgets/appbar_with_search_widget.dart';
 import 'package:rentara_property_clone/src/core/widgets/header_persistent.dart';
+import 'package:rentara_property_clone/src/core/widgets/shimmer_loading_widget.dart';
 import 'package:rentara_property_clone/src/core/widgets/show_information_dialog.dart';
 import 'package:rentara_property_clone/src/features/property/presentation/widgets/header_filter_widget.dart';
 import 'package:rentara_property_clone/src/features/property/presentation/widgets/list_filters_property_widget.dart';
@@ -30,7 +31,9 @@ class PropertyMapsPage extends StatefulWidget {
 class _PropertyMapsPageState extends State<PropertyMapsPage> {
   final Completer<GoogleMapController> _gmapController =
       Completer<GoogleMapController>();
-  late TextTheme _textTheme;
+  // late TextTheme _textTheme;
+
+  // Default coordinates (Jakarta)
   double initialLat = -6.175126961872583;
   double initialLng = 106.82711059593191;
 
@@ -38,19 +41,25 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<LocationBloc>().add(LocationEventCheckService());
+      context.read<LocationBloc>().add(
+        const LocationEvent.getCurrentLocation(),
+      );
     });
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _textTheme = Theme.of(context).textTheme;
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   _textTheme = Theme.of(context).textTheme;
+  // }
 
   @override
   void dispose() {
-    _gmapController.future.then((value) => value.dispose());
+    _gmapController.future.then((value) {
+      try {
+        value.dispose();
+      } catch (_) {}
+    });
     super.dispose();
   }
 
@@ -60,48 +69,42 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
       body: BlocListener<LocationBloc, LocationState>(
         listener: (context, state) {
           state.whenOrNull(
-            serviceDisabled: () {
-              showInformationDialog(
-                context,
-                description:
-                    "to access your location to find nearby properties. please enable your location for a better experience.",
-                onTap: () => context.pop(),
-              );
-            },
-            serviceEnabled: () {
-              context.read<LocationBloc>().add(
-                LocationEventGetCurrentLocation(),
-              );
-            },
             success: (location) async {
               initialLat = location.lat;
               initialLng = location.long;
-              final controller = await _gmapController.future;
-              controller.animateCamera(
-                CameraUpdate.newLatLng(LatLng(location.lat, location.long)),
+
+              if (_gmapController.isCompleted) {
+                final controller = await _gmapController.future;
+                controller.animateCamera(
+                  CameraUpdate.newLatLng(LatLng(location.lat, location.long)),
+                );
+              }
+            },
+            failed: (_) {
+              showInformationDialog(
+                context,
+                description:
+                    "To find nearby properties, please enable your location for a better experience.",
+                onTap: () => context.pop(),
               );
             },
           );
         },
         child: Stack(
           children: [
-            // CONTENT
             _buildContentWidget(),
-
-            // FORM APPBAR
-            AppbarWithSearchWidget(usingWithAppbar: false),
+            const AppbarWithSearchWidget(usingWithAppbar: false),
           ],
         ),
       ),
     );
   }
 
-  // CONTENT
   Widget _buildContentWidget() {
     return NestedScrollView(
       headerSliverBuilder: (context, _) {
         return [
-          // MAP
+          // MAP CONTENT
           SliverOverlapAbsorber(
             handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
             sliver: SliverPersistentHeader(
@@ -109,7 +112,7 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
               delegate: HeaderPersistent(
                 maxHeight: .7.sh,
                 minHeight: .4.sh,
-                child: _buildMapWidget(),
+                child: _buildMapArea(),
               ),
             ),
           ),
@@ -119,15 +122,15 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
         builder: (context) {
           return CustomScrollView(
             slivers: [
-              // HEADER INJECTOR
               SliverOverlapInjector(
                 handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
                   context,
                 ),
               ),
-
-              // CONTENT
-              SliverFillRemaining(child: _buildDetailMapWidget()),
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: _buildDetailMapWidget(),
+              ),
             ],
           );
         },
@@ -135,35 +138,41 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
     );
   }
 
-  // MAP WIDGET
+  Widget _buildMapArea() {
+    return BlocBuilder<LocationBloc, LocationState>(
+      builder: (context, state) {
+        return state.maybeWhen(
+          success: (_) => _buildMapWidget(),
+          failed: (_) => _buildMapWidget(),
+          orElse: () => _buildMapLoading(),
+        );
+      },
+    );
+  }
+
   Widget _buildMapWidget() {
     return Stack(
       children: [
-        // MAP
         GoogleMap(
           initialCameraPosition: CameraPosition(
             target: LatLng(initialLat, initialLng),
             zoom: 15,
           ),
           zoomControlsEnabled: false,
-          mapType: MapType.normal,
           myLocationEnabled: true,
           myLocationButtonEnabled: false,
           compassEnabled: false,
           onMapCreated: (controller) {
-            _gmapController.complete(controller);
+            if (!_gmapController.isCompleted) {
+              _gmapController.complete(controller);
+            }
           },
           onCameraIdle: () async {
             final controller = await _gmapController.future;
             LatLngBounds bounds = await controller.getVisibleRegion();
-
-            final swLat = bounds.southwest.latitude;
-            final swLng = bounds.southwest.longitude;
-            final neLat = bounds.northeast.latitude;
-            final neLng = bounds.northeast.longitude;
-
-            debugPrint("Southwest: $swLat, $swLng");
-            debugPrint("Northeast: $neLat, $neLng");
+            debugPrint(
+              "Visible Bounds: ${bounds.southwest} to ${bounds.northeast}",
+            );
           },
           gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
             Factory<OneSequenceGestureRecognizer>(
@@ -172,45 +181,52 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
           },
         ),
 
-        // NAVIGATE TO MY LOCATION
-        Positioned(
-          bottom: 10.h,
-          right: 10.w,
-          child: Bounceable(
-            onTap: () {
-              _gmapController.future.then((value) {
-                value.animateCamera(
-                  CameraUpdate.newLatLng(LatLng(initialLat, initialLng)),
-                );
-              });
-            },
-            child: Container(
-              height: 35.h,
-              width: 35.h,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppRadius.commonRadius),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.neutral500,
-                    blurRadius: 3,
-                    blurStyle: BlurStyle.solid,
-                  ),
-                ],
-              ),
-              child: Icon(Icons.my_location, color: AppColors.primaryColor600),
-            ),
-          ),
-        ),
+        Positioned(bottom: 10.h, right: 10.w, child: _buildMyLocationButton()),
       ],
     );
   }
 
-  // DETAIL MAP
+  Widget _buildMyLocationButton() {
+    return Bounceable(
+      onTap: () async {
+        final controller = await _gmapController.future;
+        controller.animateCamera(
+          CameraUpdate.newLatLng(LatLng(initialLat, initialLng)),
+        );
+      },
+      child: Container(
+        height: 35.h,
+        width: 35.h,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppRadius.commonRadius),
+          color: Colors.white,
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 4,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Icon(
+          Icons.my_location,
+          color: AppColors.primaryColor600,
+          size: 20.sp,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMapLoading() {
+    return Padding(
+      padding: AppPadding.pagePadding,
+      child: ShimmerLoadingWidget(),
+    );
+  }
+
   Widget _buildDetailMapWidget() {
     return Column(
       children: [
-        // DIVIDER
         Container(
           width: 40.w,
           height: 6.h,
@@ -220,23 +236,14 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
             color: AppColors.neutral300,
           ),
         ),
-
-        // HEADER TITLE & RESET FILTER
         Padding(
           padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
           child: HeaderFilterWidget(withCloseButton: false),
         ),
-
-        Divider(color: AppColors.neutral300),
-
+        const Divider(color: AppColors.neutral300),
         Padding(
           padding: AppPadding.pagePadding,
-          child: Column(
-            children: [
-              // LIST FILTERS
-              ListFilterPropertyWidget(),
-            ],
-          ),
+          child: const ListFilterPropertyWidget(),
         ),
       ],
     );

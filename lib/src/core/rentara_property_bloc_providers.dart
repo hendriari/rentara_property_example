@@ -27,7 +27,6 @@ MultiBlocProvider rentaraBlocProvider({required Widget child}) =>
         BlocProvider(
           create: (_) => LocationBloc(
             getCurrentLocationUsecase: injector(),
-            checkLocationServiceUsecase: injector(),
           ),
         ),
         BlocProvider(create: (_) => PropertyFilterBloc()),

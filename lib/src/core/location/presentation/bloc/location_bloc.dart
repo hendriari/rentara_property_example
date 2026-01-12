@@ -6,21 +6,18 @@ import 'package:rentara_property_clone/src/core/location/presentation/bloc/locat
 
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
   final GetCurrentLocationUsecase getCurrentLocationUsecase;
-  final CheckLocationServiceUsecase checkLocationServiceUsecase;
 
   LocationBloc({
     required this.getCurrentLocationUsecase,
-    required this.checkLocationServiceUsecase,
   }) : super(const LocationState.initial()) {
     on<LocationEventGetCurrentLocation>(_onGetCurrentLocation);
-    on<LocationEventCheckService>(_onCheckService);
   }
 
   Future<void> _onGetCurrentLocation(
     LocationEventGetCurrentLocation event,
     Emitter<LocationState> emit,
   ) async {
-    emit(const LocationState.loading());
+    emit(LocationState.loading());
 
     final result = await getCurrentLocationUsecase.call();
 
@@ -30,22 +27,9 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         if (data != null) {
           emit(LocationState.success(location: data));
         } else {
-          emit(const LocationState.failed(message: 'Gagal mendapatkan lokasi'));
+          emit(LocationState.failed(message: 'Gagal mendapatkan lokasi'));
         }
       },
     );
   }
-
-  Future<void> _onCheckService(
-    LocationEventCheckService event,
-    Emitter<LocationState> emit,
-  ) async {
-    final isEnabled = await checkLocationServiceUsecase.call();
-    if (!isEnabled) {
-      emit(const LocationState.serviceDisabled());
-    } else {
-      emit(const LocationState.serviceEnabled());
-    }
-  }
 }
-

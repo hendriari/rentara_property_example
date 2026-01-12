@@ -13,9 +13,5 @@ abstract class LocationState with _$LocationState {
     required CurrentLocationEntities location,
   }) = _Success;
 
-  const factory LocationState.serviceEnabled() = _ServiceEnabled;
-
-  const factory LocationState.serviceDisabled() = _ServiceDisabled;
-
   const factory LocationState.failed({required String message}) = _Failed;
 }
