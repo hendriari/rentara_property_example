@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rentara_property_clone/src/core/location/domain/usecase/check_location_service_usecase.dart';
 import 'package:rentara_property_clone/src/core/location/domain/usecase/get_current_location_usecase.dart';
 import 'package:rentara_property_clone/src/core/location/presentation/bloc/location_event.dart';
 import 'package:rentara_property_clone/src/core/location/presentation/bloc/location_state.dart';
