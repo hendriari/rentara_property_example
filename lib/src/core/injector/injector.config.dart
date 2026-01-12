@@ -1,0 +1,269 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format width=80
+
+// **************************************************************************
+// InjectableConfigGenerator
+// **************************************************************************
+
+// ignore_for_file: type=lint
+// coverage:ignore-file
+
+// ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:device_info_plus/device_info_plus.dart' as _i833;
+import 'package:dio/dio.dart' as _i361;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
+import 'package:get_it/get_it.dart' as _i174;
+import 'package:image_picker/image_picker.dart' as _i183;
+import 'package:injectable/injectable.dart' as _i526;
+import 'package:rentara_property_clone/src/core/api_config/api_env_config.dart'
+    as _i86;
+import 'package:rentara_property_clone/src/core/api_config/api_url_config.dart'
+    as _i683;
+import 'package:rentara_property_clone/src/core/error/dio_exception_handler.dart'
+    as _i111;
+import 'package:rentara_property_clone/src/core/injector/injector_module.dart'
+    as _i835;
+import 'package:rentara_property_clone/src/core/location/domain/repository/location_repository.dart'
+    as _i920;
+import 'package:rentara_property_clone/src/core/location/domain/usecase/check_location_service_usecase.dart'
+    as _i833;
+import 'package:rentara_property_clone/src/core/location/domain/usecase/get_current_location_usecase.dart'
+    as _i180;
+import 'package:rentara_property_clone/src/core/permission/domain/repository/permission_repository.dart'
+    as _i211;
+import 'package:rentara_property_clone/src/core/permission/domain/usecase/check_permission_usecase.dart'
+    as _i206;
+import 'package:rentara_property_clone/src/core/permission/domain/usecase/open_app_setting_usecase.dart'
+    as _i1061;
+import 'package:rentara_property_clone/src/core/permission/domain/usecase/request_permission_usecase.dart'
+    as _i986;
+import 'package:rentara_property_clone/src/core/services/local/media_services.dart'
+    as _i189;
+import 'package:rentara_property_clone/src/core/services/local/secure_storage_services.dart'
+    as _i448;
+import 'package:rentara_property_clone/src/core/services/local/session_manager.dart'
+    as _i585;
+import 'package:rentara_property_clone/src/core/services/local/shared_preference_request.dart'
+    as _i1017;
+import 'package:rentara_property_clone/src/core/services/remote/dio_cancel_token.dart'
+    as _i525;
+import 'package:rentara_property_clone/src/core/services/remote/dio_services.dart'
+    as _i612;
+import 'package:rentara_property_clone/src/core/utils/helper.dart' as _i554;
+import 'package:rentara_property_clone/src/features/auth/data/datasource/auth_local_datasource.dart'
+    as _i647;
+import 'package:rentara_property_clone/src/features/auth/data/datasource/auth_remote_datasource.dart'
+    as _i557;
+import 'package:rentara_property_clone/src/features/auth/domain/repository/auth_repository.dart'
+    as _i1044;
+import 'package:rentara_property_clone/src/features/auth/domain/usecase/get_current_user_data_usecase.dart'
+    as _i721;
+import 'package:rentara_property_clone/src/features/auth/domain/usecase/login_usecase.dart'
+    as _i216;
+import 'package:rentara_property_clone/src/features/auth/domain/usecase/logout_usecase.dart'
+    as _i136;
+import 'package:rentara_property_clone/src/features/auth/domain/usecase/register_usecase.dart'
+    as _i1042;
+import 'package:rentara_property_clone/src/features/post_property/data/datasource/post_property_remote_datasource.dart'
+    as _i590;
+import 'package:rentara_property_clone/src/features/post_property/domain/repository/post_property_repository.dart'
+    as _i935;
+import 'package:rentara_property_clone/src/features/post_property/domain/usecase/post_property_usecase.dart'
+    as _i730;
+import 'package:rentara_property_clone/src/features/property/data/datasource/properti_remote_datasource.dart'
+    as _i779;
+import 'package:rentara_property_clone/src/features/property/domain/repository/property_repository.dart'
+    as _i98;
+import 'package:rentara_property_clone/src/features/property/domain/usecase/get_list_property_usecase.dart'
+    as _i117;
+import 'package:rentara_property_clone/src/features/property/domain/usecase/get_next_property_usecase.dart'
+    as _i1011;
+
+extension GetItInjectableX on _i174.GetIt {
+  // initializes the registration of main-scope dependencies inside of GetIt
+  _i174.GetIt init({
+    String? environment,
+    _i526.EnvironmentFilter? environmentFilter,
+  }) {
+    final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    final injectorModule = _$InjectorModule(this);
+    gh.singleton<_i361.Dio>(() => injectorModule.dio);
+    gh.singleton<_i558.FlutterSecureStorage>(
+      () => injectorModule.secureStorage,
+    );
+    gh.singleton<_i183.ImagePicker>(() => injectorModule.imagePicker);
+    gh.lazySingleton<_i1017.SharedPreferenceServices>(
+      () => injectorModule.sharedPreferenceServices,
+    );
+    gh.lazySingleton<_i86.ApiEnvConfig>(() => injectorModule.apiEnvConfig);
+    gh.lazySingleton<_i111.DioExceptionHandler>(
+      () => injectorModule.dioExceptionHandler,
+    );
+    gh.lazySingleton<_i525.DioCancelToken>(() => injectorModule.cancelToken);
+    gh.lazySingleton<_i554.Helper>(() => injectorModule.helper);
+    gh.lazySingleton<_i833.DeviceInfoPlugin>(
+      () => injectorModule.deviceInfoPlugin,
+    );
+    gh.lazySingleton<_i920.LocationRepository>(
+      () => injectorModule.locationRepository,
+    );
+    gh.lazySingleton<_i683.ApiUrlConfig>(
+      () => injectorModule.apiUrlConfig(gh<_i86.ApiEnvConfig>()),
+    );
+    gh.lazySingleton<_i211.PermissionRepository>(
+      () => injectorModule.permissionRepository(gh<_i833.DeviceInfoPlugin>()),
+    );
+    gh.lazySingleton<_i448.SecureStorageService>(
+      () =>
+          injectorModule.secureStorageService(gh<_i558.FlutterSecureStorage>()),
+    );
+    gh.lazySingleton<_i585.SessionManager>(
+      () => injectorModule.sessionManager(gh<_i448.SecureStorageService>()),
+    );
+    gh.lazySingleton<_i206.CheckPermissionUsecase>(
+      () => injectorModule.checkPermissionUsecase,
+    );
+    gh.lazySingleton<_i1061.OpenAppSettingUsecase>(
+      () => injectorModule.openAppSettingUsecase,
+    );
+    gh.lazySingleton<_i986.RequestPermissionUsecase>(
+      () => injectorModule.requestPermissionUsecase,
+    );
+    gh.lazySingleton<_i180.GetCurrentLocationUsecase>(
+      () => injectorModule.getCurrentLocationUsecase,
+    );
+    gh.lazySingleton<_i833.CheckLocationServiceUsecase>(
+      () => injectorModule.checkLocationServiceUsecase,
+    );
+    gh.lazySingleton<_i612.DioServices>(
+      () => injectorModule.dioService(
+        gh<_i361.Dio>(),
+        gh<_i683.ApiUrlConfig>(),
+        gh<_i111.DioExceptionHandler>(),
+        gh<_i525.DioCancelToken>(),
+        gh<_i585.SessionManager>(),
+        gh<_i1017.SharedPreferenceServices>(),
+        gh<_i448.SecureStorageService>(),
+      ),
+    );
+    gh.lazySingleton<_i647.AuthLocalDatasource>(
+      () =>
+          injectorModule.localDatasource(gh<_i1017.SharedPreferenceServices>()),
+    );
+    gh.lazySingleton<_i590.PostPropertyRemoteDatasource>(
+      () => injectorModule.postPropertyRemoteDatasource(
+        gh<_i612.DioServices>(),
+        gh<_i683.ApiUrlConfig>(),
+      ),
+    );
+    gh.lazySingleton<_i557.AuthRemoteDatasource>(
+      () => injectorModule.remoteDatasource(
+        gh<_i612.DioServices>(),
+        gh<_i683.ApiUrlConfig>(),
+      ),
+    );
+    gh.lazySingleton<_i189.MediaServices>(
+      () => injectorModule.mediaServices(gh<_i183.ImagePicker>()),
+    );
+    gh.lazySingleton<_i779.PropertyRemoteDatasource>(
+      () => injectorModule.propertyRemoteDatasource(
+        gh<_i612.DioServices>(),
+        gh<_i683.ApiUrlConfig>(),
+      ),
+    );
+    gh.lazySingleton<_i935.PostPropertyRepository>(
+      () => injectorModule.postPropertyRepository(
+        gh<_i590.PostPropertyRemoteDatasource>(),
+      ),
+    );
+    gh.lazySingleton<_i1044.AuthRepository>(
+      () => injectorModule.authRepository(
+        gh<_i557.AuthRemoteDatasource>(),
+        gh<_i647.AuthLocalDatasource>(),
+        gh<_i1017.SharedPreferenceServices>(),
+        gh<_i585.SessionManager>(),
+        gh<_i448.SecureStorageService>(),
+      ),
+    );
+    gh.lazySingleton<_i216.LoginUsecase>(() => injectorModule.loginUsecase);
+    gh.lazySingleton<_i1042.RegisterUsecase>(
+      () => injectorModule.registerUsecase,
+    );
+    gh.lazySingleton<_i721.GetCurrentUserDataUsecase>(
+      () => injectorModule.currentUserDataUsecase,
+    );
+    gh.lazySingleton<_i136.LogoutUsecase>(() => injectorModule.logoutUsecase);
+    gh.lazySingleton<_i98.PropertyRepository>(
+      () => injectorModule.propertyRepository(
+        gh<_i779.PropertyRemoteDatasource>(),
+      ),
+    );
+    gh.lazySingleton<_i117.GetListPropertyUsecase>(
+      () => injectorModule.getListPropertyUsecase,
+    );
+    gh.lazySingleton<_i1011.GetNextPropertyUsecase>(
+      () => injectorModule.getNextPropertyUsecase,
+    );
+    gh.lazySingleton<_i730.PostPropertyUsecase>(
+      () => injectorModule.postPropertyUsecase,
+    );
+    return this;
+  }
+}
+
+class _$InjectorModule extends _i835.InjectorModule {
+  _$InjectorModule(this._getIt);
+
+  final _i174.GetIt _getIt;
+
+  @override
+  _i554.Helper get helper => _i554.Helper();
+
+  @override
+  _i206.CheckPermissionUsecase get checkPermissionUsecase =>
+      _i206.CheckPermissionUsecase(_getIt<_i211.PermissionRepository>());
+
+  @override
+  _i1061.OpenAppSettingUsecase get openAppSettingUsecase =>
+      _i1061.OpenAppSettingUsecase(_getIt<_i211.PermissionRepository>());
+
+  @override
+  _i986.RequestPermissionUsecase get requestPermissionUsecase =>
+      _i986.RequestPermissionUsecase(_getIt<_i211.PermissionRepository>());
+
+  @override
+  _i180.GetCurrentLocationUsecase get getCurrentLocationUsecase =>
+      _i180.GetCurrentLocationUsecase(_getIt<_i920.LocationRepository>());
+
+  @override
+  _i833.CheckLocationServiceUsecase get checkLocationServiceUsecase =>
+      _i833.CheckLocationServiceUsecase(_getIt<_i920.LocationRepository>());
+
+  @override
+  _i216.LoginUsecase get loginUsecase =>
+      _i216.LoginUsecase(_getIt<_i1044.AuthRepository>());
+
+  @override
+  _i1042.RegisterUsecase get registerUsecase =>
+      _i1042.RegisterUsecase(_getIt<_i1044.AuthRepository>());
+
+  @override
+  _i721.GetCurrentUserDataUsecase get currentUserDataUsecase =>
+      _i721.GetCurrentUserDataUsecase(_getIt<_i1044.AuthRepository>());
+
+  @override
+  _i136.LogoutUsecase get logoutUsecase =>
+      _i136.LogoutUsecase(_getIt<_i1044.AuthRepository>());
+
+  @override
+  _i117.GetListPropertyUsecase get getListPropertyUsecase =>
+      _i117.GetListPropertyUsecase(_getIt<_i98.PropertyRepository>());
+
+  @override
+  _i1011.GetNextPropertyUsecase get getNextPropertyUsecase =>
+      _i1011.GetNextPropertyUsecase(_getIt<_i98.PropertyRepository>());
+
+  @override
+  _i730.PostPropertyUsecase get postPropertyUsecase =>
+      _i730.PostPropertyUsecase(_getIt<_i935.PostPropertyRepository>());
+}
