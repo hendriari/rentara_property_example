@@ -4,9 +4,9 @@ Proyek ini dikembangkan sebagai bagian dari **Skill Test Assessment**. Aplikasi 
 
 ## 🛠 Persiapan Sebelum Menjalankan Proyek
 
-Kepada Tim Reviewer, agar aplikasi dapat berjalan dengan sebagaimana mestinya, mohon kesediaannya untuk mengikuti langkah-langkah berikut:
+Agar aplikasi dapat berjalan dengan sebagaimana mestinya, mohon kesediaannya untuk mengikuti langkah-langkah berikut:
 
-1. **Berkas Konfigurasi**: Silakan gunakan berkas konfigurasi (seperti `.env`) yang telah disediakan.
+1. **Berkas Konfigurasi**: Silakan gunakan berkas konfigurasi (seperti `.env`) yang telah disediakan [disini](https://github.com/hendriari/rentara_property_example/releases/download/config/api.env).
 2. **Penempatan Berkas**: Letakkan berkas tersebut pada **direktori akar** (root directory) proyek ini.
 3. **Folder Config**: Jika terdapat berkas konfigurasi tambahan terkait environment, mohon untuk meletakkannya di dalam folder `config/`.
 
@@ -40,3 +40,5 @@ Untuk menjaga keterbacaan dan kemudahan pemeliharaan kode, proyek ini menerapkan
 
 ---
 
+## 📱Download Aplikasi Release 
+[download release](https://github.com/hendriari/rentara_property_example/releases/download/app_release/app-release.apk)
