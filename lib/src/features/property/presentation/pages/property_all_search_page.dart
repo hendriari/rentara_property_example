@@ -87,7 +87,7 @@ class _PropertyAllSearchPageState extends State<PropertyAllSearchPage> {
                 const ListFilterPropertyWidget(),
 
                 // CONTENT
-                const Expanded(child: PropertySearchResultList()),
+                const Expanded(child: _PropertySearchResultList()),
               ],
             ),
           ),
@@ -97,8 +97,8 @@ class _PropertyAllSearchPageState extends State<PropertyAllSearchPage> {
   }
 }
 
-class PropertySearchResultList extends StatelessWidget {
-  const PropertySearchResultList({super.key});
+class _PropertySearchResultList extends StatelessWidget {
+  const _PropertySearchResultList();
 
   @override
   Widget build(BuildContext context) {

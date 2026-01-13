@@ -7,6 +7,7 @@ import 'package:rentara_property_clone/src/features/auth/presentation/bloc/auth_
 import 'package:rentara_property_clone/src/features/post_property/presentation/bloc/post_property/post_property_bloc.dart';
 import 'package:rentara_property_clone/src/features/property/presentation/bloc/property/property_bloc.dart';
 import 'package:rentara_property_clone/src/features/property/presentation/bloc/property_filter/property_filter_bloc.dart';
+import 'package:rentara_property_clone/src/features/property/presentation/bloc/property_map/property_map_bloc.dart';
 
 MultiBlocProvider rentaraBlocProvider({required Widget child}) =>
     MultiBlocProvider(
@@ -40,6 +41,13 @@ MultiBlocProvider rentaraBlocProvider({required Widget child}) =>
           create: (_) => PostPropertyBloc(
             postPropertyUsecase: injector(),
             mediaServices: injector(),
+          ),
+        ),
+        BlocProvider(
+          create: (_) => PropertyMapBloc(
+            getBulkPropertyUsecase: injector(),
+            getLocationClusteringUsecase: injector(),
+            getNextBulkPropertyUsecase: injector(),
           ),
         ),
       ],
