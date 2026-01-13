@@ -3,9 +3,9 @@ flutter_native_splash:
   ios: true
   web: false
   image: "assets/images/rentara_splash_img.png"
-  color: "#42a5f5"
+  color: "#ffffff"
   fullscreen: true
 
   android_12:
     image: "assets/images/rentara_splash_img.png"
-    color: "#42a5f5"
+    color: "#ffffff"
