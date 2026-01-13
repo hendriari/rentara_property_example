@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +19,8 @@ import 'package:rentara_property_clone/src/core/widgets/header_persistent.dart';
 import 'package:rentara_property_clone/src/core/widgets/loading_widget.dart';
 import 'package:rentara_property_clone/src/core/widgets/shimmer_loading_widget.dart';
 import 'package:rentara_property_clone/src/core/widgets/show_information_dialog.dart';
+import 'package:rentara_property_clone/src/features/property/presentation/bloc/property_filter/property_filter_bloc.dart';
+import 'package:rentara_property_clone/src/features/property/presentation/bloc/property_filter/property_filter_state.dart';
 import 'package:rentara_property_clone/src/features/property/presentation/bloc/property_map/property_map_bloc.dart';
 import 'package:rentara_property_clone/src/features/property/presentation/bloc/property_map/property_map_event.dart';
 import 'package:rentara_property_clone/src/features/property/presentation/bloc/property_map/property_map_state.dart';
@@ -36,8 +36,7 @@ class PropertyMapsPage extends StatefulWidget {
 }
 
 class _PropertyMapsPageState extends State<PropertyMapsPage> {
-  final Completer<GoogleMapController> _gmapController =
-      Completer<GoogleMapController>();
+  GoogleMapController? _gmapController;
   late ColorScheme _colorScheme;
   late Helper _helper;
 
@@ -63,11 +62,7 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
 
   @override
   void dispose() {
-    _gmapController.future.then((value) {
-      try {
-        value.dispose();
-      } catch (_) {}
-    });
+    _gmapController?.dispose();
     super.dispose();
   }
 
@@ -84,9 +79,8 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
                   initialLat = location.lat;
                   initialLng = location.long;
 
-                  if (_gmapController.isCompleted) {
-                    final controller = await _gmapController.future;
-                    controller.animateCamera(
+                  if (_gmapController != null) {
+                    _gmapController?.animateCamera(
                       CameraUpdate.newLatLng(
                         LatLng(location.lat, location.long),
                       ),
@@ -109,22 +103,45 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
           BlocListener<PropertyMapBloc, PropertyMapState>(
             listener: (context, state) {
               state.whenOrNull(
-                failedGetClustering: (_, message) {
+                failedGetClustering: (_, _, message) {
                   _helper.showToast(
                     message: message,
                     backGroundColor: _colorScheme.error,
                   );
                 },
-                failedGetBulkProperty: (_, message) {
+                failedGetBulkProperty: (_, _, message) {
                   _helper.showToast(
                     message: message,
                     backGroundColor: _colorScheme.error,
                   );
                 },
-                failedGetNextBulkProperty: (_, message) {
+                failedGetNextBulkProperty: (_, _, message) {
                   _helper.showToast(
                     message: message,
                     backGroundColor: _colorScheme.error,
+                  );
+                },
+              );
+            },
+          ),
+
+          // PROPERTY FILTER
+          BlocListener<PropertyFilterBloc, PropertyFilterState>(
+            listener: (context, state) {
+              state.whenOrNull(
+                updatedFilter: (status, location, type, minPrice, maxPrice) {
+                  context.read<PropertyMapBloc>().add(
+                    PropertyMapEvent.getBulkProperty(
+                      status: status,
+                      type: type?.firstOrNull,
+                      minPrice: minPrice,
+                      maxPrice: maxPrice,
+                    ),
+                  );
+                },
+                resetFilter: (_, _, _, _, _) {
+                  context.read<PropertyMapBloc>().add(
+                    PropertyMapEvent.getBulkProperty(),
                   );
                 },
               );
@@ -136,6 +153,8 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
             // CONTENT MAP & LIST
             _PropertyMapsContent(
               gmapController: _gmapController,
+              onMapCreated: (controller) =>
+                  setState(() => _gmapController = controller),
               initialLat: initialLat,
               initialLng: initialLng,
             ),
@@ -155,12 +174,14 @@ class _PropertyMapsPageState extends State<PropertyMapsPage> {
 }
 
 class _PropertyMapsContent extends StatelessWidget {
-  final Completer<GoogleMapController> gmapController;
+  final GoogleMapController? gmapController;
+  final ValueChanged<GoogleMapController> onMapCreated;
   final double initialLat;
   final double initialLng;
 
   const _PropertyMapsContent({
     required this.gmapController,
+    required this.onMapCreated,
     required this.initialLat,
     required this.initialLng,
   });
@@ -180,6 +201,7 @@ class _PropertyMapsContent extends StatelessWidget {
                 minHeight: .4.sh,
                 child: _MapArea(
                   gmapController: gmapController,
+                  onMapCreated: onMapCreated,
                   initialLat: initialLat,
                   initialLng: initialLng,
                 ),
@@ -193,14 +215,12 @@ class _PropertyMapsContent extends StatelessWidget {
           return NotificationListener<ScrollNotification>(
             onNotification: (notification) {
               if (notification.depth != 0) return false;
-
               final metrics = notification.metrics;
               if (metrics.extentAfter < 200 && metrics.pixels > 0) {
                 final state = context.read<PropertyMapBloc>().state;
-
                 state.maybeWhen(
-                  loadingGetBulkProperty: (_) {},
-                  loadingGetNextBulkProperty: (_) {},
+                  loadingGetBulkProperty: (_, _) => false,
+                  loadingGetNextBulkProperty: (_, _) => false,
                   orElse: () {
                     context.read<PropertyMapBloc>().add(
                       PropertyMapEvent.getNextBulkProperty(),
@@ -234,38 +254,20 @@ class _PropertyMapsContent extends StatelessWidget {
 }
 
 class _MapArea extends StatelessWidget {
-  final Completer<GoogleMapController> gmapController;
+  final GoogleMapController? gmapController;
+  final ValueChanged<GoogleMapController> onMapCreated;
   final double initialLat;
   final double initialLng;
 
   const _MapArea({
     required this.gmapController,
+    required this.onMapCreated,
     required this.initialLat,
     required this.initialLng,
   });
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LocationBloc, LocationState>(
-      buildWhen: (previous, current) {
-        return current.maybeMap(
-          loading: (_) => true,
-          success: (_) => true,
-          failed: (_) => true,
-          orElse: () => false,
-        );
-      },
-      builder: (context, state) {
-        return state.maybeWhen(
-          success: (_) => _buildMapWidget(context),
-          failed: (_) => _buildMapWidget(context),
-          orElse: () => const _MapLoading(),
-        );
-      },
-    );
-  }
-
-  Widget _buildMapWidget(BuildContext context) {
     return RepaintBoundary(
       child: Stack(
         children: [
@@ -279,33 +281,30 @@ class _MapArea extends StatelessWidget {
             myLocationEnabled: true,
             myLocationButtonEnabled: false,
             compassEnabled: false,
-            onMapCreated: (controller) {
-              if (!gmapController.isCompleted) {
-                gmapController.complete(controller);
-              }
-            },
+            onMapCreated: onMapCreated,
             onCameraIdle: () async {
-              final controller = await gmapController.future;
-              LatLngBounds bounds = await controller.getVisibleRegion();
-              debugPrint(
-                "Visible Bounds: ${bounds.southwest} to ${bounds.northeast}",
-              );
+              if (gmapController != null) {
+                LatLngBounds bounds = await gmapController!.getVisibleRegion();
+                if (context.mounted) {
+                  final swLat = bounds.southwest.latitude;
+                  final swLng = bounds.southwest.longitude;
 
-              if (context.mounted) {
-                final swLat = bounds.southwest.latitude;
-                final swLng = bounds.southwest.longitude;
+                  final neLat = bounds.northeast.latitude;
+                  final neLng = bounds.northeast.longitude;
 
-                final neLat = bounds.northeast.latitude;
-                final neLng = bounds.northeast.longitude;
+                  debugPrint(
+                    "==>> swLat: $swLat, swLng: $swLng, neLat: $neLat, neLng: $neLng",
+                  );
 
-                context.read<PropertyMapBloc>().add(
-                  PropertyMapEvent.getClustering(
-                    swLat: swLat,
-                    swLng: swLng,
-                    neLat: neLat,
-                    neLng: neLng,
-                  ),
-                );
+                  context.read<PropertyMapBloc>().add(
+                    PropertyMapEvent.getClustering(
+                      swLat: swLat,
+                      swLng: swLng,
+                      neLat: neLat,
+                      neLng: neLng,
+                    ),
+                  );
+                }
               }
             },
             gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
@@ -319,11 +318,7 @@ class _MapArea extends StatelessWidget {
           Positioned(
             bottom: 10.h,
             right: 10.w,
-            child: _MyLocationButton(
-              gmapController: gmapController,
-              initialLat: initialLat,
-              initialLng: initialLng,
-            ),
+            child: const _MyLocationButton(),
           ),
         ],
       ),
@@ -332,15 +327,7 @@ class _MapArea extends StatelessWidget {
 }
 
 class _MyLocationButton extends StatelessWidget {
-  final Completer<GoogleMapController> gmapController;
-  final double initialLat;
-  final double initialLng;
-
-  const _MyLocationButton({
-    required this.gmapController,
-    required this.initialLat,
-    required this.initialLng,
-  });
+  const _MyLocationButton();
 
   @override
   Widget build(BuildContext context) {
@@ -374,18 +361,6 @@ class _MyLocationButton extends StatelessWidget {
   }
 }
 
-class _MapLoading extends StatelessWidget {
-  const _MapLoading();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.neutral100,
-      child: const Center(child: ShimmerLoadingWidget()),
-    );
-  }
-}
-
 class _SheetHeaderWidget extends StatelessWidget {
   const _SheetHeaderWidget();
 
@@ -393,6 +368,7 @@ class _SheetHeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        // DIVIDER
         Container(
           width: 40.w,
           height: 6.h,
@@ -402,11 +378,16 @@ class _SheetHeaderWidget extends StatelessWidget {
             color: AppColors.neutral300,
           ),
         ),
+
+        // HEADER FILTER
         Padding(
           padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
           child: const HeaderFilterWidget(withCloseButton: false),
         ),
+
         const Divider(color: AppColors.neutral300),
+
+        // FILTER PROPERTY
         Padding(
           padding: AppPadding.pagePadding,
           child: const ListFilterPropertyWidget(),
@@ -422,29 +403,52 @@ class _PropertyListSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return BlocBuilder<PropertyMapBloc, PropertyMapState>(
       builder: (context, state) {
+        final listProperty = state.property?.data ?? [];
+        final isLoading = state.maybeWhen(
+          loadingGetNextBulkProperty: (_, _) => true,
+          orElse: () => false,
+        );
         return state.maybeWhen(
-          loadingGetBulkProperty: (_) =>
-              SliverFillRemaining(child: LoadingWidget(height: 50.h)),
+          loadingGetBulkProperty: (property, _) =>
+              const SliverFillRemaining(child: Center(child: LoadingWidget())),
+          loadingGetClustering: (property, _) =>
+              const SliverFillRemaining(child: Center(child: LoadingWidget())),
           orElse: () {
-            final listProperty = state.property?.data ?? [];
-            return listProperty.isEmpty
-                ? SliverFillRemaining(child: LoadingWidget(height: 50.h))
-                : SliverPadding(
-                    padding: AppPadding.pagePadding,
-                    sliver: SliverList(
-                      delegate: SliverChildBuilderDelegate((context, index) {
-                        final data = listProperty[index];
-                        return RepaintBoundary(
-                          child: PropertyCardWidget(property: data),
-                        );
-                      }, childCount: listProperty.length),
-                    ),
-                  );
+            if (listProperty.isEmpty) {
+              return SliverFillRemaining(
+                child: Center(
+                  child: Text(
+                    "No properties found in this area",
+                    style: textTheme.bodyMedium,
+                  ),
+                ),
+              );
+            }
+            return _buildList(listProperty, isLoading);
           },
         );
       },
+    );
+  }
+
+  Widget _buildList(List data, bool isLoading) {
+    return SliverPadding(
+      padding: AppPadding.pagePadding,
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate((context, index) {
+          if (index >= data.length) {
+            return ShimmerLoadingWidget(
+              child: PropertyCardWidget(property: null),
+            );
+          }
+
+          final item = data[index];
+          return RepaintBoundary(child: PropertyCardWidget(property: item));
+        }, childCount: data.length + (isLoading ? 1 : 0)),
+      ),
     );
   }
 }

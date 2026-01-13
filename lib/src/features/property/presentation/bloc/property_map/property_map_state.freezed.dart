@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PropertyMapState {
 
- PropertyResponseEntities? get property;
+ List<int>? get currPropertyIds; PropertyResponseEntities? get property;
 /// Create a copy of PropertyMapState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $PropertyMapStateCopyWith<PropertyMapState> get copyWith => _$PropertyMapStateCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PropertyMapState&&(identical(other.property, property) || other.property == property));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PropertyMapState&&const DeepCollectionEquality().equals(other.currPropertyIds, currPropertyIds)&&(identical(other.property, property) || other.property == property));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,property);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(currPropertyIds),property);
 
 @override
 String toString() {
-  return 'PropertyMapState(property: $property)';
+  return 'PropertyMapState(currPropertyIds: $currPropertyIds, property: $property)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $PropertyMapStateCopyWith<$Res>  {
   factory $PropertyMapStateCopyWith(PropertyMapState value, $Res Function(PropertyMapState) _then) = _$PropertyMapStateCopyWithImpl;
 @useResult
 $Res call({
- PropertyResponseEntities? property
+ List<int>? currPropertyIds, PropertyResponseEntities? property
 });
 
 
@@ -62,9 +62,10 @@ class _$PropertyMapStateCopyWithImpl<$Res>
 
 /// Create a copy of PropertyMapState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? property = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? currPropertyIds = freezed,Object? property = freezed,}) {
   return _then(_self.copyWith(
-property: freezed == property ? _self.property : property // ignore: cast_nullable_to_non_nullable
+currPropertyIds: freezed == currPropertyIds ? _self.currPropertyIds : currPropertyIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,property: freezed == property ? _self.property : property // ignore: cast_nullable_to_non_nullable
 as PropertyResponseEntities?,
   ));
 }
@@ -189,19 +190,19 @@ return failedGetNextBulkProperty(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( PropertyResponseEntities? property)?  init,TResult Function( PropertyResponseEntities? property)?  loadingGetClustering,TResult Function( PropertyResponseEntities? property)?  successGetClustering,TResult Function( PropertyResponseEntities? property,  String message)?  failedGetClustering,TResult Function( PropertyResponseEntities? property)?  loadingGetBulkProperty,TResult Function( PropertyResponseEntities? property)?  successGetBulkProperty,TResult Function( PropertyResponseEntities? property,  String message)?  failedGetBulkProperty,TResult Function( PropertyResponseEntities? property)?  loadingGetNextBulkProperty,TResult Function( PropertyResponseEntities? property)?  successGetNextBulkProperty,TResult Function( PropertyResponseEntities? property,  String message)?  failedGetNextBulkProperty,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( List<int>? currPropertyIds,  PropertyResponseEntities? property)?  init,TResult Function( List<int>? currPropertyIds,  PropertyResponseEntities? property)?  loadingGetClustering,TResult Function( List<int>? currPropertyIds,  PropertyResponseEntities? property)?  successGetClustering,TResult Function( List<int>? currPropertyIds,  PropertyResponseEntities? property,  String message)?  failedGetClustering,TResult Function( List<int>? currPropertyIds,  PropertyResponseEntities? property)?  loadingGetBulkProperty,TResult Function( List<int>? currPropertyIds,  PropertyResponseEntities? property)?  successGetBulkProperty,TResult Function( List<int>? currPropertyIds,  PropertyResponseEntities? property,  String message)?  failedGetBulkProperty,TResult Function( List<int>? currPropertyIds,  PropertyResponseEntities? property)?  loadingGetNextBulkProperty,TResult Function( List<int>? currPropertyIds,  PropertyResponseEntities? property)?  successGetNextBulkProperty,TResult Function( List<int>? currPropertyIds,  PropertyResponseEntities? property,  String message)?  failedGetNextBulkProperty,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Init() when init != null:
-return init(_that.property);case _LoadingGetClustering() when loadingGetClustering != null:
-return loadingGetClustering(_that.property);case _SuccessGetClustering() when successGetClustering != null:
-return successGetClustering(_that.property);case _FailedGetClustering() when failedGetClustering != null:
-return failedGetClustering(_that.property,_that.message);case _LoadingGetBulkProperty() when loadingGetBulkProperty != null:
-return loadingGetBulkProperty(_that.property);case _SuccessGetBulkProperty() when successGetBulkProperty != null:
-return successGetBulkProperty(_that.property);case _FailedGetBulkProperty() when failedGetBulkProperty != null:
-return failedGetBulkProperty(_that.property,_that.message);case _LoadingGetNextBulkProperty() when loadingGetNextBulkProperty != null:
-return loadingGetNextBulkProperty(_that.property);case _SuccessGetNextBulkProperty() when successGetNextBulkProperty != null:
-return successGetNextBulkProperty(_that.property);case _FailedGetNextBulkProperty() when failedGetNextBulkProperty != null:
-return failedGetNextBulkProperty(_that.property,_that.message);case _:
+return init(_that.currPropertyIds,_that.property);case _LoadingGetClustering() when loadingGetClustering != null:
+return loadingGetClustering(_that.currPropertyIds,_that.property);case _SuccessGetClustering() when successGetClustering != null:
+return successGetClustering(_that.currPropertyIds,_that.property);case _FailedGetClustering() when failedGetClustering != null:
+return failedGetClustering(_that.currPropertyIds,_that.property,_that.message);case _LoadingGetBulkProperty() when loadingGetBulkProperty != null:
+return loadingGetBulkProperty(_that.currPropertyIds,_that.property);case _SuccessGetBulkProperty() when successGetBulkProperty != null:
+return successGetBulkProperty(_that.currPropertyIds,_that.property);case _FailedGetBulkProperty() when failedGetBulkProperty != null:
+return failedGetBulkProperty(_that.currPropertyIds,_that.property,_that.message);case _LoadingGetNextBulkProperty() when loadingGetNextBulkProperty != null:
+return loadingGetNextBulkProperty(_that.currPropertyIds,_that.property);case _SuccessGetNextBulkProperty() when successGetNextBulkProperty != null:
+return successGetNextBulkProperty(_that.currPropertyIds,_that.property);case _FailedGetNextBulkProperty() when failedGetNextBulkProperty != null:
+return failedGetNextBulkProperty(_that.currPropertyIds,_that.property,_that.message);case _:
   return orElse();
 
 }
@@ -219,19 +220,19 @@ return failedGetNextBulkProperty(_that.property,_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( PropertyResponseEntities? property)  init,required TResult Function( PropertyResponseEntities? property)  loadingGetClustering,required TResult Function( PropertyResponseEntities? property)  successGetClustering,required TResult Function( PropertyResponseEntities? property,  String message)  failedGetClustering,required TResult Function( PropertyResponseEntities? property)  loadingGetBulkProperty,required TResult Function( PropertyResponseEntities? property)  successGetBulkProperty,required TResult Function( PropertyResponseEntities? property,  String message)  failedGetBulkProperty,required TResult Function( PropertyResponseEntities? property)  loadingGetNextBulkProperty,required TResult Function( PropertyResponseEntities? property)  successGetNextBulkProperty,required TResult Function( PropertyResponseEntities? property,  String message)  failedGetNextBulkProperty,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( List<int>? currPropertyIds,  PropertyResponseEntities? property)  init,required TResult Function( List<int>? currPropertyIds,  PropertyResponseEntities? property)  loadingGetClustering,required TResult Function( List<int>? currPropertyIds,  PropertyResponseEntities? property)  successGetClustering,required TResult Function( List<int>? currPropertyIds,  PropertyResponseEntities? property,  String message)  failedGetClustering,required TResult Function( List<int>? currPropertyIds,  PropertyResponseEntities? property)  loadingGetBulkProperty,required TResult Function( List<int>? currPropertyIds,  PropertyResponseEntities? property)  successGetBulkProperty,required TResult Function( List<int>? currPropertyIds,  PropertyResponseEntities? property,  String message)  failedGetBulkProperty,required TResult Function( List<int>? currPropertyIds,  PropertyResponseEntities? property)  loadingGetNextBulkProperty,required TResult Function( List<int>? currPropertyIds,  PropertyResponseEntities? property)  successGetNextBulkProperty,required TResult Function( List<int>? currPropertyIds,  PropertyResponseEntities? property,  String message)  failedGetNextBulkProperty,}) {final _that = this;
 switch (_that) {
 case _Init():
-return init(_that.property);case _LoadingGetClustering():
-return loadingGetClustering(_that.property);case _SuccessGetClustering():
-return successGetClustering(_that.property);case _FailedGetClustering():
-return failedGetClustering(_that.property,_that.message);case _LoadingGetBulkProperty():
-return loadingGetBulkProperty(_that.property);case _SuccessGetBulkProperty():
-return successGetBulkProperty(_that.property);case _FailedGetBulkProperty():
-return failedGetBulkProperty(_that.property,_that.message);case _LoadingGetNextBulkProperty():
-return loadingGetNextBulkProperty(_that.property);case _SuccessGetNextBulkProperty():
-return successGetNextBulkProperty(_that.property);case _FailedGetNextBulkProperty():
-return failedGetNextBulkProperty(_that.property,_that.message);case _:
+return init(_that.currPropertyIds,_that.property);case _LoadingGetClustering():
+return loadingGetClustering(_that.currPropertyIds,_that.property);case _SuccessGetClustering():
+return successGetClustering(_that.currPropertyIds,_that.property);case _FailedGetClustering():
+return failedGetClustering(_that.currPropertyIds,_that.property,_that.message);case _LoadingGetBulkProperty():
+return loadingGetBulkProperty(_that.currPropertyIds,_that.property);case _SuccessGetBulkProperty():
+return successGetBulkProperty(_that.currPropertyIds,_that.property);case _FailedGetBulkProperty():
+return failedGetBulkProperty(_that.currPropertyIds,_that.property,_that.message);case _LoadingGetNextBulkProperty():
+return loadingGetNextBulkProperty(_that.currPropertyIds,_that.property);case _SuccessGetNextBulkProperty():
+return successGetNextBulkProperty(_that.currPropertyIds,_that.property);case _FailedGetNextBulkProperty():
+return failedGetNextBulkProperty(_that.currPropertyIds,_that.property,_that.message);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -248,19 +249,19 @@ return failedGetNextBulkProperty(_that.property,_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( PropertyResponseEntities? property)?  init,TResult? Function( PropertyResponseEntities? property)?  loadingGetClustering,TResult? Function( PropertyResponseEntities? property)?  successGetClustering,TResult? Function( PropertyResponseEntities? property,  String message)?  failedGetClustering,TResult? Function( PropertyResponseEntities? property)?  loadingGetBulkProperty,TResult? Function( PropertyResponseEntities? property)?  successGetBulkProperty,TResult? Function( PropertyResponseEntities? property,  String message)?  failedGetBulkProperty,TResult? Function( PropertyResponseEntities? property)?  loadingGetNextBulkProperty,TResult? Function( PropertyResponseEntities? property)?  successGetNextBulkProperty,TResult? Function( PropertyResponseEntities? property,  String message)?  failedGetNextBulkProperty,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( List<int>? currPropertyIds,  PropertyResponseEntities? property)?  init,TResult? Function( List<int>? currPropertyIds,  PropertyResponseEntities? property)?  loadingGetClustering,TResult? Function( List<int>? currPropertyIds,  PropertyResponseEntities? property)?  successGetClustering,TResult? Function( List<int>? currPropertyIds,  PropertyResponseEntities? property,  String message)?  failedGetClustering,TResult? Function( List<int>? currPropertyIds,  PropertyResponseEntities? property)?  loadingGetBulkProperty,TResult? Function( List<int>? currPropertyIds,  PropertyResponseEntities? property)?  successGetBulkProperty,TResult? Function( List<int>? currPropertyIds,  PropertyResponseEntities? property,  String message)?  failedGetBulkProperty,TResult? Function( List<int>? currPropertyIds,  PropertyResponseEntities? property)?  loadingGetNextBulkProperty,TResult? Function( List<int>? currPropertyIds,  PropertyResponseEntities? property)?  successGetNextBulkProperty,TResult? Function( List<int>? currPropertyIds,  PropertyResponseEntities? property,  String message)?  failedGetNextBulkProperty,}) {final _that = this;
 switch (_that) {
 case _Init() when init != null:
-return init(_that.property);case _LoadingGetClustering() when loadingGetClustering != null:
-return loadingGetClustering(_that.property);case _SuccessGetClustering() when successGetClustering != null:
-return successGetClustering(_that.property);case _FailedGetClustering() when failedGetClustering != null:
-return failedGetClustering(_that.property,_that.message);case _LoadingGetBulkProperty() when loadingGetBulkProperty != null:
-return loadingGetBulkProperty(_that.property);case _SuccessGetBulkProperty() when successGetBulkProperty != null:
-return successGetBulkProperty(_that.property);case _FailedGetBulkProperty() when failedGetBulkProperty != null:
-return failedGetBulkProperty(_that.property,_that.message);case _LoadingGetNextBulkProperty() when loadingGetNextBulkProperty != null:
-return loadingGetNextBulkProperty(_that.property);case _SuccessGetNextBulkProperty() when successGetNextBulkProperty != null:
-return successGetNextBulkProperty(_that.property);case _FailedGetNextBulkProperty() when failedGetNextBulkProperty != null:
-return failedGetNextBulkProperty(_that.property,_that.message);case _:
+return init(_that.currPropertyIds,_that.property);case _LoadingGetClustering() when loadingGetClustering != null:
+return loadingGetClustering(_that.currPropertyIds,_that.property);case _SuccessGetClustering() when successGetClustering != null:
+return successGetClustering(_that.currPropertyIds,_that.property);case _FailedGetClustering() when failedGetClustering != null:
+return failedGetClustering(_that.currPropertyIds,_that.property,_that.message);case _LoadingGetBulkProperty() when loadingGetBulkProperty != null:
+return loadingGetBulkProperty(_that.currPropertyIds,_that.property);case _SuccessGetBulkProperty() when successGetBulkProperty != null:
+return successGetBulkProperty(_that.currPropertyIds,_that.property);case _FailedGetBulkProperty() when failedGetBulkProperty != null:
+return failedGetBulkProperty(_that.currPropertyIds,_that.property,_that.message);case _LoadingGetNextBulkProperty() when loadingGetNextBulkProperty != null:
+return loadingGetNextBulkProperty(_that.currPropertyIds,_that.property);case _SuccessGetNextBulkProperty() when successGetNextBulkProperty != null:
+return successGetNextBulkProperty(_that.currPropertyIds,_that.property);case _FailedGetNextBulkProperty() when failedGetNextBulkProperty != null:
+return failedGetNextBulkProperty(_that.currPropertyIds,_that.property,_that.message);case _:
   return null;
 
 }
@@ -272,8 +273,17 @@ return failedGetNextBulkProperty(_that.property,_that.message);case _:
 
 
 class _Init implements PropertyMapState {
-   _Init({this.property = null});
+   _Init({final  List<int>? currPropertyIds = null, this.property = null}): _currPropertyIds = currPropertyIds;
   
+
+ final  List<int>? _currPropertyIds;
+@override@JsonKey() List<int>? get currPropertyIds {
+  final value = _currPropertyIds;
+  if (value == null) return null;
+  if (_currPropertyIds is EqualUnmodifiableListView) return _currPropertyIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
 
 @override@JsonKey() final  PropertyResponseEntities? property;
 
@@ -287,16 +297,16 @@ _$InitCopyWith<_Init> get copyWith => __$InitCopyWithImpl<_Init>(this, _$identit
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Init&&(identical(other.property, property) || other.property == property));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Init&&const DeepCollectionEquality().equals(other._currPropertyIds, _currPropertyIds)&&(identical(other.property, property) || other.property == property));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,property);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_currPropertyIds),property);
 
 @override
 String toString() {
-  return 'PropertyMapState.init(property: $property)';
+  return 'PropertyMapState.init(currPropertyIds: $currPropertyIds, property: $property)';
 }
 
 
@@ -307,7 +317,7 @@ abstract mixin class _$InitCopyWith<$Res> implements $PropertyMapStateCopyWith<$
   factory _$InitCopyWith(_Init value, $Res Function(_Init) _then) = __$InitCopyWithImpl;
 @override @useResult
 $Res call({
- PropertyResponseEntities? property
+ List<int>? currPropertyIds, PropertyResponseEntities? property
 });
 
 
@@ -324,9 +334,10 @@ class __$InitCopyWithImpl<$Res>
 
 /// Create a copy of PropertyMapState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? property = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? currPropertyIds = freezed,Object? property = freezed,}) {
   return _then(_Init(
-property: freezed == property ? _self.property : property // ignore: cast_nullable_to_non_nullable
+currPropertyIds: freezed == currPropertyIds ? _self._currPropertyIds : currPropertyIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,property: freezed == property ? _self.property : property // ignore: cast_nullable_to_non_nullable
 as PropertyResponseEntities?,
   ));
 }
@@ -350,8 +361,17 @@ $PropertyResponseEntitiesCopyWith<$Res>? get property {
 
 
 class _LoadingGetClustering implements PropertyMapState {
-   _LoadingGetClustering({this.property = null});
+   _LoadingGetClustering({final  List<int>? currPropertyIds = null, this.property = null}): _currPropertyIds = currPropertyIds;
   
+
+ final  List<int>? _currPropertyIds;
+@override@JsonKey() List<int>? get currPropertyIds {
+  final value = _currPropertyIds;
+  if (value == null) return null;
+  if (_currPropertyIds is EqualUnmodifiableListView) return _currPropertyIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
 
 @override@JsonKey() final  PropertyResponseEntities? property;
 
@@ -365,16 +385,16 @@ _$LoadingGetClusteringCopyWith<_LoadingGetClustering> get copyWith => __$Loading
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadingGetClustering&&(identical(other.property, property) || other.property == property));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadingGetClustering&&const DeepCollectionEquality().equals(other._currPropertyIds, _currPropertyIds)&&(identical(other.property, property) || other.property == property));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,property);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_currPropertyIds),property);
 
 @override
 String toString() {
-  return 'PropertyMapState.loadingGetClustering(property: $property)';
+  return 'PropertyMapState.loadingGetClustering(currPropertyIds: $currPropertyIds, property: $property)';
 }
 
 
@@ -385,7 +405,7 @@ abstract mixin class _$LoadingGetClusteringCopyWith<$Res> implements $PropertyMa
   factory _$LoadingGetClusteringCopyWith(_LoadingGetClustering value, $Res Function(_LoadingGetClustering) _then) = __$LoadingGetClusteringCopyWithImpl;
 @override @useResult
 $Res call({
- PropertyResponseEntities? property
+ List<int>? currPropertyIds, PropertyResponseEntities? property
 });
 
 
@@ -402,9 +422,10 @@ class __$LoadingGetClusteringCopyWithImpl<$Res>
 
 /// Create a copy of PropertyMapState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? property = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? currPropertyIds = freezed,Object? property = freezed,}) {
   return _then(_LoadingGetClustering(
-property: freezed == property ? _self.property : property // ignore: cast_nullable_to_non_nullable
+currPropertyIds: freezed == currPropertyIds ? _self._currPropertyIds : currPropertyIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,property: freezed == property ? _self.property : property // ignore: cast_nullable_to_non_nullable
 as PropertyResponseEntities?,
   ));
 }
@@ -428,8 +449,17 @@ $PropertyResponseEntitiesCopyWith<$Res>? get property {
 
 
 class _SuccessGetClustering implements PropertyMapState {
-   _SuccessGetClustering({this.property = null});
+   _SuccessGetClustering({final  List<int>? currPropertyIds = null, this.property = null}): _currPropertyIds = currPropertyIds;
   
+
+ final  List<int>? _currPropertyIds;
+@override@JsonKey() List<int>? get currPropertyIds {
+  final value = _currPropertyIds;
+  if (value == null) return null;
+  if (_currPropertyIds is EqualUnmodifiableListView) return _currPropertyIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
 
 @override@JsonKey() final  PropertyResponseEntities? property;
 
@@ -443,16 +473,16 @@ _$SuccessGetClusteringCopyWith<_SuccessGetClustering> get copyWith => __$Success
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SuccessGetClustering&&(identical(other.property, property) || other.property == property));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SuccessGetClustering&&const DeepCollectionEquality().equals(other._currPropertyIds, _currPropertyIds)&&(identical(other.property, property) || other.property == property));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,property);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_currPropertyIds),property);
 
 @override
 String toString() {
-  return 'PropertyMapState.successGetClustering(property: $property)';
+  return 'PropertyMapState.successGetClustering(currPropertyIds: $currPropertyIds, property: $property)';
 }
 
 
@@ -463,7 +493,7 @@ abstract mixin class _$SuccessGetClusteringCopyWith<$Res> implements $PropertyMa
   factory _$SuccessGetClusteringCopyWith(_SuccessGetClustering value, $Res Function(_SuccessGetClustering) _then) = __$SuccessGetClusteringCopyWithImpl;
 @override @useResult
 $Res call({
- PropertyResponseEntities? property
+ List<int>? currPropertyIds, PropertyResponseEntities? property
 });
 
 
@@ -480,9 +510,10 @@ class __$SuccessGetClusteringCopyWithImpl<$Res>
 
 /// Create a copy of PropertyMapState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? property = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? currPropertyIds = freezed,Object? property = freezed,}) {
   return _then(_SuccessGetClustering(
-property: freezed == property ? _self.property : property // ignore: cast_nullable_to_non_nullable
+currPropertyIds: freezed == currPropertyIds ? _self._currPropertyIds : currPropertyIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,property: freezed == property ? _self.property : property // ignore: cast_nullable_to_non_nullable
 as PropertyResponseEntities?,
   ));
 }
@@ -506,8 +537,17 @@ $PropertyResponseEntitiesCopyWith<$Res>? get property {
 
 
 class _FailedGetClustering implements PropertyMapState {
-   _FailedGetClustering({this.property = null, required this.message});
+   _FailedGetClustering({final  List<int>? currPropertyIds = null, this.property = null, required this.message}): _currPropertyIds = currPropertyIds;
   
+
+ final  List<int>? _currPropertyIds;
+@override@JsonKey() List<int>? get currPropertyIds {
+  final value = _currPropertyIds;
+  if (value == null) return null;
+  if (_currPropertyIds is EqualUnmodifiableListView) return _currPropertyIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
 
 @override@JsonKey() final  PropertyResponseEntities? property;
  final  String message;
@@ -522,16 +562,16 @@ _$FailedGetClusteringCopyWith<_FailedGetClustering> get copyWith => __$FailedGet
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FailedGetClustering&&(identical(other.property, property) || other.property == property)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FailedGetClustering&&const DeepCollectionEquality().equals(other._currPropertyIds, _currPropertyIds)&&(identical(other.property, property) || other.property == property)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,property,message);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_currPropertyIds),property,message);
 
 @override
 String toString() {
-  return 'PropertyMapState.failedGetClustering(property: $property, message: $message)';
+  return 'PropertyMapState.failedGetClustering(currPropertyIds: $currPropertyIds, property: $property, message: $message)';
 }
 
 
@@ -542,7 +582,7 @@ abstract mixin class _$FailedGetClusteringCopyWith<$Res> implements $PropertyMap
   factory _$FailedGetClusteringCopyWith(_FailedGetClustering value, $Res Function(_FailedGetClustering) _then) = __$FailedGetClusteringCopyWithImpl;
 @override @useResult
 $Res call({
- PropertyResponseEntities? property, String message
+ List<int>? currPropertyIds, PropertyResponseEntities? property, String message
 });
 
 
@@ -559,9 +599,10 @@ class __$FailedGetClusteringCopyWithImpl<$Res>
 
 /// Create a copy of PropertyMapState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? property = freezed,Object? message = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? currPropertyIds = freezed,Object? property = freezed,Object? message = null,}) {
   return _then(_FailedGetClustering(
-property: freezed == property ? _self.property : property // ignore: cast_nullable_to_non_nullable
+currPropertyIds: freezed == currPropertyIds ? _self._currPropertyIds : currPropertyIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,property: freezed == property ? _self.property : property // ignore: cast_nullable_to_non_nullable
 as PropertyResponseEntities?,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,
   ));
@@ -586,8 +627,17 @@ $PropertyResponseEntitiesCopyWith<$Res>? get property {
 
 
 class _LoadingGetBulkProperty implements PropertyMapState {
-   _LoadingGetBulkProperty({this.property = null});
+   _LoadingGetBulkProperty({final  List<int>? currPropertyIds = null, this.property = null}): _currPropertyIds = currPropertyIds;
   
+
+ final  List<int>? _currPropertyIds;
+@override@JsonKey() List<int>? get currPropertyIds {
+  final value = _currPropertyIds;
+  if (value == null) return null;
+  if (_currPropertyIds is EqualUnmodifiableListView) return _currPropertyIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
 
 @override@JsonKey() final  PropertyResponseEntities? property;
 
@@ -601,16 +651,16 @@ _$LoadingGetBulkPropertyCopyWith<_LoadingGetBulkProperty> get copyWith => __$Loa
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadingGetBulkProperty&&(identical(other.property, property) || other.property == property));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadingGetBulkProperty&&const DeepCollectionEquality().equals(other._currPropertyIds, _currPropertyIds)&&(identical(other.property, property) || other.property == property));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,property);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_currPropertyIds),property);
 
 @override
 String toString() {
-  return 'PropertyMapState.loadingGetBulkProperty(property: $property)';
+  return 'PropertyMapState.loadingGetBulkProperty(currPropertyIds: $currPropertyIds, property: $property)';
 }
 
 
@@ -621,7 +671,7 @@ abstract mixin class _$LoadingGetBulkPropertyCopyWith<$Res> implements $Property
   factory _$LoadingGetBulkPropertyCopyWith(_LoadingGetBulkProperty value, $Res Function(_LoadingGetBulkProperty) _then) = __$LoadingGetBulkPropertyCopyWithImpl;
 @override @useResult
 $Res call({
- PropertyResponseEntities? property
+ List<int>? currPropertyIds, PropertyResponseEntities? property
 });
 
 
@@ -638,9 +688,10 @@ class __$LoadingGetBulkPropertyCopyWithImpl<$Res>
 
 /// Create a copy of PropertyMapState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? property = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? currPropertyIds = freezed,Object? property = freezed,}) {
   return _then(_LoadingGetBulkProperty(
-property: freezed == property ? _self.property : property // ignore: cast_nullable_to_non_nullable
+currPropertyIds: freezed == currPropertyIds ? _self._currPropertyIds : currPropertyIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,property: freezed == property ? _self.property : property // ignore: cast_nullable_to_non_nullable
 as PropertyResponseEntities?,
   ));
 }
@@ -664,8 +715,17 @@ $PropertyResponseEntitiesCopyWith<$Res>? get property {
 
 
 class _SuccessGetBulkProperty implements PropertyMapState {
-   _SuccessGetBulkProperty({this.property = null});
+   _SuccessGetBulkProperty({final  List<int>? currPropertyIds = null, this.property = null}): _currPropertyIds = currPropertyIds;
   
+
+ final  List<int>? _currPropertyIds;
+@override@JsonKey() List<int>? get currPropertyIds {
+  final value = _currPropertyIds;
+  if (value == null) return null;
+  if (_currPropertyIds is EqualUnmodifiableListView) return _currPropertyIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
 
 @override@JsonKey() final  PropertyResponseEntities? property;
 
@@ -679,16 +739,16 @@ _$SuccessGetBulkPropertyCopyWith<_SuccessGetBulkProperty> get copyWith => __$Suc
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SuccessGetBulkProperty&&(identical(other.property, property) || other.property == property));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SuccessGetBulkProperty&&const DeepCollectionEquality().equals(other._currPropertyIds, _currPropertyIds)&&(identical(other.property, property) || other.property == property));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,property);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_currPropertyIds),property);
 
 @override
 String toString() {
-  return 'PropertyMapState.successGetBulkProperty(property: $property)';
+  return 'PropertyMapState.successGetBulkProperty(currPropertyIds: $currPropertyIds, property: $property)';
 }
 
 
@@ -699,7 +759,7 @@ abstract mixin class _$SuccessGetBulkPropertyCopyWith<$Res> implements $Property
   factory _$SuccessGetBulkPropertyCopyWith(_SuccessGetBulkProperty value, $Res Function(_SuccessGetBulkProperty) _then) = __$SuccessGetBulkPropertyCopyWithImpl;
 @override @useResult
 $Res call({
- PropertyResponseEntities? property
+ List<int>? currPropertyIds, PropertyResponseEntities? property
 });
 
 
@@ -716,9 +776,10 @@ class __$SuccessGetBulkPropertyCopyWithImpl<$Res>
 
 /// Create a copy of PropertyMapState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? property = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? currPropertyIds = freezed,Object? property = freezed,}) {
   return _then(_SuccessGetBulkProperty(
-property: freezed == property ? _self.property : property // ignore: cast_nullable_to_non_nullable
+currPropertyIds: freezed == currPropertyIds ? _self._currPropertyIds : currPropertyIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,property: freezed == property ? _self.property : property // ignore: cast_nullable_to_non_nullable
 as PropertyResponseEntities?,
   ));
 }
@@ -742,8 +803,17 @@ $PropertyResponseEntitiesCopyWith<$Res>? get property {
 
 
 class _FailedGetBulkProperty implements PropertyMapState {
-   _FailedGetBulkProperty({this.property = null, required this.message});
+   _FailedGetBulkProperty({final  List<int>? currPropertyIds = null, this.property = null, required this.message}): _currPropertyIds = currPropertyIds;
   
+
+ final  List<int>? _currPropertyIds;
+@override@JsonKey() List<int>? get currPropertyIds {
+  final value = _currPropertyIds;
+  if (value == null) return null;
+  if (_currPropertyIds is EqualUnmodifiableListView) return _currPropertyIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
 
 @override@JsonKey() final  PropertyResponseEntities? property;
  final  String message;
@@ -758,16 +828,16 @@ _$FailedGetBulkPropertyCopyWith<_FailedGetBulkProperty> get copyWith => __$Faile
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FailedGetBulkProperty&&(identical(other.property, property) || other.property == property)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FailedGetBulkProperty&&const DeepCollectionEquality().equals(other._currPropertyIds, _currPropertyIds)&&(identical(other.property, property) || other.property == property)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,property,message);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_currPropertyIds),property,message);
 
 @override
 String toString() {
-  return 'PropertyMapState.failedGetBulkProperty(property: $property, message: $message)';
+  return 'PropertyMapState.failedGetBulkProperty(currPropertyIds: $currPropertyIds, property: $property, message: $message)';
 }
 
 
@@ -778,7 +848,7 @@ abstract mixin class _$FailedGetBulkPropertyCopyWith<$Res> implements $PropertyM
   factory _$FailedGetBulkPropertyCopyWith(_FailedGetBulkProperty value, $Res Function(_FailedGetBulkProperty) _then) = __$FailedGetBulkPropertyCopyWithImpl;
 @override @useResult
 $Res call({
- PropertyResponseEntities? property, String message
+ List<int>? currPropertyIds, PropertyResponseEntities? property, String message
 });
 
 
@@ -795,9 +865,10 @@ class __$FailedGetBulkPropertyCopyWithImpl<$Res>
 
 /// Create a copy of PropertyMapState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? property = freezed,Object? message = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? currPropertyIds = freezed,Object? property = freezed,Object? message = null,}) {
   return _then(_FailedGetBulkProperty(
-property: freezed == property ? _self.property : property // ignore: cast_nullable_to_non_nullable
+currPropertyIds: freezed == currPropertyIds ? _self._currPropertyIds : currPropertyIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,property: freezed == property ? _self.property : property // ignore: cast_nullable_to_non_nullable
 as PropertyResponseEntities?,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,
   ));
@@ -822,8 +893,17 @@ $PropertyResponseEntitiesCopyWith<$Res>? get property {
 
 
 class _LoadingGetNextBulkProperty implements PropertyMapState {
-   _LoadingGetNextBulkProperty({this.property = null});
+   _LoadingGetNextBulkProperty({final  List<int>? currPropertyIds = null, this.property = null}): _currPropertyIds = currPropertyIds;
   
+
+ final  List<int>? _currPropertyIds;
+@override@JsonKey() List<int>? get currPropertyIds {
+  final value = _currPropertyIds;
+  if (value == null) return null;
+  if (_currPropertyIds is EqualUnmodifiableListView) return _currPropertyIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
 
 @override@JsonKey() final  PropertyResponseEntities? property;
 
@@ -837,16 +917,16 @@ _$LoadingGetNextBulkPropertyCopyWith<_LoadingGetNextBulkProperty> get copyWith =
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadingGetNextBulkProperty&&(identical(other.property, property) || other.property == property));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadingGetNextBulkProperty&&const DeepCollectionEquality().equals(other._currPropertyIds, _currPropertyIds)&&(identical(other.property, property) || other.property == property));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,property);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_currPropertyIds),property);
 
 @override
 String toString() {
-  return 'PropertyMapState.loadingGetNextBulkProperty(property: $property)';
+  return 'PropertyMapState.loadingGetNextBulkProperty(currPropertyIds: $currPropertyIds, property: $property)';
 }
 
 
@@ -857,7 +937,7 @@ abstract mixin class _$LoadingGetNextBulkPropertyCopyWith<$Res> implements $Prop
   factory _$LoadingGetNextBulkPropertyCopyWith(_LoadingGetNextBulkProperty value, $Res Function(_LoadingGetNextBulkProperty) _then) = __$LoadingGetNextBulkPropertyCopyWithImpl;
 @override @useResult
 $Res call({
- PropertyResponseEntities? property
+ List<int>? currPropertyIds, PropertyResponseEntities? property
 });
 
 
@@ -874,9 +954,10 @@ class __$LoadingGetNextBulkPropertyCopyWithImpl<$Res>
 
 /// Create a copy of PropertyMapState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? property = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? currPropertyIds = freezed,Object? property = freezed,}) {
   return _then(_LoadingGetNextBulkProperty(
-property: freezed == property ? _self.property : property // ignore: cast_nullable_to_non_nullable
+currPropertyIds: freezed == currPropertyIds ? _self._currPropertyIds : currPropertyIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,property: freezed == property ? _self.property : property // ignore: cast_nullable_to_non_nullable
 as PropertyResponseEntities?,
   ));
 }
@@ -900,8 +981,17 @@ $PropertyResponseEntitiesCopyWith<$Res>? get property {
 
 
 class _SuccessGetNextBulkProperty implements PropertyMapState {
-   _SuccessGetNextBulkProperty({this.property = null});
+   _SuccessGetNextBulkProperty({final  List<int>? currPropertyIds = null, this.property = null}): _currPropertyIds = currPropertyIds;
   
+
+ final  List<int>? _currPropertyIds;
+@override@JsonKey() List<int>? get currPropertyIds {
+  final value = _currPropertyIds;
+  if (value == null) return null;
+  if (_currPropertyIds is EqualUnmodifiableListView) return _currPropertyIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
 
 @override@JsonKey() final  PropertyResponseEntities? property;
 
@@ -915,16 +1005,16 @@ _$SuccessGetNextBulkPropertyCopyWith<_SuccessGetNextBulkProperty> get copyWith =
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SuccessGetNextBulkProperty&&(identical(other.property, property) || other.property == property));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SuccessGetNextBulkProperty&&const DeepCollectionEquality().equals(other._currPropertyIds, _currPropertyIds)&&(identical(other.property, property) || other.property == property));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,property);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_currPropertyIds),property);
 
 @override
 String toString() {
-  return 'PropertyMapState.successGetNextBulkProperty(property: $property)';
+  return 'PropertyMapState.successGetNextBulkProperty(currPropertyIds: $currPropertyIds, property: $property)';
 }
 
 
@@ -935,7 +1025,7 @@ abstract mixin class _$SuccessGetNextBulkPropertyCopyWith<$Res> implements $Prop
   factory _$SuccessGetNextBulkPropertyCopyWith(_SuccessGetNextBulkProperty value, $Res Function(_SuccessGetNextBulkProperty) _then) = __$SuccessGetNextBulkPropertyCopyWithImpl;
 @override @useResult
 $Res call({
- PropertyResponseEntities? property
+ List<int>? currPropertyIds, PropertyResponseEntities? property
 });
 
 
@@ -952,9 +1042,10 @@ class __$SuccessGetNextBulkPropertyCopyWithImpl<$Res>
 
 /// Create a copy of PropertyMapState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? property = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? currPropertyIds = freezed,Object? property = freezed,}) {
   return _then(_SuccessGetNextBulkProperty(
-property: freezed == property ? _self.property : property // ignore: cast_nullable_to_non_nullable
+currPropertyIds: freezed == currPropertyIds ? _self._currPropertyIds : currPropertyIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,property: freezed == property ? _self.property : property // ignore: cast_nullable_to_non_nullable
 as PropertyResponseEntities?,
   ));
 }
@@ -978,8 +1069,17 @@ $PropertyResponseEntitiesCopyWith<$Res>? get property {
 
 
 class _FailedGetNextBulkProperty implements PropertyMapState {
-   _FailedGetNextBulkProperty({this.property = null, required this.message});
+   _FailedGetNextBulkProperty({final  List<int>? currPropertyIds = null, this.property = null, required this.message}): _currPropertyIds = currPropertyIds;
   
+
+ final  List<int>? _currPropertyIds;
+@override@JsonKey() List<int>? get currPropertyIds {
+  final value = _currPropertyIds;
+  if (value == null) return null;
+  if (_currPropertyIds is EqualUnmodifiableListView) return _currPropertyIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
 
 @override@JsonKey() final  PropertyResponseEntities? property;
  final  String message;
@@ -994,16 +1094,16 @@ _$FailedGetNextBulkPropertyCopyWith<_FailedGetNextBulkProperty> get copyWith => 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FailedGetNextBulkProperty&&(identical(other.property, property) || other.property == property)&&(identical(other.message, message) || other.message == message));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FailedGetNextBulkProperty&&const DeepCollectionEquality().equals(other._currPropertyIds, _currPropertyIds)&&(identical(other.property, property) || other.property == property)&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,property,message);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_currPropertyIds),property,message);
 
 @override
 String toString() {
-  return 'PropertyMapState.failedGetNextBulkProperty(property: $property, message: $message)';
+  return 'PropertyMapState.failedGetNextBulkProperty(currPropertyIds: $currPropertyIds, property: $property, message: $message)';
 }
 
 
@@ -1014,7 +1114,7 @@ abstract mixin class _$FailedGetNextBulkPropertyCopyWith<$Res> implements $Prope
   factory _$FailedGetNextBulkPropertyCopyWith(_FailedGetNextBulkProperty value, $Res Function(_FailedGetNextBulkProperty) _then) = __$FailedGetNextBulkPropertyCopyWithImpl;
 @override @useResult
 $Res call({
- PropertyResponseEntities? property, String message
+ List<int>? currPropertyIds, PropertyResponseEntities? property, String message
 });
 
 
@@ -1031,9 +1131,10 @@ class __$FailedGetNextBulkPropertyCopyWithImpl<$Res>
 
 /// Create a copy of PropertyMapState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? property = freezed,Object? message = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? currPropertyIds = freezed,Object? property = freezed,Object? message = null,}) {
   return _then(_FailedGetNextBulkProperty(
-property: freezed == property ? _self.property : property // ignore: cast_nullable_to_non_nullable
+currPropertyIds: freezed == currPropertyIds ? _self._currPropertyIds : currPropertyIds // ignore: cast_nullable_to_non_nullable
+as List<int>?,property: freezed == property ? _self.property : property // ignore: cast_nullable_to_non_nullable
 as PropertyResponseEntities?,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,
   ));

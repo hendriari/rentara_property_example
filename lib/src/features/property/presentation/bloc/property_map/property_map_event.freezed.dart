@@ -125,7 +125,7 @@ return getNextBulkProperty(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( double swLat,  double swLng,  double neLat,  double neLng)?  getClustering,TResult Function( List<int> ids,  String? viewMode,  String? type,  String? status,  int? perPage,  int? maxPrice,  int? minPrice)?  getBulkProperty,TResult Function()?  getNextBulkProperty,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( double swLat,  double swLng,  double neLat,  double neLng)?  getClustering,TResult Function( List<int>? ids,  String? viewMode,  String? type,  String? status,  int? perPage,  double? maxPrice,  double? minPrice)?  getBulkProperty,TResult Function()?  getNextBulkProperty,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case GetClustering() when getClustering != null:
 return getClustering(_that.swLat,_that.swLng,_that.neLat,_that.neLng);case GetBulkProperty() when getBulkProperty != null:
@@ -148,7 +148,7 @@ return getNextBulkProperty();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( double swLat,  double swLng,  double neLat,  double neLng)  getClustering,required TResult Function( List<int> ids,  String? viewMode,  String? type,  String? status,  int? perPage,  int? maxPrice,  int? minPrice)  getBulkProperty,required TResult Function()  getNextBulkProperty,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( double swLat,  double swLng,  double neLat,  double neLng)  getClustering,required TResult Function( List<int>? ids,  String? viewMode,  String? type,  String? status,  int? perPage,  double? maxPrice,  double? minPrice)  getBulkProperty,required TResult Function()  getNextBulkProperty,}) {final _that = this;
 switch (_that) {
 case GetClustering():
 return getClustering(_that.swLat,_that.swLng,_that.neLat,_that.neLng);case GetBulkProperty():
@@ -170,7 +170,7 @@ return getNextBulkProperty();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( double swLat,  double swLng,  double neLat,  double neLng)?  getClustering,TResult? Function( List<int> ids,  String? viewMode,  String? type,  String? status,  int? perPage,  int? maxPrice,  int? minPrice)?  getBulkProperty,TResult? Function()?  getNextBulkProperty,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( double swLat,  double swLng,  double neLat,  double neLng)?  getClustering,TResult? Function( List<int>? ids,  String? viewMode,  String? type,  String? status,  int? perPage,  double? maxPrice,  double? minPrice)?  getBulkProperty,TResult? Function()?  getNextBulkProperty,}) {final _that = this;
 switch (_that) {
 case GetClustering() when getClustering != null:
 return getClustering(_that.swLat,_that.swLng,_that.neLat,_that.neLng);case GetBulkProperty() when getBulkProperty != null:
@@ -259,22 +259,24 @@ as double,
 
 
 class GetBulkProperty implements PropertyMapEvent {
-  const GetBulkProperty({required final  List<int> ids, this.viewMode, this.type, this.status, this.perPage, this.maxPrice, this.minPrice}): _ids = ids;
+  const GetBulkProperty({final  List<int>? ids, this.viewMode, this.type, this.status, this.perPage, this.maxPrice, this.minPrice}): _ids = ids;
   
 
- final  List<int> _ids;
- List<int> get ids {
+ final  List<int>? _ids;
+ List<int>? get ids {
+  final value = _ids;
+  if (value == null) return null;
   if (_ids is EqualUnmodifiableListView) return _ids;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_ids);
+  return EqualUnmodifiableListView(value);
 }
 
  final  String? viewMode;
  final  String? type;
  final  String? status;
  final  int? perPage;
- final  int? maxPrice;
- final  int? minPrice;
+ final  double? maxPrice;
+ final  double? minPrice;
 
 /// Create a copy of PropertyMapEvent
 /// with the given fields replaced by the non-null parameter values.
@@ -306,7 +308,7 @@ abstract mixin class $GetBulkPropertyCopyWith<$Res> implements $PropertyMapEvent
   factory $GetBulkPropertyCopyWith(GetBulkProperty value, $Res Function(GetBulkProperty) _then) = _$GetBulkPropertyCopyWithImpl;
 @useResult
 $Res call({
- List<int> ids, String? viewMode, String? type, String? status, int? perPage, int? maxPrice, int? minPrice
+ List<int>? ids, String? viewMode, String? type, String? status, int? perPage, double? maxPrice, double? minPrice
 });
 
 
@@ -323,16 +325,16 @@ class _$GetBulkPropertyCopyWithImpl<$Res>
 
 /// Create a copy of PropertyMapEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? ids = null,Object? viewMode = freezed,Object? type = freezed,Object? status = freezed,Object? perPage = freezed,Object? maxPrice = freezed,Object? minPrice = freezed,}) {
+@pragma('vm:prefer-inline') $Res call({Object? ids = freezed,Object? viewMode = freezed,Object? type = freezed,Object? status = freezed,Object? perPage = freezed,Object? maxPrice = freezed,Object? minPrice = freezed,}) {
   return _then(GetBulkProperty(
-ids: null == ids ? _self._ids : ids // ignore: cast_nullable_to_non_nullable
-as List<int>,viewMode: freezed == viewMode ? _self.viewMode : viewMode // ignore: cast_nullable_to_non_nullable
+ids: freezed == ids ? _self._ids : ids // ignore: cast_nullable_to_non_nullable
+as List<int>?,viewMode: freezed == viewMode ? _self.viewMode : viewMode // ignore: cast_nullable_to_non_nullable
 as String?,type: freezed == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as String?,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String?,perPage: freezed == perPage ? _self.perPage : perPage // ignore: cast_nullable_to_non_nullable
 as int?,maxPrice: freezed == maxPrice ? _self.maxPrice : maxPrice // ignore: cast_nullable_to_non_nullable
-as int?,minPrice: freezed == minPrice ? _self.minPrice : minPrice // ignore: cast_nullable_to_non_nullable
-as int?,
+as double?,minPrice: freezed == minPrice ? _self.minPrice : minPrice // ignore: cast_nullable_to_non_nullable
+as double?,
   ));
 }
 

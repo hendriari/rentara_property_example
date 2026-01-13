@@ -79,8 +79,8 @@ class PropertyRepositoryImpl extends PropertyRepository {
     String? type,
     String? status,
     int? perPage,
-    int? maxPrice,
-    int? minPrice,
+    double? maxPrice,
+    double? minPrice,
   }) async {
     try {
       final data = await _remoteDatasource.getBulkProperty(

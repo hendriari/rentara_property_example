@@ -43,7 +43,11 @@ class PropertyMapBloc extends Bloc<PropertyMapEvent, PropertyMapState> {
         ),
       ),
       (ids) {
-        emit(PropertyMapState.successGetClustering(property: state.property));
+        emit(
+          PropertyMapState.successGetClustering(
+            currPropertyIds: state.currPropertyIds,
+          ),
+        );
 
         if (ids != null && ids.isNotEmpty) {
           add(PropertyMapEvent.getBulkProperty(ids: ids));
@@ -59,7 +63,7 @@ class PropertyMapBloc extends Bloc<PropertyMapEvent, PropertyMapState> {
     emit(PropertyMapState.loadingGetBulkProperty(property: state.property));
 
     final result = await getBulkPropertyUsecase.call(
-      ids: event.ids,
+      ids: state.currPropertyIds ?? event.ids,
       viewMode: event.viewMode,
       type: event.type,
       status: event.status,
@@ -73,9 +77,15 @@ class PropertyMapBloc extends Bloc<PropertyMapEvent, PropertyMapState> {
         PropertyMapState.failedGetBulkProperty(
           message: failure.message,
           property: state.property,
+          currPropertyIds: state.currPropertyIds,
         ),
       ),
-      (data) => emit(PropertyMapState.successGetBulkProperty(property: data)),
+      (data) => emit(
+        PropertyMapState.successGetBulkProperty(
+          property: data,
+          currPropertyIds: state.currPropertyIds,
+        ),
+      ),
     );
   }
 
@@ -86,7 +96,12 @@ class PropertyMapBloc extends Bloc<PropertyMapEvent, PropertyMapState> {
     final currNextUrl = state.property?.nextPage;
     if (currNextUrl == null || currNextUrl.isEmpty) return;
 
-    emit(PropertyMapState.loadingGetNextBulkProperty(property: state.property));
+    emit(
+      PropertyMapState.loadingGetNextBulkProperty(
+        property: state.property,
+        currPropertyIds: state.currPropertyIds,
+      ),
+    );
 
     final result = await getNextBulkPropertyUsecase.call(url: currNextUrl);
 
@@ -95,6 +110,7 @@ class PropertyMapBloc extends Bloc<PropertyMapEvent, PropertyMapState> {
         PropertyMapState.failedGetNextBulkProperty(
           message: failure.message,
           property: state.property,
+          currPropertyIds: state.currPropertyIds,
         ),
       ),
       (data) {
@@ -109,7 +125,10 @@ class PropertyMapBloc extends Bloc<PropertyMapEvent, PropertyMapState> {
         );
 
         emit(
-          PropertyMapState.successGetNextBulkProperty(property: updatedData),
+          PropertyMapState.successGetNextBulkProperty(
+            property: updatedData,
+            currPropertyIds: state.currPropertyIds,
+          ),
         );
       },
     );

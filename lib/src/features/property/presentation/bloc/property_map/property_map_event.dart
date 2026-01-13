@@ -12,13 +12,13 @@ class PropertyMapEvent with _$PropertyMapEvent {
   }) = GetClustering;
 
   const factory PropertyMapEvent.getBulkProperty({
-    required List<int> ids,
+    List<int>? ids,
     String? viewMode,
     String? type,
     String? status,
     int? perPage,
-    int? maxPrice,
-    int? minPrice,
+    double? maxPrice,
+    double? minPrice,
   }) = GetBulkProperty;
 
   const factory PropertyMapEvent.getNextBulkProperty() = GetNextBulkProperty;

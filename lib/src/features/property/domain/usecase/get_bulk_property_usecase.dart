@@ -14,8 +14,8 @@ class GetBulkPropertyUsecase {
     String? type,
     String? status,
     int? perPage,
-    int? maxPrice,
-    int? minPrice,
+    double? maxPrice,
+    double? minPrice,
   }) async => await _repository.getBulkProperty(
     ids: ids,
     viewMode: viewMode,

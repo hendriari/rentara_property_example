@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:rentara_property_clone/src/core/api_config/api_url_config.dart';
 import 'package:rentara_property_clone/src/core/error/exceptions.dart';
 import 'package:rentara_property_clone/src/core/services/remote/dio_services.dart';
@@ -29,8 +30,8 @@ abstract class PropertyRemoteDatasource {
     String? type,
     String? status,
     int? perPage,
-    int? maxPrice,
-    int? minPrice,
+    double? maxPrice,
+    double? minPrice,
   });
 
   Future<PropertyResponseDto?> getNextBulkProperty({required String url});
@@ -64,10 +65,10 @@ class PropertyRemoteDatasourceImpl extends PropertyRemoteDatasource {
       },
     );
 
-    if (res == null && res?.statusCode != 200) {
+    if (res == null || res.statusCode != 200) {
       throw ServerException(message: "Invalid Response");
     } else {
-      return PropertyResponseDto.fromJson(res?.data["data"]);
+      return PropertyResponseDto.fromJson(res.data["data"]);
     }
   }
 
@@ -116,10 +117,10 @@ class PropertyRemoteDatasourceImpl extends PropertyRemoteDatasource {
       },
     );
 
-    if (res == null && res?.statusCode != 200) {
+    if (res == null || res.statusCode != 200) {
       throw ServerException(message: "Invalid Response");
     } else {
-      return List<int>.from(res?.data["data"]);
+      return List<int>.from(res.data["data"]);
     }
   }
 
@@ -130,8 +131,8 @@ class PropertyRemoteDatasourceImpl extends PropertyRemoteDatasource {
     String? type,
     String? status,
     int? perPage,
-    int? maxPrice,
-    int? minPrice,
+    double? maxPrice,
+    double? minPrice,
   }) async {
     final res = await _dioServices.post(
       path: _apiUrlConfig.searchProperties,
@@ -146,10 +147,18 @@ class PropertyRemoteDatasourceImpl extends PropertyRemoteDatasource {
       },
     );
 
-    if (res == null && res?.statusCode != 200) {
+    if (res == null || res.statusCode != 200) {
       throw ServerException(message: "Invalid Response");
     } else {
-      return PropertyResponseDto.fromJson(res?.data["data"]);
+      final data = res.data;
+      final list = data?["data"]?["data"] as List?;
+      final totalData = list?.length ?? 0;
+
+      if (totalData >= 200) {
+        return compute(_parsePropertyCompute, data);
+      } else {
+        return PropertyResponseDto.fromJson(data["data"]);
+      }
     }
   }
 
@@ -164,16 +173,29 @@ class PropertyRemoteDatasourceImpl extends PropertyRemoteDatasource {
     );
 
     params.putIfAbsent("view_mode", () => "simple");
+    params.putIfAbsent("per_page", () => 15);
 
     final res = await _dioServices.post(
       path: _apiUrlConfig.searchProperties,
       params: params,
     );
 
-    if (res == null && res?.statusCode != 200) {
+    if (res == null || res.statusCode != 200) {
       throw ServerException(message: "Invalid Response");
     } else {
-      return PropertyResponseDto.fromJson(res?.data["data"]);
+      final data = res.data;
+      final list = data?["data"]?["data"] as List?;
+      final totalData = list?.length ?? 0;
+
+      if (totalData >= 200) {
+        return compute(_parsePropertyCompute, data);
+      } else {
+        return PropertyResponseDto.fromJson(data["data"]);
+      }
     }
   }
+}
+
+PropertyResponseDto _parsePropertyCompute(dynamic json) {
+  return PropertyResponseDto.fromJson(json["data"]);
 }

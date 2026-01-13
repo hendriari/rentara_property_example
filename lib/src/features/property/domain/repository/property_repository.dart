@@ -30,8 +30,8 @@ abstract class PropertyRepository {
     String? type,
     String? status,
     int? perPage,
-    int? maxPrice,
-    int? minPrice,
+    double? maxPrice,
+    double? minPrice,
   });
 
   Future<Either<Failure, PropertyResponseEntities?>> getNextBulkProperty({
