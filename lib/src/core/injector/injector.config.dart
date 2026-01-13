@@ -74,8 +74,14 @@ import 'package:rentara_property_clone/src/features/property/data/datasource/pro
     as _i779;
 import 'package:rentara_property_clone/src/features/property/domain/repository/property_repository.dart'
     as _i98;
+import 'package:rentara_property_clone/src/features/property/domain/usecase/get_bulk_property_usecase.dart'
+    as _i1018;
 import 'package:rentara_property_clone/src/features/property/domain/usecase/get_list_property_usecase.dart'
     as _i117;
+import 'package:rentara_property_clone/src/features/property/domain/usecase/get_location_clustering_usecase.dart'
+    as _i211;
+import 'package:rentara_property_clone/src/features/property/domain/usecase/get_next_bulk_property.dart'
+    as _i16;
 import 'package:rentara_property_clone/src/features/property/domain/usecase/get_next_property_usecase.dart'
     as _i1011;
 
@@ -204,6 +210,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1011.GetNextPropertyUsecase>(
       () => injectorModule.getNextPropertyUsecase,
     );
+    gh.lazySingleton<_i1018.GetBulkPropertyUsecase>(
+      () => injectorModule.getBulkPropertyUsecase,
+    );
+    gh.lazySingleton<_i211.GetLocationClusteringUsecase>(
+      () => injectorModule.getLocationClusteringUsecase,
+    );
+    gh.lazySingleton<_i16.GetNextBulkPropertyUsecase>(
+      () => injectorModule.getNextBulkPropertyUsecase,
+    );
     gh.lazySingleton<_i730.PostPropertyUsecase>(
       () => injectorModule.postPropertyUsecase,
     );
@@ -262,6 +277,18 @@ class _$InjectorModule extends _i835.InjectorModule {
   @override
   _i1011.GetNextPropertyUsecase get getNextPropertyUsecase =>
       _i1011.GetNextPropertyUsecase(_getIt<_i98.PropertyRepository>());
+
+  @override
+  _i1018.GetBulkPropertyUsecase get getBulkPropertyUsecase =>
+      _i1018.GetBulkPropertyUsecase(_getIt<_i98.PropertyRepository>());
+
+  @override
+  _i211.GetLocationClusteringUsecase get getLocationClusteringUsecase =>
+      _i211.GetLocationClusteringUsecase(_getIt<_i98.PropertyRepository>());
+
+  @override
+  _i16.GetNextBulkPropertyUsecase get getNextBulkPropertyUsecase =>
+      _i16.GetNextBulkPropertyUsecase(_getIt<_i98.PropertyRepository>());
 
   @override
   _i730.PostPropertyUsecase get postPropertyUsecase =>

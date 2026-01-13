@@ -37,7 +37,10 @@ import 'package:rentara_property_clone/src/features/post_property/domain/usecase
 import 'package:rentara_property_clone/src/features/property/data/datasource/properti_remote_datasource.dart';
 import 'package:rentara_property_clone/src/features/property/data/repository_impl/property_repository_impl.dart';
 import 'package:rentara_property_clone/src/features/property/domain/repository/property_repository.dart';
+import 'package:rentara_property_clone/src/features/property/domain/usecase/get_bulk_property_usecase.dart';
 import 'package:rentara_property_clone/src/features/property/domain/usecase/get_list_property_usecase.dart';
+import 'package:rentara_property_clone/src/features/property/domain/usecase/get_location_clustering_usecase.dart';
+import 'package:rentara_property_clone/src/features/property/domain/usecase/get_next_bulk_property.dart';
 import 'package:rentara_property_clone/src/features/property/domain/usecase/get_next_property_usecase.dart';
 
 @module
@@ -172,6 +175,15 @@ abstract class InjectorModule {
 
   @lazySingleton
   GetNextPropertyUsecase get getNextPropertyUsecase;
+
+  @lazySingleton
+  GetBulkPropertyUsecase get getBulkPropertyUsecase;
+
+  @lazySingleton
+  GetLocationClusteringUsecase get getLocationClusteringUsecase;
+
+  @lazySingleton
+  GetNextBulkPropertyUsecase get getNextBulkPropertyUsecase;
 
   @lazySingleton
   PostPropertyRemoteDatasource postPropertyRemoteDatasource(

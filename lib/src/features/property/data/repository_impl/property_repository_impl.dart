@@ -48,4 +48,67 @@ class PropertyRepositoryImpl extends PropertyRepository {
       return Left(FailureMapper.map(e));
     }
   }
+
+  @override
+  Future<Either<Failure, List<int>?>> getIdPropertyClustering({
+    required double swLat,
+    required double swLng,
+    required double neLat,
+    required double neLng,
+    int? limit,
+  }) async {
+    try {
+      final data = await _remoteDatasource.getIdPropertyClustering(
+        swLat: swLat,
+        swLng: swLng,
+        neLat: neLat,
+        neLng: neLng,
+        limit: limit,
+      );
+
+      return Right(data);
+    } catch (e) {
+      return Left(FailureMapper.map(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, PropertyResponseEntities?>> getBulkProperty({
+    required List<int>? ids,
+    String? viewMode,
+    String? type,
+    String? status,
+    int? perPage,
+    int? maxPrice,
+    int? minPrice,
+  }) async {
+    try {
+      final data = await _remoteDatasource.getBulkProperty(
+        ids: ids,
+        viewMode: viewMode,
+        type: type,
+        status: status,
+        perPage: perPage,
+        maxPrice: maxPrice,
+        minPrice: minPrice,
+      );
+
+      return Right(data?.toEntity());
+    } catch (e) {
+      return Left(FailureMapper.map(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, PropertyResponseEntities?>> getNextBulkProperty({
+    required String url,
+  }) async {
+    try {
+      final data = await _remoteDatasource.getNextBulkProperty(url: url);
+
+      return Right(data?.toEntity());
+    } catch (e) {
+      return Left(FailureMapper.map(e));
+    }
+  }
 }

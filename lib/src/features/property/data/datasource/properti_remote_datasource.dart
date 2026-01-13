@@ -14,6 +14,26 @@ abstract class PropertyRemoteDatasource {
   });
 
   Future<PropertyResponseDto?> getNextProperty({required String url});
+
+  Future<List<int>> getIdPropertyClustering({
+    required double swLat,
+    required double swLng,
+    required double neLat,
+    required double neLng,
+    int? limit,
+  });
+
+  Future<PropertyResponseDto?> getBulkProperty({
+    required List<int>? ids,
+    String? viewMode,
+    String? type,
+    String? status,
+    int? perPage,
+    int? maxPrice,
+    int? minPrice,
+  });
+
+  Future<PropertyResponseDto?> getNextBulkProperty({required String url});
 }
 
 class PropertyRemoteDatasourceImpl extends PropertyRemoteDatasource {
@@ -39,7 +59,7 @@ class PropertyRemoteDatasourceImpl extends PropertyRemoteDatasource {
         "min_price": minPrice,
         "status": status,
         "type": type,
-        "per_page": perPage,
+        "per_page": perPage ?? 15,
         "view_mode": "full",
       },
     );
@@ -54,13 +74,99 @@ class PropertyRemoteDatasourceImpl extends PropertyRemoteDatasource {
   @override
   Future<PropertyResponseDto?> getNextProperty({required String url}) async {
     final uri = Uri.parse(url);
-    
-    final Map<String, dynamic> params = Map<String, dynamic>.from(uri.queryParameters);
-    
+
+    final Map<String, dynamic> params = Map<String, dynamic>.from(
+      uri.queryParameters,
+    );
+
     params.putIfAbsent("view_mode", () => "full");
 
     final res = await _dioServices.get(
       path: _apiUrlConfig.properties,
+      params: params,
+    );
+
+    if (res == null && res?.statusCode != 200) {
+      throw ServerException(message: "Invalid Response");
+    } else {
+      return PropertyResponseDto.fromJson(res?.data["data"]);
+    }
+  }
+
+  @override
+  Future<List<int>> getIdPropertyClustering({
+    required double swLat,
+    required double swLng,
+    required double neLat,
+    required double neLng,
+    int? limit,
+  }) async {
+    final res = await _dioServices.post(
+      path: _apiUrlConfig.locationClustering,
+      body: {
+        "bounds": [
+          {
+            "sw_latitude": swLat,
+            "sw_longitude": swLng,
+            "ne_latitude": neLat,
+            "ne_longitude": neLng,
+          },
+        ],
+        "limit": limit ?? 500,
+      },
+    );
+
+    if (res == null && res?.statusCode != 200) {
+      throw ServerException(message: "Invalid Response");
+    } else {
+      return List<int>.from(res?.data["data"]);
+    }
+  }
+
+  @override
+  Future<PropertyResponseDto?> getBulkProperty({
+    required List<int>? ids,
+    String? viewMode,
+    String? type,
+    String? status,
+    int? perPage,
+    int? maxPrice,
+    int? minPrice,
+  }) async {
+    final res = await _dioServices.post(
+      path: _apiUrlConfig.searchProperties,
+      params: {
+        "ids": ids,
+        "max_price": maxPrice,
+        "min_price": minPrice,
+        "status": status,
+        "type": type,
+        "per_page": perPage ?? 12,
+        "view_mode": viewMode ?? "simple",
+      },
+    );
+
+    if (res == null && res?.statusCode != 200) {
+      throw ServerException(message: "Invalid Response");
+    } else {
+      return PropertyResponseDto.fromJson(res?.data["data"]);
+    }
+  }
+
+  @override
+  Future<PropertyResponseDto?> getNextBulkProperty({
+    required String url,
+  }) async {
+    final uri = Uri.parse(url);
+
+    final Map<String, dynamic> params = Map<String, dynamic>.from(
+      uri.queryParameters,
+    );
+
+    params.putIfAbsent("view_mode", () => "simple");
+
+    final res = await _dioServices.post(
+      path: _apiUrlConfig.searchProperties,
       params: params,
     );
 

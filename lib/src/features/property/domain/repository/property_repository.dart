@@ -15,4 +15,26 @@ abstract class PropertyRepository {
   Future<Either<Failure, PropertyResponseEntities?>> getNextProperty({
     required String url,
   });
+
+  Future<Either<Failure, List<int>?>> getIdPropertyClustering({
+    required double swLat,
+    required double swLng,
+    required double neLat,
+    required double neLng,
+    int? limit,
+  });
+
+  Future<Either<Failure, PropertyResponseEntities?>> getBulkProperty({
+    required List<int>? ids,
+    String? viewMode,
+    String? type,
+    String? status,
+    int? perPage,
+    int? maxPrice,
+    int? minPrice,
+  });
+
+  Future<Either<Failure, PropertyResponseEntities?>> getNextBulkProperty({
+    required String url,
+  });
 }
