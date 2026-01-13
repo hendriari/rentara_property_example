@@ -41,4 +41,4 @@ Untuk menjaga keterbacaan dan kemudahan pemeliharaan kode, proyek ini menerapkan
 ---
 
 ## 📱Download Aplikasi Release 
-[download release](https://github.com/hendriari/rentara_property_example/releases/download/app_release/app-release.apk)
+[download v.1.1.0 release](https://github.com/hendriari/rentara_property_example/releases/download/app_release_1.1.0/app-release.apk)
